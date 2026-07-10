@@ -4,6 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>白境空間清潔 — 本機預覽</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;600;900&family=Jost:wght@300;400;500;600&display=swap">
 <style>
 /* ============================================================
    BJ Design System — 白境空間清潔
@@ -11,9 +14,11 @@
    Upload as 1shop 自訂CSS (head.html)
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;600;900&family=Jost:wght@300;400;500;600&display=swap');
+/* 字型改由 <link> 載入(見 shared/nav-footer.html 頂端),
+   @import 會串行阻塞、拖慢首屏,勿加回。 */
 
-/* ── Variables ────────────────────────────────────────────── */
+/* ── Variables(掛在 :root,全域規則也能取用)──────────────── */
+:root,
 .BJ-Base-App {
     /* 藍 + 白(亮色系)— 清潔/水/潔淨 */
     --bj-bg:        #F4F8FD;   /* 頁面底:極淺冷白 */
@@ -31,6 +36,15 @@
     /* 主色藍 — 對應品牌「水/淨」*/
     --bj-spark:     #2F6FE4;
     --bj-spark-rgb: 47, 111, 228;
+    --bj-spark-deep:#2560C8;   /* 主藍 hover 加深 */
+
+    /* 輔助色 token */
+    --bj-pure:      #FFFFFF;   /* 絕對白(反白文字/圖示,不隨 surf 改) */
+    --bj-ice:       #EAF1FC;   /* 圖示圓底 淺藍 */
+    --bj-line:      #06C755;   /* LINE 綠 */
+    --bj-line-deep: #05B14C;   /* LINE 綠 hover */
+    --bj-scrollbar: #C3D4EE;   /* 捲軸 */
+    --bj-card-shadow: 0 18px 40px rgba(22,52,94,0.12);  /* 卡片 hover 陰影 */
 
     --bj-fn:  'Noto Sans TC', sans-serif;
     --bj-fs:  'Noto Serif TC', 'Noto Sans TC', serif;
@@ -41,7 +55,8 @@
     --bj-md:  40px;
     --bj-sm:  24px;
     --bj-xs:  12px;
-
+}
+.BJ-Base-App {
     font-family:             var(--bj-fn);
     background:              var(--bj-bg);
     color:                   var(--bj-white);
@@ -55,7 +70,7 @@
 .BJ-Base-App *::before,
 .BJ-Base-App *::after { margin:0; padding:0; box-sizing:border-box; }
 .BJ-Base-App a   { text-decoration:none; color:inherit; }
-.BJ-Base-App img { max-width:100%; height:auto; display:block; }
+.BJ-Base-App img { max-width:100%; height:auto; display:block; -webkit-user-drag:none; user-select:none; }
 .BJ-Base-App ul,
 .BJ-Base-App ol  { list-style:none; }
 
@@ -137,24 +152,25 @@
     border-color:   var(--bj-spark);
     color:          var(--bj-spark);
     letter-spacing: 0.2em;
+    transform:      translateY(-2px);   /* App 手感:hover 微浮起 */
 }
 .BJ-Base-App .bj-btn--solid {
     background:   var(--bj-spark);
-    color:        #FFFFFF;
+    color:        var(--bj-pure);
     border-color: var(--bj-spark);
     font-weight:  700;
 }
 .BJ-Base-App .bj-btn--solid:hover {
-    background:     #2560C8;
-    border-color:   #2560C8;
-    color:          #FFFFFF;
+    background:     var(--bj-spark-deep);
+    border-color:   var(--bj-spark-deep);
+    color:          var(--bj-pure);
     letter-spacing: 0.15em;
 }
 /* LINE 行動按鈕 — 以 LINE 綠標示主要詢問通道 */
 .BJ-Base-App .bj-btn--line {
-    background:   #06C755;
-    border-color: #06C755;
-    color:        #FFFFFF;
+    background:   var(--bj-line);
+    border-color: var(--bj-line);
+    color:        var(--bj-pure);
     font-weight:  700;
 }
 .BJ-Base-App .bj-btn--line::before {
@@ -162,43 +178,19 @@
     width:        16px;
     height:       16px;
     flex-shrink:  0;
-    background:   #FFFFFF;
+    background:   var(--bj-pure);
     -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2C6.48 2 2 5.64 2 10.13c0 4.02 3.55 7.39 8.35 8.03.32.07.77.21.88.49.1.25.06.64.03.9l-.14.85c-.04.25-.2.98.86.53s5.7-3.36 7.78-5.75C21.1 13.5 22 11.92 22 10.13 22 5.64 17.52 2 12 2Z'/%3E%3C/svg%3E") center/contain no-repeat;
             mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2C6.48 2 2 5.64 2 10.13c0 4.02 3.55 7.39 8.35 8.03.32.07.77.21.88.49.1.25.06.64.03.9l-.14.85c-.04.25-.2.98.86.53s5.7-3.36 7.78-5.75C21.1 13.5 22 11.92 22 10.13 22 5.64 17.52 2 12 2Z'/%3E%3C/svg%3E") center/contain no-repeat;
 }
 .BJ-Base-App .bj-btn--line:hover {
-    background:     #05B14C;
-    border-color:   #05B14C;
+    background:     var(--bj-line-deep);
+    border-color:   var(--bj-line-deep);
     letter-spacing: 0.15em;
 }
-/* App 手感:hover 微浮起、按下微縮(即時觸覺回饋) */
-.BJ-Base-App .bj-btn:hover  { transform: translateY(-2px); }
+/* App 手感:按下微縮(即時觸覺回饋;hover 浮起已併入上方 .bj-btn:hover) */
 .BJ-Base-App .bj-btn:active {
     transform:           translateY(0) scale(0.965);
     transition-duration: 0.12s;
-}
-
-/* ── Cards ────────────────────────────────────────────────── */
-.BJ-Base-App .bj-card {
-    background:  var(--bj-surf);
-    border:      1px solid var(--bj-border);
-    padding:     var(--bj-md);
-    transition:  all 0.4s cubic-bezier(0.16,1,0.3,1);
-    position:    relative;
-    overflow:    hidden;
-}
-.BJ-Base-App .bj-card::before {
-    content:        '';
-    position:       absolute;
-    inset:          0;
-    background:     linear-gradient(135deg,rgba(47,111,228,0.05) 0%,transparent 55%);
-    pointer-events: none;
-}
-.BJ-Base-App .bj-card:hover {
-    border-color: var(--bj-bord-md);
-    background:   var(--bj-surf2);
-    transform:    translateY(-4px);
-    box-shadow:   0 16px 48px rgba(22,52,94,0.14);
 }
 
 /* ── Section Header ───────────────────────────────────────── */
@@ -232,20 +224,7 @@
 
 /* ── Grid ─────────────────────────────────────────────────── */
 .BJ-Base-App .bj-g4 { display:grid; grid-template-columns:repeat(4,1fr); gap:var(--bj-sm); }
-.BJ-Base-App .bj-g3 { display:grid; grid-template-columns:repeat(3,1fr); gap:var(--bj-sm); }
 .BJ-Base-App .bj-g2 { display:grid; grid-template-columns:repeat(2,1fr); gap:var(--bj-sm); }
-
-/* ── Blockquote ───────────────────────────────────────────── */
-.BJ-Base-App .bj-bq {
-    border-left:    1px solid var(--bj-spark);
-    padding:        var(--bj-sm) var(--bj-md);
-    font-family:    var(--bj-fs);
-    font-size:      clamp(17px, 2.5vw, 23px);
-    color:          var(--bj-silver);
-    letter-spacing: 0.05em;
-    line-height:    1.75;
-    font-style:     normal;
-}
 
 /* ── Responsive ───────────────────────────────────────────── */
 @media (max-width: 1024px) {
@@ -254,28 +233,26 @@
 @media (max-width: 900px) {
     .BJ-Base-App .bj-wrap    { padding: 0 24px; }
     .BJ-Base-App .bj-section { padding: var(--bj-lg) 0; }
-    .BJ-Base-App .bj-g3      { grid-template-columns:repeat(2,1fr); }
 }
 @media (max-width: 560px) {
     .BJ-Base-App .bj-wrap { padding: 0 16px; }
     .BJ-Base-App .bj-g4,
-    .BJ-Base-App .bj-g3,
     .BJ-Base-App .bj-g2   { grid-template-columns:1fr; }
 }
 
 /* ── 1shop Reset ──────────────────────────────────────────── */
 /* 防止 100vw 滿版區塊(hero/footer)在有捲軸時造成水平溢出 */
 /* margin:0 + 深色底:消除頁面左右露出的白色預設邊距(那兩條白線) */
-html, body { overflow-x: clip; max-width: 100%; margin: 0; background: #F4F8FD; }
+html, body { overflow-x: clip; max-width: 100%; margin: 0; background: var(--bj-bg); }
 
 /* ── App 手感細節 ─────────────────────────────────────────── */
 /* 選取文字 → 品牌藍 */
-::selection { background: rgba(47,111,228,0.16); color: #15273F; }
+::selection { background: rgba(47,111,228,0.16); color: var(--bj-white); }
 /* 細捲軸(桌機),融入藍白視覺 */
-html { scrollbar-width: thin; scrollbar-color: #C3D4EE transparent; }
+html { scrollbar-width: thin; scrollbar-color: var(--bj-scrollbar) transparent; }
 ::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #C3D4EE; border-radius: 8px; border: 2px solid #F4F8FD; }
+::-webkit-scrollbar-thumb { background: var(--bj-scrollbar); border-radius: 8px; border: 2px solid var(--bj-bg); }
 ::-webkit-scrollbar-thumb:hover { background: #2F6FE4; }
 /* 手機:去除點擊灰色閃爍、消除 300ms 延遲 → 原生 App 觸感 */
 .BJ-Base-App, .BJ-Base-App * { -webkit-tap-highlight-color: transparent; }
@@ -283,8 +260,7 @@ html { scrollbar-width: thin; scrollbar-color: #C3D4EE transparent; }
 /* 鍵盤操作時的焦點環(滑鼠點擊不出現) */
 .BJ-Base-App :focus { outline: none; }
 .BJ-Base-App :focus-visible { outline: 2px solid rgba(47,111,228,0.55); outline-offset: 3px; border-radius: 4px; }
-/* 圖片禁止拖曳殘影 */
-.BJ-Base-App img { -webkit-user-drag: none; user-select: none; }
+/* 圖片禁止拖曳殘影 → 已併入上方 Reset 的 img 規則 */
 .banner { display:none !important; }
 body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
     padding-top: 0 !important;
@@ -309,7 +285,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   align-items:      center;
   justify-content:  center;
   overflow:         hidden;
-  background:       linear-gradient(160deg, #E9F2FC 0%, #F4F8FD 55%, #FFFFFF 100%);
+  background:       linear-gradient(160deg, #E9F2FC 0%, var(--bj-bg) 55%, var(--bj-pure) 100%);
 }
 .BJ-Base-App .bj-hero__bg {
   position:   absolute;
@@ -317,7 +293,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   z-index:    0;
   background:
     radial-gradient(ellipse 78% 60% at 50% 36%, rgba(47,111,228,0.10) 0%, transparent 60%),
-    linear-gradient(155deg, #EAF2FC 0%, #F4F8FD 45%, #FFFFFF 100%);
+    linear-gradient(155deg, #EAF2FC 0%, var(--bj-bg) 45%, var(--bj-pure) 100%);
 }
 /* 靜態暈影:讓未擦拭處沉斂,凸顯游標亮光 */
 .BJ-Base-App .bj-hero__veil {
@@ -565,7 +541,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   transition:        background 0.35s, border-color 0.35s, transform 0.35s cubic-bezier(0.16,1,0.3,1), box-shadow 0.35s;
 }
 .BJ-Base-App .bj-svc-item:hover {
-  background:   #FFFFFF;
+  background:   var(--bj-pure);
   border-color: var(--bj-spark);
   transform:    translateY(-6px);
   box-shadow:   0 20px 44px rgba(22,52,94,0.14);
@@ -588,14 +564,14 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   align-items:     center;
   justify-content: center;
   color:           var(--bj-spark);
-  background:      #EAF1FC;
+  background:      var(--bj-ice);
   border:          1px solid var(--bj-border);
   border-radius:   50%;
   transition:      background 0.35s, color 0.35s, border-color 0.35s;
 }
 .BJ-Base-App .bj-svc-item:hover .bj-svc-icon {
   background:   var(--bj-spark);
-  color:        #FFFFFF;
+  color:        var(--bj-pure);
   border-color: var(--bj-spark);
 }
 .BJ-Base-App .bj-svc-icon svg { width: 30px; height: 30px; }
@@ -734,7 +710,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
 .BJ-Base-App .bj-why-item:hover {
   transform: translateY(-6px);
   border-color: var(--bj-spark);
-  box-shadow: 0 18px 40px rgba(22,52,94,0.12);
+  box-shadow: var(--bj-card-shadow);
 }
 .BJ-Base-App .bj-why-icon {
   width: 62px;
@@ -744,7 +720,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   align-items: center;
   justify-content: center;
   color: var(--bj-spark);
-  background: #EAF1FC;
+  background: var(--bj-ice);
   border: 1px solid var(--bj-border);
   border-radius: 50%;
   margin-bottom: 2px;
@@ -752,7 +728,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
 }
 .BJ-Base-App .bj-why-item:hover .bj-why-icon {
   background: var(--bj-spark);
-  color: #FFFFFF;
+  color: var(--bj-pure);
   border-color: var(--bj-spark);
   transform: scale(1.06);
 }
@@ -972,7 +948,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
 
 /* Responsive */
 @media (max-width:900px) {
-  .BJ-Base-App .bj-svc-grid    { grid-template-columns:repeat(2,1fr); }
   .BJ-Base-App .bj-story__grid { grid-template-columns:1fr; }
   .BJ-Base-App .bj-story__media { aspect-ratio: 16 / 10; }
   .BJ-Base-App .bj-flow__steps { grid-template-columns:repeat(2,1fr); }
@@ -981,8 +956,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   .BJ-Base-App .bj-pain__grid  { grid-template-columns:1fr; }
 }
 @media (max-width:560px) {
-  .BJ-Base-App .bj-svc-grid       { grid-template-columns:1fr; }
-  .BJ-Base-App .bj-svc-item--wide { flex-direction:column; }
   .BJ-Base-App .bj-hero__name     { letter-spacing:0.12em; }
   .BJ-Base-App .bj-flow__steps    { grid-template-columns:1fr; }
 }
@@ -1193,7 +1166,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
 .BJ-Base-App .bj-value-item:hover {
   transform:    translateY(-5px);
   border-color: var(--bj-spark);
-  box-shadow:   0 18px 40px rgba(22,52,94,0.12);
+  box-shadow:   var(--bj-card-shadow);
 }
 .BJ-Base-App .bj-value-item__header {
   display:     flex;
@@ -1209,14 +1182,14 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   align-items: center;
   justify-content: center;
   color:  var(--bj-spark);
-  background: #EAF1FC;
+  background: var(--bj-ice);
   border: 1px solid var(--bj-border);
   border-radius: 50%;
   transition: background 0.4s, color 0.4s, border-color 0.4s;
 }
 .BJ-Base-App .bj-value-item:hover .bj-value-item__icon {
   background:   var(--bj-spark);
-  color:        #FFFFFF;
+  color:        var(--bj-pure);
   border-color: var(--bj-spark);
 }
 .BJ-Base-App .bj-value-item__icon svg { width: 24px; height: 24px; }
@@ -1349,11 +1322,11 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   width:        20px;
   height:       20px;
   flex-shrink:  0;
-  background:   #06C755;
+  background:   var(--bj-line);
   -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2C6.48 2 2 5.64 2 10.13c0 4.02 3.55 7.39 8.35 8.03.32.07.77.21.88.49.1.25.06.64.03.9l-.14.85c-.04.25-.2.98.86.53s5.7-3.36 7.78-5.75C21.1 13.5 22 11.92 22 10.13 22 5.64 17.52 2 12 2Z'/%3E%3C/svg%3E") center/contain no-repeat;
           mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2C6.48 2 2 5.64 2 10.13c0 4.02 3.55 7.39 8.35 8.03.32.07.77.21.88.49.1.25.06.64.03.9l-.14.85c-.04.25-.2.98.86.53s5.7-3.36 7.78-5.75C21.1 13.5 22 11.92 22 10.13 22 5.64 17.52 2 12 2Z'/%3E%3C/svg%3E") center/contain no-repeat;
 }
-.BJ-Base-App .bj-contact-block__line:hover { color: #06C755; }
+.BJ-Base-App .bj-contact-block__line:hover { color: var(--bj-line); }
 .BJ-Base-App .bj-contact-cta {
   display:   flex;
   gap:       16px;
@@ -2651,13 +2624,17 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
 <!-- ============================================================
      BJ 共用導覽列 + 頁尾 — 白境空間清潔
      全域注入版:只需貼進 1shop 全域 head.html 一次(放在 bj-base.css 之後)
-     會自動在每一頁的 .BJ-Base-App 內注入 Nav 與 Footer。
+     會自動在每一頁的 .BJ-Base-App 內注入 Nav 與 Footer,
+     並依下方「設定區」自動改寫全站的 LINE / 電話連結。
 
-     【上線前要改的 2 個地方】
-       1. 下方 JS 的  LINE_URL   →  換成你們的官方 LINE 連結
-       2. 下方 JS 的  NAV_LINKS  →  若 1shop 實際頁面網址不是 /、/services、
-                                     /about、/contact,改成對應網址
+     【上線前只要改 1 個地方】
+       下方 JS 的「設定區」:LINE_URL(必改)、LINE_OA(小淨帶單用)、
+       NAV_LINKS(若 1shop 網址不是 /、/services、/about、/contact 才要改)
      ============================================================ -->
+<!-- 網頁字型(用 link 並行載入;勿改回 CSS @import,會拖慢首屏) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;600;900&family=Jost:wght@300;400;500;600&display=swap">
 <style>
 /* ── 導覽列 ─────────────────────────────────────────────────── */
 .BJ-Base-App .bj-nav {
@@ -2909,13 +2886,16 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
 
 <script>
 (function () {
-  /* ===== 設定區(上線前請修改) ===================================== */
+  /* ===== 設定區(全站唯一,上線前只改這裡) ========================== */
   var LINE_URL = 'https://lin.ee/XXXXXXX';          // ← 換成官方 LINE 連結
+  var LINE_OA  = '@白境官方ID';                      // ← LINE 官方帳號 ID(小淨帶需求單用)
   var PHONE    = '06-2550811';
   var TEL      = 'tel:062550811';
   var EMAIL    = 'bentley0903499936@gmail.com';
   var ADDRESS  = '台南市安南區功安三街43號';
   var BRAND    = '白境空間清潔';
+  /* 公開給其他模組(chat.html 的小淨會讀取) */
+  window.BJ_CONF = { LINE_URL: LINE_URL, LINE_OA: LINE_OA, PHONE: PHONE, TEL: TEL, EMAIL: EMAIL, ADDRESS: ADDRESS, BRAND: BRAND };
   var NAV_LINKS = [                                  // ← 若 1shop 網址不同請改 href
     { label: '首頁',     href: '/' },
     { label: '服務項目', href: '/services' },
@@ -3051,13 +3031,24 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
     wire(app);
   }
 
+  /* 依設定區自動改寫頁面上所有 LINE / 電話連結(skeleton 內保持佔位即可) */
+  function applyConf() {
+    Array.prototype.forEach.call(document.querySelectorAll('a[href^="https://lin.ee/"], a[href^="https://line.me/"]'), function (a) {
+      if (a.href.indexOf('line.me/R/oaMessage') !== -1) return;  // 小淨帶單連結由 chat.html 管
+      a.href = LINE_URL;
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('a[href^="tel:"]'), function (a) {
+      a.href = TEL;
+    });
+  }
+
   function start() {
     var app = document.querySelector('.BJ-Base-App');
-    if (app) { inject(app); return; }
+    if (app) { inject(app); applyConf(); return; }
     // 若頁面區塊是稍後才載入,觀察 DOM 直到出現
     var obs = new MutationObserver(function () {
       var a = document.querySelector('.BJ-Base-App');
-      if (a) { obs.disconnect(); inject(a); }
+      if (a) { obs.disconnect(); inject(a); applyConf(); }
     });
     obs.observe(document.documentElement, { childList: true, subtree: true });
   }
@@ -3139,7 +3130,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
 <script>
 (function () {
@@ -3629,7 +3620,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
      BJ 常見問題 罐頭聊天框 — 白境空間清潔
      右下角浮動小視窗,點問題顯示預設答案(非真 AI)。
      貼進 1shop 全域 head.html(放在其他 shared 之後)。
-     上線前把 LINE_URL 換成官方 LINE 連結(與其他檔一致:https://lin.ee/XXXXXXX)。
+     LINE 連結/ID 讀取全站設定 window.BJ_CONF(改 nav-footer.html 頂端設定區即可)。
      ============================================================ -->
 <style>
 .bj-chat{position:fixed;right:24px;bottom:24px;z-index:1500;font-family:'Noto Sans TC',sans-serif;}
@@ -3709,8 +3700,10 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
 </style>
 <script>
 (function () {
-  var LINE_URL = 'https://lin.ee/XXXXXXX';   // ← 換成官方 LINE 連結(加好友用)
-  var LINE_OA  = '@白境官方ID';              // ← 換成 LINE 官方帳號「基本 ID」(含 @),用於把需求預填進對話
+  /* LINE 設定一律讀 nav-footer.html 頂端的「設定區」(window.BJ_CONF),此處只是保底 */
+  var CONF = window.BJ_CONF || {};
+  var LINE_URL = CONF.LINE_URL || 'https://lin.ee/XXXXXXX';
+  var LINE_OA  = CONF.LINE_OA  || '@白境官方ID';
 
   /* 常見問題 + 智慧問答:唯一資料源 = GitHub kb.json(見下方 KB_URL) */
   var FAQ = [];

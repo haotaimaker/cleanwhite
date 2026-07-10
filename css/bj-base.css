@@ -4,9 +4,11 @@
    Upload as 1shop 自訂CSS (head.html)
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;600;900&family=Jost:wght@300;400;500;600&display=swap');
+/* 字型改由 <link> 載入(見 shared/nav-footer.html 頂端),
+   @import 會串行阻塞、拖慢首屏,勿加回。 */
 
-/* ── Variables ────────────────────────────────────────────── */
+/* ── Variables(掛在 :root,全域規則也能取用)──────────────── */
+:root,
 .BJ-Base-App {
     /* 藍 + 白(亮色系)— 清潔/水/潔淨 */
     --bj-bg:        #F4F8FD;   /* 頁面底:極淺冷白 */
@@ -24,6 +26,15 @@
     /* 主色藍 — 對應品牌「水/淨」*/
     --bj-spark:     #2F6FE4;
     --bj-spark-rgb: 47, 111, 228;
+    --bj-spark-deep:#2560C8;   /* 主藍 hover 加深 */
+
+    /* 輔助色 token */
+    --bj-pure:      #FFFFFF;   /* 絕對白(反白文字/圖示,不隨 surf 改) */
+    --bj-ice:       #EAF1FC;   /* 圖示圓底 淺藍 */
+    --bj-line:      #06C755;   /* LINE 綠 */
+    --bj-line-deep: #05B14C;   /* LINE 綠 hover */
+    --bj-scrollbar: #C3D4EE;   /* 捲軸 */
+    --bj-card-shadow: 0 18px 40px rgba(22,52,94,0.12);  /* 卡片 hover 陰影 */
 
     --bj-fn:  'Noto Sans TC', sans-serif;
     --bj-fs:  'Noto Serif TC', 'Noto Sans TC', serif;
@@ -34,7 +45,8 @@
     --bj-md:  40px;
     --bj-sm:  24px;
     --bj-xs:  12px;
-
+}
+.BJ-Base-App {
     font-family:             var(--bj-fn);
     background:              var(--bj-bg);
     color:                   var(--bj-white);
@@ -48,7 +60,7 @@
 .BJ-Base-App *::before,
 .BJ-Base-App *::after { margin:0; padding:0; box-sizing:border-box; }
 .BJ-Base-App a   { text-decoration:none; color:inherit; }
-.BJ-Base-App img { max-width:100%; height:auto; display:block; }
+.BJ-Base-App img { max-width:100%; height:auto; display:block; -webkit-user-drag:none; user-select:none; }
 .BJ-Base-App ul,
 .BJ-Base-App ol  { list-style:none; }
 
@@ -130,24 +142,25 @@
     border-color:   var(--bj-spark);
     color:          var(--bj-spark);
     letter-spacing: 0.2em;
+    transform:      translateY(-2px);   /* App 手感:hover 微浮起 */
 }
 .BJ-Base-App .bj-btn--solid {
     background:   var(--bj-spark);
-    color:        #FFFFFF;
+    color:        var(--bj-pure);
     border-color: var(--bj-spark);
     font-weight:  700;
 }
 .BJ-Base-App .bj-btn--solid:hover {
-    background:     #2560C8;
-    border-color:   #2560C8;
-    color:          #FFFFFF;
+    background:     var(--bj-spark-deep);
+    border-color:   var(--bj-spark-deep);
+    color:          var(--bj-pure);
     letter-spacing: 0.15em;
 }
 /* LINE 行動按鈕 — 以 LINE 綠標示主要詢問通道 */
 .BJ-Base-App .bj-btn--line {
-    background:   #06C755;
-    border-color: #06C755;
-    color:        #FFFFFF;
+    background:   var(--bj-line);
+    border-color: var(--bj-line);
+    color:        var(--bj-pure);
     font-weight:  700;
 }
 .BJ-Base-App .bj-btn--line::before {
@@ -155,43 +168,19 @@
     width:        16px;
     height:       16px;
     flex-shrink:  0;
-    background:   #FFFFFF;
+    background:   var(--bj-pure);
     -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2C6.48 2 2 5.64 2 10.13c0 4.02 3.55 7.39 8.35 8.03.32.07.77.21.88.49.1.25.06.64.03.9l-.14.85c-.04.25-.2.98.86.53s5.7-3.36 7.78-5.75C21.1 13.5 22 11.92 22 10.13 22 5.64 17.52 2 12 2Z'/%3E%3C/svg%3E") center/contain no-repeat;
             mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2C6.48 2 2 5.64 2 10.13c0 4.02 3.55 7.39 8.35 8.03.32.07.77.21.88.49.1.25.06.64.03.9l-.14.85c-.04.25-.2.98.86.53s5.7-3.36 7.78-5.75C21.1 13.5 22 11.92 22 10.13 22 5.64 17.52 2 12 2Z'/%3E%3C/svg%3E") center/contain no-repeat;
 }
 .BJ-Base-App .bj-btn--line:hover {
-    background:     #05B14C;
-    border-color:   #05B14C;
+    background:     var(--bj-line-deep);
+    border-color:   var(--bj-line-deep);
     letter-spacing: 0.15em;
 }
-/* App 手感:hover 微浮起、按下微縮(即時觸覺回饋) */
-.BJ-Base-App .bj-btn:hover  { transform: translateY(-2px); }
+/* App 手感:按下微縮(即時觸覺回饋;hover 浮起已併入上方 .bj-btn:hover) */
 .BJ-Base-App .bj-btn:active {
     transform:           translateY(0) scale(0.965);
     transition-duration: 0.12s;
-}
-
-/* ── Cards ────────────────────────────────────────────────── */
-.BJ-Base-App .bj-card {
-    background:  var(--bj-surf);
-    border:      1px solid var(--bj-border);
-    padding:     var(--bj-md);
-    transition:  all 0.4s cubic-bezier(0.16,1,0.3,1);
-    position:    relative;
-    overflow:    hidden;
-}
-.BJ-Base-App .bj-card::before {
-    content:        '';
-    position:       absolute;
-    inset:          0;
-    background:     linear-gradient(135deg,rgba(47,111,228,0.05) 0%,transparent 55%);
-    pointer-events: none;
-}
-.BJ-Base-App .bj-card:hover {
-    border-color: var(--bj-bord-md);
-    background:   var(--bj-surf2);
-    transform:    translateY(-4px);
-    box-shadow:   0 16px 48px rgba(22,52,94,0.14);
 }
 
 /* ── Section Header ───────────────────────────────────────── */
@@ -225,20 +214,7 @@
 
 /* ── Grid ─────────────────────────────────────────────────── */
 .BJ-Base-App .bj-g4 { display:grid; grid-template-columns:repeat(4,1fr); gap:var(--bj-sm); }
-.BJ-Base-App .bj-g3 { display:grid; grid-template-columns:repeat(3,1fr); gap:var(--bj-sm); }
 .BJ-Base-App .bj-g2 { display:grid; grid-template-columns:repeat(2,1fr); gap:var(--bj-sm); }
-
-/* ── Blockquote ───────────────────────────────────────────── */
-.BJ-Base-App .bj-bq {
-    border-left:    1px solid var(--bj-spark);
-    padding:        var(--bj-sm) var(--bj-md);
-    font-family:    var(--bj-fs);
-    font-size:      clamp(17px, 2.5vw, 23px);
-    color:          var(--bj-silver);
-    letter-spacing: 0.05em;
-    line-height:    1.75;
-    font-style:     normal;
-}
 
 /* ── Responsive ───────────────────────────────────────────── */
 @media (max-width: 1024px) {
@@ -247,28 +223,26 @@
 @media (max-width: 900px) {
     .BJ-Base-App .bj-wrap    { padding: 0 24px; }
     .BJ-Base-App .bj-section { padding: var(--bj-lg) 0; }
-    .BJ-Base-App .bj-g3      { grid-template-columns:repeat(2,1fr); }
 }
 @media (max-width: 560px) {
     .BJ-Base-App .bj-wrap { padding: 0 16px; }
     .BJ-Base-App .bj-g4,
-    .BJ-Base-App .bj-g3,
     .BJ-Base-App .bj-g2   { grid-template-columns:1fr; }
 }
 
 /* ── 1shop Reset ──────────────────────────────────────────── */
 /* 防止 100vw 滿版區塊(hero/footer)在有捲軸時造成水平溢出 */
 /* margin:0 + 深色底:消除頁面左右露出的白色預設邊距(那兩條白線) */
-html, body { overflow-x: clip; max-width: 100%; margin: 0; background: #F4F8FD; }
+html, body { overflow-x: clip; max-width: 100%; margin: 0; background: var(--bj-bg); }
 
 /* ── App 手感細節 ─────────────────────────────────────────── */
 /* 選取文字 → 品牌藍 */
-::selection { background: rgba(47,111,228,0.16); color: #15273F; }
+::selection { background: rgba(47,111,228,0.16); color: var(--bj-white); }
 /* 細捲軸(桌機),融入藍白視覺 */
-html { scrollbar-width: thin; scrollbar-color: #C3D4EE transparent; }
+html { scrollbar-width: thin; scrollbar-color: var(--bj-scrollbar) transparent; }
 ::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #C3D4EE; border-radius: 8px; border: 2px solid #F4F8FD; }
+::-webkit-scrollbar-thumb { background: var(--bj-scrollbar); border-radius: 8px; border: 2px solid var(--bj-bg); }
 ::-webkit-scrollbar-thumb:hover { background: #2F6FE4; }
 /* 手機:去除點擊灰色閃爍、消除 300ms 延遲 → 原生 App 觸感 */
 .BJ-Base-App, .BJ-Base-App * { -webkit-tap-highlight-color: transparent; }
@@ -276,8 +250,7 @@ html { scrollbar-width: thin; scrollbar-color: #C3D4EE transparent; }
 /* 鍵盤操作時的焦點環(滑鼠點擊不出現) */
 .BJ-Base-App :focus { outline: none; }
 .BJ-Base-App :focus-visible { outline: 2px solid rgba(47,111,228,0.55); outline-offset: 3px; border-radius: 4px; }
-/* 圖片禁止拖曳殘影 */
-.BJ-Base-App img { -webkit-user-drag: none; user-select: none; }
+/* 圖片禁止拖曳殘影 → 已併入上方 Reset 的 img 規則 */
 .banner { display:none !important; }
 body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
     padding-top: 0 !important;
@@ -302,7 +275,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   align-items:      center;
   justify-content:  center;
   overflow:         hidden;
-  background:       linear-gradient(160deg, #E9F2FC 0%, #F4F8FD 55%, #FFFFFF 100%);
+  background:       linear-gradient(160deg, #E9F2FC 0%, var(--bj-bg) 55%, var(--bj-pure) 100%);
 }
 .BJ-Base-App .bj-hero__bg {
   position:   absolute;
@@ -310,7 +283,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   z-index:    0;
   background:
     radial-gradient(ellipse 78% 60% at 50% 36%, rgba(47,111,228,0.10) 0%, transparent 60%),
-    linear-gradient(155deg, #EAF2FC 0%, #F4F8FD 45%, #FFFFFF 100%);
+    linear-gradient(155deg, #EAF2FC 0%, var(--bj-bg) 45%, var(--bj-pure) 100%);
 }
 /* 靜態暈影:讓未擦拭處沉斂,凸顯游標亮光 */
 .BJ-Base-App .bj-hero__veil {
@@ -558,7 +531,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   transition:        background 0.35s, border-color 0.35s, transform 0.35s cubic-bezier(0.16,1,0.3,1), box-shadow 0.35s;
 }
 .BJ-Base-App .bj-svc-item:hover {
-  background:   #FFFFFF;
+  background:   var(--bj-pure);
   border-color: var(--bj-spark);
   transform:    translateY(-6px);
   box-shadow:   0 20px 44px rgba(22,52,94,0.14);
@@ -581,14 +554,14 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   align-items:     center;
   justify-content: center;
   color:           var(--bj-spark);
-  background:      #EAF1FC;
+  background:      var(--bj-ice);
   border:          1px solid var(--bj-border);
   border-radius:   50%;
   transition:      background 0.35s, color 0.35s, border-color 0.35s;
 }
 .BJ-Base-App .bj-svc-item:hover .bj-svc-icon {
   background:   var(--bj-spark);
-  color:        #FFFFFF;
+  color:        var(--bj-pure);
   border-color: var(--bj-spark);
 }
 .BJ-Base-App .bj-svc-icon svg { width: 30px; height: 30px; }
@@ -727,7 +700,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
 .BJ-Base-App .bj-why-item:hover {
   transform: translateY(-6px);
   border-color: var(--bj-spark);
-  box-shadow: 0 18px 40px rgba(22,52,94,0.12);
+  box-shadow: var(--bj-card-shadow);
 }
 .BJ-Base-App .bj-why-icon {
   width: 62px;
@@ -737,7 +710,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   align-items: center;
   justify-content: center;
   color: var(--bj-spark);
-  background: #EAF1FC;
+  background: var(--bj-ice);
   border: 1px solid var(--bj-border);
   border-radius: 50%;
   margin-bottom: 2px;
@@ -745,7 +718,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
 }
 .BJ-Base-App .bj-why-item:hover .bj-why-icon {
   background: var(--bj-spark);
-  color: #FFFFFF;
+  color: var(--bj-pure);
   border-color: var(--bj-spark);
   transform: scale(1.06);
 }
@@ -965,7 +938,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
 
 /* Responsive */
 @media (max-width:900px) {
-  .BJ-Base-App .bj-svc-grid    { grid-template-columns:repeat(2,1fr); }
   .BJ-Base-App .bj-story__grid { grid-template-columns:1fr; }
   .BJ-Base-App .bj-story__media { aspect-ratio: 16 / 10; }
   .BJ-Base-App .bj-flow__steps { grid-template-columns:repeat(2,1fr); }
@@ -974,8 +946,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   .BJ-Base-App .bj-pain__grid  { grid-template-columns:1fr; }
 }
 @media (max-width:560px) {
-  .BJ-Base-App .bj-svc-grid       { grid-template-columns:1fr; }
-  .BJ-Base-App .bj-svc-item--wide { flex-direction:column; }
   .BJ-Base-App .bj-hero__name     { letter-spacing:0.12em; }
   .BJ-Base-App .bj-flow__steps    { grid-template-columns:1fr; }
 }
@@ -1186,7 +1156,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
 .BJ-Base-App .bj-value-item:hover {
   transform:    translateY(-5px);
   border-color: var(--bj-spark);
-  box-shadow:   0 18px 40px rgba(22,52,94,0.12);
+  box-shadow:   var(--bj-card-shadow);
 }
 .BJ-Base-App .bj-value-item__header {
   display:     flex;
@@ -1202,14 +1172,14 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   align-items: center;
   justify-content: center;
   color:  var(--bj-spark);
-  background: #EAF1FC;
+  background: var(--bj-ice);
   border: 1px solid var(--bj-border);
   border-radius: 50%;
   transition: background 0.4s, color 0.4s, border-color 0.4s;
 }
 .BJ-Base-App .bj-value-item:hover .bj-value-item__icon {
   background:   var(--bj-spark);
-  color:        #FFFFFF;
+  color:        var(--bj-pure);
   border-color: var(--bj-spark);
 }
 .BJ-Base-App .bj-value-item__icon svg { width: 24px; height: 24px; }
@@ -1342,11 +1312,11 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   width:        20px;
   height:       20px;
   flex-shrink:  0;
-  background:   #06C755;
+  background:   var(--bj-line);
   -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2C6.48 2 2 5.64 2 10.13c0 4.02 3.55 7.39 8.35 8.03.32.07.77.21.88.49.1.25.06.64.03.9l-.14.85c-.04.25-.2.98.86.53s5.7-3.36 7.78-5.75C21.1 13.5 22 11.92 22 10.13 22 5.64 17.52 2 12 2Z'/%3E%3C/svg%3E") center/contain no-repeat;
           mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2C6.48 2 2 5.64 2 10.13c0 4.02 3.55 7.39 8.35 8.03.32.07.77.21.88.49.1.25.06.64.03.9l-.14.85c-.04.25-.2.98.86.53s5.7-3.36 7.78-5.75C21.1 13.5 22 11.92 22 10.13 22 5.64 17.52 2 12 2Z'/%3E%3C/svg%3E") center/contain no-repeat;
 }
-.BJ-Base-App .bj-contact-block__line:hover { color: #06C755; }
+.BJ-Base-App .bj-contact-block__line:hover { color: var(--bj-line); }
 .BJ-Base-App .bj-contact-cta {
   display:   flex;
   gap:       16px;

@@ -33,24 +33,23 @@ clean/
 
 ---
 
-## ⚠️ 上線前一定要改的 2 件事
+## ⚠️ 上線前只要改 1 個地方
 
-### 1. LINE 連結(共 5 處)
-目前是佔位連結 `https://lin.ee/XXXXXXX`。
-請用編輯器「全部取代」,把 **5 個檔案**裡的 `https://lin.ee/XXXXXXX` 換成你們的官方 LINE 連結:
+**`shared/nav-footer.html` 頂端的「設定區」**(搜尋 `設定區` 即可找到):
 
-| 檔案 | 位置 |
-|------|------|
-| `shared/nav-footer.html` | `var LINE_URL = '...'`(導覽列 + 頁尾共用此變數) |
-| `home/skeleton.html` | Hero、服務流程、結尾 CTA(共 3 處) |
-| `services/skeleton.html` | 底部 CTA 的「LINE 詢問」按鈕 |
-| `contact/skeleton.html` | LINE 聯絡區塊 + 底部「LINE 線上詢問」按鈕(2 處) |
+```js
+var LINE_URL = 'https://lin.ee/XXXXXXX';   // ← 換成官方 LINE 連結(必改)
+var LINE_OA  = '@白境官方ID';               // ← LINE 官方帳號 ID(小淨帶需求單用,必改)
+```
 
-> 官方帳號連結格式通常是 `https://lin.ee/xxxxxxx`(LINE Official Account Manager →「加入好友」→ 網址),或個人帳號 `https://line.me/ti/p/~你的LINEID`。
+改這兩行就會**自動套用到全站**:導覽列/頁尾/各頁按鈕的 LINE 連結、電話連結、
+小淨聊天室的 LINE 按鈕與「帶需求去 LINE」——skeleton 檔案裡的佔位連結不用動,
+上線時會由 JS 統一改寫。
 
-### 2. 頁面網址要對得上
-`shared/nav-footer.html` 的 `NAV_LINKS` 預設為 `/`、`/services`、`/about`、`/contact`。
-若 1shop 實際頁面網址不同,請改成對應網址,導覽列與「當前頁高亮」才會正確。
+> 官方帳號連結格式通常是 `https://lin.ee/xxxxxxx`(LINE Official Account Manager →「加入好友」→ 網址)。
+
+另外確認:`NAV_LINKS`(同一個設定區)預設為 `/`、`/services`、`/about`、`/contact`,
+若 1shop 實際頁面網址不同,改成對應網址,導覽列與「當前頁高亮」才會正確。
 
 ---
 
