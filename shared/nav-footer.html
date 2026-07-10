@@ -1,0 +1,421 @@
+<!-- ============================================================
+     BJ 共用導覽列 + 頁尾 — 白境空間清潔
+     全域注入版:只需貼進 1shop 全域 head.html 一次(放在 bj-base.css 之後)
+     會自動在每一頁的 .BJ-Base-App 內注入 Nav 與 Footer。
+
+     【上線前要改的 2 個地方】
+       1. 下方 JS 的  LINE_URL   →  換成你們的官方 LINE 連結
+       2. 下方 JS 的  NAV_LINKS  →  若 1shop 實際頁面網址不是 /、/services、
+                                     /about、/contact,改成對應網址
+     ============================================================ -->
+<style>
+/* ── 導覽列 ─────────────────────────────────────────────────── */
+.BJ-Base-App .bj-nav {
+  position:      fixed;
+  top:           0; left: 0; right: 0;
+  z-index:       1000;
+  border-bottom: 1px solid transparent;
+  transition:    background 0.4s, border-color 0.4s, backdrop-filter 0.4s,
+                 transform 0.5s cubic-bezier(0.22,1,0.36,1);
+}
+/* App 慣例:下滑收起導覽列讓出畫面、上滑立即滑回 */
+.BJ-Base-App .bj-nav--hidden { transform: translateY(-100%); }
+.BJ-Base-App .bj-nav--scrolled {
+  background:              rgba(255,255,255,0.82);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter:         blur(14px);
+  border-bottom-color:     var(--bj-border);
+}
+.BJ-Base-App .bj-nav__inner {
+  max-width:       1100px;
+  margin:          0 auto;
+  padding:         0 48px;
+  height:          64px;
+  display:         flex;
+  align-items:     center;
+  justify-content: space-between;
+}
+.BJ-Base-App .bj-nav__brand {
+  display:     flex;
+  align-items: center;
+  gap:         10px;
+}
+.BJ-Base-App .bj-nav__brand svg { width: 26px; height: auto; }
+.BJ-Base-App .bj-nav__brand-name {
+  font-family:    var(--bj-fs);
+  font-size:      16px;
+  font-weight:    600;
+  letter-spacing: 0.14em;
+  color:          var(--bj-white);
+  white-space:    nowrap;
+}
+.BJ-Base-App .bj-nav__links {
+  display:     flex;
+  align-items: center;
+  gap:         34px;
+}
+.BJ-Base-App .bj-nav__link {
+  position:       relative;
+  font-size:      13px;
+  letter-spacing: 0.14em;
+  color:          var(--bj-silver);
+  padding:        4px 0;
+  transition:     color 0.3s;
+}
+.BJ-Base-App .bj-nav__link:hover,
+.BJ-Base-App .bj-nav__link--active { color: var(--bj-white); }
+.BJ-Base-App .bj-nav__link::after {
+  content:    '';
+  position:   absolute;
+  left:       0; bottom: -2px;
+  width:      0; height: 1px;
+  background: var(--bj-spark);
+  transition: width 0.35s cubic-bezier(0.16,1,0.3,1);
+}
+.BJ-Base-App .bj-nav__link:hover::after,
+.BJ-Base-App .bj-nav__link--active::after { width: 100%; }
+
+/* 導覽列 LINE 按鈕(小版) */
+.BJ-Base-App .bj-nav__cta {
+  display:        inline-flex;
+  align-items:    center;
+  gap:            7px;
+  padding:        8px 18px;
+  font-size:      12px;
+  font-weight:    700;
+  letter-spacing: 0.1em;
+  color:          #FFFFFF;
+  background:      #06C755;
+  border:         1px solid #06C755;
+  transition:     background 0.3s, border-color 0.3s, transform 0.25s cubic-bezier(0.22,1,0.36,1);
+}
+.BJ-Base-App .bj-nav__cta:hover { background: #05B14C; border-color: #05B14C; transform: translateY(-1px); }
+.BJ-Base-App .bj-nav__cta:active { transform: scale(0.95); }
+.BJ-Base-App .bj-nav__cta::before {
+  content:      '';
+  width:        15px; height: 15px;
+  flex-shrink:  0;
+  background:   #FFFFFF;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2C6.48 2 2 5.64 2 10.13c0 4.02 3.55 7.39 8.35 8.03.32.07.77.21.88.49.1.25.06.64.03.9l-.14.85c-.04.25-.2.98.86.53s5.7-3.36 7.78-5.75C21.1 13.5 22 11.92 22 10.13 22 5.64 17.52 2 12 2Z'/%3E%3C/svg%3E") center/contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2C6.48 2 2 5.64 2 10.13c0 4.02 3.55 7.39 8.35 8.03.32.07.77.21.88.49.1.25.06.64.03.9l-.14.85c-.04.25-.2.98.86.53s5.7-3.36 7.78-5.75C21.1 13.5 22 11.92 22 10.13 22 5.64 17.52 2 12 2Z'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+
+/* 漢堡鈕(手機顯示) */
+.BJ-Base-App .bj-nav__toggle {
+  display:         none;
+  width:           40px; height: 40px;
+  flex-direction:  column;
+  align-items:     center;
+  justify-content: center;
+  gap:             5px;
+  background:       none;
+  border:           none;
+  cursor:           pointer;
+}
+.BJ-Base-App .bj-nav__toggle span {
+  display:    block;
+  width:      22px; height: 1.5px;
+  background: var(--bj-white);
+  transition: transform 0.35s, opacity 0.25s;
+}
+.BJ-Base-App .bj-nav__toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.BJ-Base-App .bj-nav__toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.BJ-Base-App .bj-nav__toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+/* 手機下拉面板 */
+.BJ-Base-App .bj-nav__mobile {
+  position:                fixed;
+  top:                     64px; left: 0; right: 0;
+  z-index:                 999;
+  display:                 flex;
+  flex-direction:          column;
+  gap:                     2px;
+  padding:                 16px 24px 26px;
+  background:              rgba(255,255,255,0.97);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter:         blur(14px);
+  border-bottom:           1px solid var(--bj-border);
+  transform:               translateY(-12px);
+  opacity:                 0;
+  pointer-events:          none;
+  transition:              transform 0.35s cubic-bezier(0.16,1,0.3,1), opacity 0.3s;
+}
+.BJ-Base-App .bj-nav__mobile--open { transform: none; opacity: 1; pointer-events: auto; }
+.BJ-Base-App .bj-nav__mobile a {
+  padding:        14px 4px;
+  font-family:    var(--bj-fs);
+  font-size:      15px;
+  letter-spacing: 0.12em;
+  color:          var(--bj-silver);
+  border-bottom:  1px solid var(--bj-border);
+}
+.BJ-Base-App .bj-nav__mobile a.bj-nav__link--active { color: var(--bj-white); }
+.BJ-Base-App .bj-nav__mobile .bj-nav__cta {
+  justify-content: center;
+  margin-top:      18px;
+  padding:         13px 18px;
+  font-size:       13px;
+  border:          none;
+}
+
+@media (max-width: 760px) {
+  .BJ-Base-App .bj-nav__links  { display: none; }
+  .BJ-Base-App .bj-nav__toggle { display: flex; }
+  .BJ-Base-App .bj-nav__inner  { padding: 0 20px; }
+}
+
+/* ── 頁尾 ───────────────────────────────────────────────────── */
+.BJ-Base-App .bj-footer {
+  position:     relative;
+  width:        100vw;
+  left:         50%; right: 50%;
+  margin-left:  -50vw; margin-right: -50vw;
+  background:    #E7EFFA;
+  border-top:    1px solid var(--bj-border);
+  padding:       var(--bj-lg) 0 var(--bj-md);
+}
+.BJ-Base-App .bj-footer__inner {
+  max-width:             1100px;
+  margin:                0 auto;
+  padding:               0 48px;
+  display:               grid;
+  grid-template-columns: 1.5fr 1fr 1.5fr;
+  gap:                   var(--bj-lg);
+}
+.BJ-Base-App .bj-footer__brand { display: flex; flex-direction: column; gap: 16px; }
+.BJ-Base-App .bj-footer__brand-top { display: flex; align-items: center; gap: 12px; }
+.BJ-Base-App .bj-footer__brand-top svg { width: 34px; height: auto; opacity: 0.85; }
+.BJ-Base-App .bj-footer__name {
+  font-family:    var(--bj-fs);
+  font-size:      18px;
+  font-weight:    600;
+  letter-spacing: 0.16em;
+  color:          var(--bj-white);
+}
+.BJ-Base-App .bj-footer__tagline {
+  font-size:      13px;
+  line-height:    1.9;
+  color:          var(--bj-muted);
+  letter-spacing: 0.05em;
+}
+.BJ-Base-App .bj-footer__col-title {
+  font-family:    var(--bj-fen);
+  font-size:      11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color:          var(--bj-spark);
+  opacity:        0.7;
+  margin-bottom:  20px;
+}
+.BJ-Base-App .bj-footer__links { display: flex; flex-direction: column; gap: 12px; }
+.BJ-Base-App .bj-footer__links a {
+  font-size:      14px;
+  letter-spacing: 0.08em;
+  color:          var(--bj-silver);
+  transition:     color 0.3s;
+  width:          fit-content;
+}
+.BJ-Base-App .bj-footer__links a:hover { color: var(--bj-white); }
+.BJ-Base-App .bj-footer__contact { display: flex; flex-direction: column; gap: 14px; }
+.BJ-Base-App .bj-footer__contact-item { display: flex; flex-direction: column; gap: 3px; }
+.BJ-Base-App .bj-footer__contact-label {
+  font-family:    var(--bj-fen);
+  font-size:      10px;
+  letter-spacing: 0.2em;
+  color:          var(--bj-dim);
+  text-transform: uppercase;
+}
+.BJ-Base-App .bj-footer__contact-item a,
+.BJ-Base-App .bj-footer__contact-item span {
+  font-size:   14px;
+  color:       var(--bj-silver);
+  line-height: 1.6;
+  transition:  color 0.3s;
+}
+.BJ-Base-App .bj-footer__contact-item a:hover { color: var(--bj-white); }
+.BJ-Base-App .bj-footer__bottom {
+  max-width:       1100px;
+  margin:          var(--bj-md) auto 0;
+  padding:         24px 48px 0;
+  border-top:      1px solid var(--bj-border);
+  display:         flex;
+  justify-content: space-between;
+  align-items:     center;
+  gap:             12px;
+  flex-wrap:       wrap;
+}
+.BJ-Base-App .bj-footer__copy,
+.BJ-Base-App .bj-footer__hours {
+  font-family:    var(--bj-fen);
+  font-size:      11px;
+  letter-spacing: 0.12em;
+  color:          var(--bj-muted);
+}
+@media (max-width: 760px) {
+  .BJ-Base-App .bj-footer__inner  { grid-template-columns: 1fr; gap: var(--bj-md); padding: 0 20px; }
+  .BJ-Base-App .bj-footer__bottom { padding: 24px 20px 0; justify-content: center; text-align: center; }
+}
+</style>
+
+<script>
+(function () {
+  /* ===== 設定區(上線前請修改) ===================================== */
+  var LINE_URL = 'https://lin.ee/XXXXXXX';          // ← 換成官方 LINE 連結
+  var PHONE    = '06-2550811';
+  var TEL      = 'tel:062550811';
+  var EMAIL    = 'bentley0903499936@gmail.com';
+  var ADDRESS  = '台南市安南區功安三街43號';
+  var BRAND    = '白境空間清潔';
+  var NAV_LINKS = [                                  // ← 若 1shop 網址不同請改 href
+    { label: '首頁',     href: '/' },
+    { label: '服務項目', href: '/services' },
+    { label: '關於我們', href: '/about' },
+    { label: '聯絡我們', href: '/contact' }
+  ];
+  /* =============================================================== */
+
+  // 房屋 + 璀璨星 Logo（與站內視覺一致）
+  var LOGO = '<svg viewBox="54 34 156 130" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+    '<path d="M162 150 L162 98 L120 58" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>' +
+    '<path d="M120 58 L80 98 L80 150" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>' +
+    '<path d="M64 140 Q120 116 178 132 Q192 136 198 122" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>' +
+    '<path d="M84 150 Q132 134 178 132" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>' +
+    '<path d="M147 50.5 L150.5 59.5 L159.5 63 L150.5 66.5 L147 75.5 L143.5 66.5 L134.5 63 L143.5 59.5 Z" fill="currentColor"/>' +
+    '<path d="M164 41 L166.3 46.7 L172 49 L166.3 51.3 L164 57 L161.7 51.3 L156 49 L161.7 46.7 Z" fill="currentColor" opacity="0.85"/>' +
+    '<path d="M177 34.5 L178.6 38.4 L182.5 40 L178.6 41.6 L177 45.5 L175.4 41.6 L171.5 40 L175.4 38.4 Z" fill="currentColor" opacity="0.7"/>' +
+    '</svg>';
+
+  function isActive(href) {
+    var path = location.pathname.replace(/\/+$/, '') || '/';
+    if (href === '/') return path === '/';
+    return path === href || path.indexOf(href + '/') === 0 || path.indexOf(href) === 0;
+  }
+
+  function buildNav() {
+    var linksHtml = NAV_LINKS.map(function (l) {
+      var cls = 'bj-nav__link' + (isActive(l.href) ? ' bj-nav__link--active' : '');
+      return '<a class="' + cls + '" href="' + l.href + '">' + l.label + '</a>';
+    }).join('');
+
+    var mobileHtml = NAV_LINKS.map(function (l) {
+      var cls = isActive(l.href) ? ' class="bj-nav__link--active"' : '';
+      return '<a' + cls + ' href="' + l.href + '">' + l.label + '</a>';
+    }).join('');
+
+    var nav = document.createElement('header');
+    nav.className = 'bj-nav';
+    nav.setAttribute('aria-label', '主要導覽');
+    nav.innerHTML =
+      '<div class="bj-nav__inner">' +
+        '<a class="bj-nav__brand" href="/" aria-label="' + BRAND + ' 首頁">' +
+          '<span style="color:var(--bj-spark)">' + LOGO + '</span>' +
+          '<span class="bj-nav__brand-name">' + BRAND + '</span>' +
+        '</a>' +
+        '<nav class="bj-nav__links">' + linksHtml +
+          '<a class="bj-nav__cta" href="' + LINE_URL + '" target="_blank" rel="noopener">LINE 詢問</a>' +
+        '</nav>' +
+        '<button class="bj-nav__toggle" type="button" aria-label="開啟選單" aria-expanded="false">' +
+          '<span></span><span></span><span></span>' +
+        '</button>' +
+      '</div>' +
+      '<div class="bj-nav__mobile">' + mobileHtml +
+        '<a class="bj-nav__cta" href="' + LINE_URL + '" target="_blank" rel="noopener">LINE 線上詢問</a>' +
+      '</div>';
+    return nav;
+  }
+
+  function buildFooter() {
+    var ft = document.createElement('footer');
+    ft.className = 'bj-footer';
+    ft.innerHTML =
+      '<div class="bj-footer__inner">' +
+        '<div class="bj-footer__brand">' +
+          '<div class="bj-footer__brand-top">' +
+            '<span style="color:var(--bj-spark)">' + LOGO + '</span>' +
+            '<span class="bj-footer__name">' + BRAND + '</span>' +
+          '</div>' +
+          '<p class="bj-footer__tagline">極致的淨,看不見的細節。<br>專業裝潢後細部清潔 · 石材美容 · 玻璃無水痕清潔</p>' +
+        '</div>' +
+        '<div>' +
+          '<p class="bj-footer__col-title">網站導覽</p>' +
+          '<nav class="bj-footer__links">' +
+            '<a href="/">首頁</a>' +
+            '<a href="/services">服務項目</a>' +
+            '<a href="/about">關於我們</a>' +
+            '<a href="/contact">聯絡我們</a>' +
+          '</nav>' +
+        '</div>' +
+        '<div>' +
+          '<p class="bj-footer__col-title">聯絡資訊</p>' +
+          '<div class="bj-footer__contact">' +
+            '<div class="bj-footer__contact-item"><span class="bj-footer__contact-label">電話</span><a href="' + TEL + '">' + PHONE + '</a></div>' +
+            '<div class="bj-footer__contact-item"><span class="bj-footer__contact-label">LINE</span><a href="' + LINE_URL + '" target="_blank" rel="noopener">官方 LINE 線上詢問</a></div>' +
+            '<div class="bj-footer__contact-item"><span class="bj-footer__contact-label">電子郵件</span><a href="mailto:' + EMAIL + '">' + EMAIL + '</a></div>' +
+            '<div class="bj-footer__contact-item"><span class="bj-footer__contact-label">地址</span><span>' + ADDRESS + '</span></div>' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="bj-footer__bottom">' +
+        '<span class="bj-footer__copy">© ' + BRAND + ' · 版權所有</span>' +
+        '<span class="bj-footer__hours">營業時間 週一至週六 08:00–18:00</span>' +
+      '</div>';
+    return ft;
+  }
+
+  function wire(app) {
+    // 捲動時導覽列加上底色;下滑收起、上滑滑出(App 手感)
+    var nav = app.querySelector('.bj-nav');
+    var lastY = window.pageYOffset;
+    function onScroll() {
+      var y = window.pageYOffset;
+      if (y > 24) nav.classList.add('bj-nav--scrolled');
+      else nav.classList.remove('bj-nav--scrolled');
+      var menuOpen = panel && panel.classList.contains('bj-nav__mobile--open');
+      if (y > 320 && y - lastY > 6 && !menuOpen) nav.classList.add('bj-nav--hidden');
+      else if (y < lastY - 4 || y <= 320) nav.classList.remove('bj-nav--hidden');
+      lastY = y;
+    }
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    // 手機選單開合
+    var toggle = app.querySelector('.bj-nav__toggle');
+    var panel  = app.querySelector('.bj-nav__mobile');
+    toggle.addEventListener('click', function () {
+      var open = panel.classList.toggle('bj-nav__mobile--open');
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      toggle.setAttribute('aria-label', open ? '關閉選單' : '開啟選單');
+    });
+    panel.addEventListener('click', function (e) {
+      if (e.target.tagName === 'A') {
+        panel.classList.remove('bj-nav__mobile--open');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  function inject(app) {
+    if (!app || app.querySelector('.bj-nav')) return;   // 防重複注入
+    app.insertBefore(buildNav(), app.firstChild);
+    app.appendChild(buildFooter());
+    wire(app);
+  }
+
+  function start() {
+    var app = document.querySelector('.BJ-Base-App');
+    if (app) { inject(app); return; }
+    // 若頁面區塊是稍後才載入,觀察 DOM 直到出現
+    var obs = new MutationObserver(function () {
+      var a = document.querySelector('.BJ-Base-App');
+      if (a) { obs.disconnect(); inject(a); }
+    });
+    obs.observe(document.documentElement, { childList: true, subtree: true });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', start);
+  } else {
+    start();
+  }
+})();
+</script>

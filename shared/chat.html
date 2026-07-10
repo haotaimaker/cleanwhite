@@ -1,0 +1,452 @@
+<!-- ============================================================
+     BJ 常見問題 罐頭聊天框 — 白境空間清潔
+     右下角浮動小視窗,點問題顯示預設答案(非真 AI)。
+     貼進 1shop 全域 head.html(放在其他 shared 之後)。
+     上線前把 LINE_URL 換成官方 LINE 連結(與其他檔一致:https://lin.ee/XXXXXXX)。
+     ============================================================ -->
+<style>
+.bj-chat{position:fixed;right:24px;bottom:24px;z-index:1500;font-family:'Noto Sans TC',sans-serif;}
+.bj-chat__fab{position:relative;width:60px;height:60px;border-radius:50%;border:none;cursor:pointer;background:#2F6FE4;color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 28px rgba(47,111,228,.42);transition:transform .3s,background .3s,box-shadow .3s;}
+.bj-chat__fab:hover{transform:translateY(-3px);background:#2560C8;box-shadow:0 14px 34px rgba(47,111,228,.5);}
+.bj-chat__fab:active{transform:scale(.9);transition-duration:.12s;}
+.bj-chat__fab svg{width:26px;height:26px;}
+.bj-chat__fab .bj-chat__ic-close{display:none;}
+.bj-chat.is-open .bj-chat__fab .bj-chat__ic-chat{display:none;}
+.bj-chat.is-open .bj-chat__fab .bj-chat__ic-close{display:block;}
+.bj-chat__badge{position:absolute;top:-3px;right:-3px;width:18px;height:18px;border-radius:50%;background:#06C755;color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;border:2px solid #F4F8FD;}
+.bj-chat.is-open .bj-chat__badge{display:none;}
+.bj-chat__panel{position:absolute;right:0;bottom:74px;width:344px;max-width:calc(100vw - 32px);height:560px;max-height:calc(100vh - 120px);background:#FFFFFF;border:1px solid rgba(22,52,94,.10);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;opacity:0;transform:translateY(24px) scale(.92);transform-origin:bottom right;pointer-events:none;transition:opacity .32s cubic-bezier(.22,1,.36,1),transform .5s cubic-bezier(.3,1.35,.4,1);box-shadow:0 24px 64px rgba(22,52,94,.20);}
+.bj-chat.is-open .bj-chat__panel{opacity:1;transform:none;pointer-events:auto;}
+.bj-chat__head{display:flex;align-items:center;justify-content:space-between;padding:16px;background:#fff;border-bottom:1px solid rgba(22,52,94,.08);}
+.bj-chat__brand{display:flex;align-items:center;gap:12px;}
+.bj-chat__avatar{width:40px;height:40px;border-radius:50%;background:#2F6FE4;color:#fff;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;box-shadow:0 4px 12px rgba(47,111,228,.30);}
+.bj-chat__brand strong{display:block;color:#15273F;font-size:14px;letter-spacing:.04em;}
+.bj-chat__status{font-size:11px;color:#7C8CA6;display:flex;align-items:center;gap:6px;margin-top:3px;}
+.bj-chat__status::before{content:'';width:6px;height:6px;border-radius:50%;background:#1FBF6B;display:inline-block;}
+.bj-chat__close{background:none;border:none;color:#9DB0CC;cursor:pointer;padding:6px;display:flex;}
+.bj-chat__close:hover{color:#15273F;}
+.bj-chat__close svg{width:18px;height:18px;}
+.bj-chat__body{flex:1;overflow-y:auto;padding:18px 16px;display:flex;flex-direction:column;gap:10px;overscroll-behavior:contain;scroll-behavior:smooth;}
+.bj-chat__body,.bj-chat__quick{scrollbar-width:thin;scrollbar-color:rgba(47,111,228,.3) transparent;}
+.bj-chat__body::-webkit-scrollbar,.bj-chat__quick::-webkit-scrollbar{width:6px;}
+.bj-chat__body::-webkit-scrollbar-track,.bj-chat__quick::-webkit-scrollbar-track{background:transparent;}
+.bj-chat__body::-webkit-scrollbar-thumb,.bj-chat__quick::-webkit-scrollbar-thumb{background:rgba(47,111,228,.28);border-radius:99px;border:1px solid transparent;background-clip:padding-box;}
+.bj-chat__body::-webkit-scrollbar-thumb:hover,.bj-chat__quick::-webkit-scrollbar-thumb:hover{background:rgba(47,111,228,.5);background-clip:padding-box;}
+.bj-chat__msg{max-width:84%;padding:11px 14px;border-radius:16px;font-size:13px;line-height:1.75;white-space:pre-line;animation:bj-chat-in .3s ease both;}
+.bj-chat__msg--bot{align-self:flex-start;background:#EEF3FB;color:#1E2F47;border-bottom-left-radius:5px;}
+.bj-chat__msg--user{align-self:flex-end;background:#2F6FE4;color:#fff;border-bottom-right-radius:5px;}
+.bj-chat__caret{display:inline-block;width:7px;height:1.05em;background:#2F6FE4;margin-left:2px;vertical-align:-2px;border-radius:1px;animation:bj-caret 1s steps(1) infinite;}
+@keyframes bj-caret{50%{opacity:0;}}
+.bj-chat__typing{align-self:flex-start;display:flex;gap:4px;padding:12px 14px;background:#EEF3FB;border-radius:16px;border-bottom-left-radius:5px;}
+.bj-chat__typing span{width:6px;height:6px;border-radius:50%;background:#9DB0CC;animation:bj-chat-bounce 1s infinite;}
+.bj-chat__typing span:nth-child(2){animation-delay:.15s;}
+.bj-chat__typing span:nth-child(3){animation-delay:.3s;}
+@keyframes bj-chat-bounce{0%,60%,100%{transform:translateY(0);opacity:.4;}30%{transform:translateY(-5px);opacity:1;}}
+@keyframes bj-chat-in{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+.bj-chat__quick{padding:12px 14px;display:flex;flex-wrap:wrap;gap:8px;border-top:1px solid rgba(22,52,94,.09);max-height:166px;overflow-y:auto;}
+.bj-chat__chip{background:#fff;border:1px solid rgba(47,111,228,.35);color:#2F6FE4;font-size:12px;padding:7px 12px;border-radius:999px;cursor:pointer;transition:background .25s,border-color .25s,transform .18s cubic-bezier(.22,1,.36,1);font-family:inherit;line-height:1.3;}
+.bj-chat__chip:hover{background:#EAF1FC;border-color:#2F6FE4;transform:translateY(-1px);}
+.bj-chat__chip:active{transform:scale(.94);}
+/* 自由輸入列(小淨真的能回答) */
+.bj-chat__inputrow{display:flex;gap:8px;padding:10px 12px;border-top:1px solid rgba(22,52,94,.09);background:#fff;}
+.bj-chat__input{flex:1;min-width:0;border:1px solid rgba(22,52,94,.14);border-radius:999px;padding:9px 16px;font-size:13px;font-family:inherit;color:#15273F;background:#F6F9FE;outline:none;transition:border-color .25s,background .25s,box-shadow .25s;}
+.bj-chat__input::placeholder{color:#9DB0CC;}
+.bj-chat__input:focus{border-color:#2F6FE4;background:#fff;box-shadow:0 0 0 3px rgba(47,111,228,.12);}
+.bj-chat__send{width:38px;height:38px;flex-shrink:0;border-radius:50%;border:none;background:#2F6FE4;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .25s,transform .18s cubic-bezier(.22,1,.36,1);}
+.bj-chat__send:hover{background:#2560C8;}
+.bj-chat__send:active{transform:scale(.88);}
+.bj-chat__send svg{width:17px;height:17px;}
+.bj-chat__foot{padding:12px 14px;border-top:1px solid rgba(22,52,94,.09);}
+.bj-chat__line{display:flex;align-items:center;justify-content:center;gap:8px;background:#06C755;color:#fff;text-decoration:none;font-size:13px;font-weight:700;padding:12px;border-radius:10px;letter-spacing:.05em;transition:background .25s;}
+.bj-chat__line:hover{background:#05b14c;}
+@media (max-width:560px){.bj-chat{right:16px;bottom:16px;}.bj-chat__fab{width:54px;height:54px;}.bj-chat__panel{width:calc(100vw - 32px);height:70vh;}}
+/* 主動式智慧客服 氣泡 */
+.bj-chat__pop{position:fixed;right:24px;bottom:98px;z-index:1499;width:272px;max-width:calc(100vw - 40px);background:#FFFFFF;border:1px solid rgba(22,52,94,.10);border-radius:16px;border-bottom-right-radius:5px;padding:14px;display:flex;gap:10px;box-shadow:0 16px 40px rgba(22,52,94,.18);transform:translateY(18px) scale(.92);opacity:0;pointer-events:none;transition:opacity .35s cubic-bezier(.22,1,.36,1),transform .55s cubic-bezier(.3,1.35,.4,1);font-family:'Noto Sans TC',sans-serif;}
+.bj-chat__pop.is-show{opacity:1;transform:none;pointer-events:auto;cursor:pointer;}
+.bj-chat__pop-av{width:34px;height:34px;border-radius:50%;background:#2F6FE4;color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+.bj-chat__pop-body{flex:1;min-width:0;}
+.bj-chat__pop-name{font-size:11px;color:#7C8CA6;margin-bottom:4px;display:flex;align-items:center;gap:5px;}
+.bj-chat__pop-name::before{content:'';width:6px;height:6px;border-radius:50%;background:#06C755;display:inline-block;}
+.bj-chat__pop-text{font-size:13px;line-height:1.6;color:#2A3A52;}
+.bj-chat__pop-close{position:absolute;top:8px;right:11px;background:none;border:none;color:#9DB0CC;font-size:13px;cursor:pointer;padding:2px;line-height:1;}
+.bj-chat__pop-close:hover{color:#2A3A52;}
+.bj-chat__pop-typing{display:inline-flex;gap:4px;padding:4px 0;}
+.bj-chat__pop-typing span{width:6px;height:6px;border-radius:50%;background:#9DB0CC;animation:bj-chat-bounce 1s infinite;}
+.bj-chat__pop-typing span:nth-child(2){animation-delay:.15s;}
+.bj-chat__pop-typing span:nth-child(3){animation-delay:.3s;}
+@media (max-width:560px){.bj-chat__pop{bottom:84px;right:16px;}}
+/* 需求清單(跨頁記憶)+ 氣泡行動鈕 */
+.bj-chat__cart{font-size:12px;line-height:1.65;color:#42597A;background:#EEF4FD;border:1px solid rgba(47,111,228,.18);border-radius:10px;padding:9px 12px;margin-bottom:10px;}
+.bj-chat__pop-cta{display:inline-block;margin-top:10px;background:#06C755;color:#fff;text-decoration:none;font-size:12px;font-weight:700;letter-spacing:.03em;padding:8px 14px;border-radius:8px;}
+.bj-chat__pop-cta:hover{background:#05b14c;}
+</style>
+<script>
+(function () {
+  var LINE_URL = 'https://lin.ee/XXXXXXX';   // ← 換成官方 LINE 連結(加好友用)
+  var LINE_OA  = '@白境官方ID';              // ← 換成 LINE 官方帳號「基本 ID」(含 @),用於把需求預填進對話
+
+  /* 常見問題 + 智慧問答:唯一資料源 = GitHub kb.json(見下方 KB_URL) */
+  var FAQ = [];
+
+  var IC_CHAT = '<svg class="bj-chat__ic-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>';
+  var IC_CLOSE = '<svg class="bj-chat__ic-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>';
+
+  function build() {
+    if (document.getElementById('bj-chat')) return;
+
+    /* ── AI 記得你 + 跨頁需求清單(localStorage) ── */
+    var RV = { visits: 0, topic: '', items: [] };
+    try { var _r = localStorage.getItem('bj_visitor'); if (_r) RV = JSON.parse(_r); } catch (e) {}
+    if (!RV.items) RV.items = [];
+    var prevTopic = RV.topic || '';
+    var returning = (RV.visits || 0) >= 1;      // 之前來過(本次尚未計入)
+    RV.visits = (RV.visits || 0) + 1;
+    saveRV();
+    function saveRV() { try { localStorage.setItem('bj_visitor', JSON.stringify(RV)); } catch (e) {} }
+    function addItem(name) {
+      if (!name) return;
+      RV.topic = name;
+      if (RV.items.indexOf(name) === -1) { RV.items.push(name); if (RV.items.length > 6) RV.items.shift(); }
+      saveRV(); refreshLine();
+    }
+    function lineWithItems() {
+      var items = RV.items || [];
+      var text = items.length
+        ? '您好,我想詢問清潔服務:' + items.join('、') + '。想了解報價與可預約時間,謝謝!'
+        : '您好,我想詢問清潔服務報價,謝謝!';
+      return 'https://line.me/R/oaMessage/' + LINE_OA + '/?' + encodeURIComponent(text);
+    }
+    function refreshLine() {
+      var cart = document.querySelector('#bj-chat .bj-chat__cart');
+      var btn = document.querySelector('#bj-chat .bj-chat__line');
+      if (!btn) return;
+      var items = RV.items || [];
+      if (items.length) {
+        if (cart) { cart.hidden = false; cart.textContent = '📋 已為您整理:' + items.join('、'); }
+        btn.textContent = '帶我的需求去 LINE 報價';
+        btn.href = lineWithItems();
+      } else {
+        if (cart) cart.hidden = true;
+        btn.textContent = '改用 LINE 真人客服';
+        btn.href = LINE_URL;
+      }
+    }
+
+    var root = document.createElement('div');
+    root.className = 'bj-chat';
+    root.id = 'bj-chat';
+    root.innerHTML =
+      '<div class="bj-chat__panel" role="dialog" aria-label="常見問題">' +
+        '<div class="bj-chat__head">' +
+          '<div class="bj-chat__brand">' +
+            '<span class="bj-chat__avatar">✦</span>' +
+            '<div><strong>小淨 · 白境小幫手</strong><span class="bj-chat__status">線上中,隨時為您服務 😊</span></div>' +
+          '</div>' +
+          '<button class="bj-chat__close" type="button" aria-label="關閉">' + IC_CLOSE + '</button>' +
+        '</div>' +
+        '<div class="bj-chat__body"></div>' +
+        '<div class="bj-chat__quick"></div>' +
+        '<form class="bj-chat__inputrow"><input class="bj-chat__input" type="text" placeholder="輸入您的問題,小淨馬上回答…" maxlength="120" autocomplete="off" aria-label="輸入問題"><button class="bj-chat__send" type="submit" aria-label="送出"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg></button></form>' +
+        '<div class="bj-chat__foot"><div class="bj-chat__cart" hidden></div><a class="bj-chat__line" href="' + LINE_URL + '" target="_blank" rel="noopener">改用 LINE 真人客服</a></div>' +
+      '</div>' +
+      '<button class="bj-chat__fab" type="button" aria-label="常見問題">' + IC_CHAT + IC_CLOSE + '<span class="bj-chat__badge">?</span></button>';
+    document.body.appendChild(root);
+
+    var fab = root.querySelector('.bj-chat__fab');
+    var closeBtn = root.querySelector('.bj-chat__close');
+    var body = root.querySelector('.bj-chat__body');
+    var quick = root.querySelector('.bj-chat__quick');
+    var started = false;
+
+    function addChip(item) {
+      var chip = document.createElement('button');
+      chip.className = 'bj-chat__chip';
+      chip.type = 'button';
+      chip.textContent = item.q;
+      chip.addEventListener('click', function () { ask(item); });
+      quick.appendChild(chip);
+    }
+    FAQ.forEach(addChip);
+
+    function addMsg(text, who) {
+      var m = document.createElement('div');
+      m.className = 'bj-chat__msg bj-chat__msg--' + who;
+      m.textContent = text;
+      body.appendChild(m);
+      body.scrollTop = body.scrollHeight;
+      return m;
+    }
+    /* 逐字「生成」出 bot 訊息 + 閃爍游標(假 ChatGPT) */
+    function typeMsg(text) {
+      var m = document.createElement('div');
+      m.className = 'bj-chat__msg bj-chat__msg--bot';
+      var span = document.createElement('span');
+      var caret = document.createElement('span');
+      caret.className = 'bj-chat__caret';
+      m.appendChild(span); m.appendChild(caret);
+      body.appendChild(m);
+      body.scrollTop = body.scrollHeight;
+      var i = 0;
+      (function step() {
+        if (i < text.length) {
+          i++;
+          span.textContent = text.slice(0, i);
+          body.scrollTop = body.scrollHeight;
+          setTimeout(step, 20 + Math.random() * 34);
+        } else if (caret.parentNode) {
+          caret.parentNode.removeChild(caret);
+        }
+      })();
+    }
+    /* 顯示「思考中」再逐字回答(共用) */
+    function respond(answer) {
+      var typing = document.createElement('div');
+      typing.className = 'bj-chat__typing';
+      typing.innerHTML = '<span></span><span></span><span></span>';
+      body.appendChild(typing);
+      body.scrollTop = body.scrollHeight;
+      setTimeout(function () {
+        typing.remove();
+        typeMsg(answer);
+      }, 650 + Math.random() * 450);
+    }
+    function ask(item) {
+      addMsg(item.q, 'user');
+      respond(item.a);
+    }
+
+    /* ── 小淨智慧問答:自由輸入 → 關鍵字比對知識庫(內容由 kb.json 載入) ── */
+    var KB = [];
+    function smartReply(q) {
+      var s = q.toLowerCase();
+      var best = null, bs = 0;
+      KB.forEach(function (e) {
+        var sc = 0;
+        e.k.forEach(function (kw) { if (s.indexOf(kw.toLowerCase()) !== -1) sc += kw.length; });
+        if (sc > bs) { bs = sc; best = e; }
+      });
+      return best;
+    }
+    var form = root.querySelector('.bj-chat__inputrow');
+    var input = root.querySelector('.bj-chat__input');
+    form.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      var q = (input.value || '').trim();
+      if (!q) return;
+      input.value = '';
+      addMsg(q, 'user');
+      var hit = smartReply(q);
+      if (hit) {
+        if (hit.t) addItem(hit.t);
+        respond(hit.a);
+      } else {
+        respond('這題有點專業,我先幫您記下來了 📝\n點下方 LINE 把問題直接傳給團隊,真人回覆最快;或換個方式問我也可以喔!');
+      }
+    });
+
+    /* ── 知識庫唯一來源:GitHub kb.json ──
+       改問答:https://github.com/Raffertyxu/baijing-kb 編輯 kb.json,約 5 分鐘生效 */
+    var KB_URL = 'https://raw.githubusercontent.com/Raffertyxu/baijing-kb/main/kb.json';
+    if (window.fetch) {
+      fetch(KB_URL, { cache: 'no-cache' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (data) {
+          if (!data) return;
+          if (data.kb && data.kb.length) KB = data.kb;
+          if (data.faq && data.faq.length) {
+            FAQ = data.faq;
+            quick.innerHTML = '';
+            FAQ.forEach(addChip);
+          }
+        })
+        .catch(function () {});
+    }
+    function open() {
+      root.classList.add('is-open');
+      refreshLine();
+      if (window.innerWidth > 640) setTimeout(function () { input.focus(); }, 420);
+      if (!started) {
+        started = true;
+        setTimeout(function () {
+          typeMsg(returning
+            ? (prevTopic ? '歡迎回來!😊 我是小淨~上次您看的是「' + prevTopic + '」,需要我接著為您介紹,或直接安排報價嗎?'
+                         : '歡迎回來!很高興又見到您 😊 需要我幫您接續上次的諮詢嗎?')
+            : '嗨~我是小淨,白境的清潔小幫手 👋\n想了解什麼都可以問我,點下方常見問題也行喔 😊');
+        }, 250);
+      }
+    }
+    function toggle() { root.classList.contains('is-open') ? root.classList.remove('is-open') : open(); }
+
+    fab.addEventListener('click', toggle);
+    closeBtn.addEventListener('click', function () { root.classList.remove('is-open'); });
+
+    /* ── 主動式智慧客服「小淨」:像真人在旁邊陪您看 ── */
+    var SECTION_POPS = [
+      { sel: '.bj-pain', msgs: [
+        '裝潢後的粉塵殘膠真的超難搞對吧 😣 別擔心,這正是我們最拿手的~要我幫您估個價嗎?',
+        '這些藏在細節裡的髒,自己清真的會崩潰 🥲 交給我們就好啦~' ] },
+      { sel: '.bj-svc-item', msgs: [
+        '在看服務呀~ 想清哪個空間呢?跟我說說,我幫您配最適合的方案 ✨',
+        '這幾項都是我們的強項喔!對哪一個有興趣嗎? 😊' ] },
+      { sel: '.bj-ba', msgs: [
+        '看到這前後差別了嗎?每次完工我都覺得好療癒 🥹 想讓您家也亮成這樣嗎?',
+        '左邊滑到右邊~ 是不是差超多 😍 您家也可以變這樣的!' ] },
+      { sel: '.bj-gallery', msgs: [
+        '這些都是我們實際做過的案場喔 📸 要不要看看您家類型的案例?',
+        '喜歡哪一種呢?我可以多傳幾張給您參考~ 😊' ] },
+      { sel: '.bj-why', msgs: [
+        '說真的,我們對乾淨有點龜毛 😆 但您一定會愛上這種龜毛的~',
+        '不達標準我們是不交件的喔!這點超堅持 💪' ] },
+      { sel: '.bj-flow', msgs: [
+        '流程超簡單的啦,不用擔心 😌 這週還有空檔,要先幫您留嗎?',
+        '從詢問到完工我們全程陪著您,放心交給我們 🤝' ] },
+      { sel: '.bj-cta', msgs: [
+        '聊到這裡~ 要不要直接加個 LINE?有任何問題我都在 💚',
+        '準備好的話,點一下就能跟我們聊囉,我等您 😊' ] },
+      { sel: '.bj-svc-card', msgs: [
+        '想知道這項的細節跟報價嗎?問我最快~ 😊' ] },
+      { sel: '.bj-contact-grid', msgs: [
+        '想直接預約嗎?加 LINE 最快,我馬上回您!📲' ] }
+    ];
+    var SMALL_TALK = [
+      '慢慢看不用急~ 有問題隨時喊我喔 😊',
+      '還在考慮嗎?先問問完全免費的啦~ 🤗',
+      '需要我幫您整理一份報價嗎?省得您煩惱 😆',
+      '想看更多案例的話,我這邊超多的 📸',
+      '對了~ 我們台南全區都有服務哦!',
+      '有什麼想清的角落,都可以先跟我說說 👀',
+      '我都在線上陪您看~ 別客氣喔 💚'
+    ];
+    var BOTTOM_TALK = '都看完囉~ 覺得還喜歡嗎?😊 要不要直接問問看?';
+
+    var pop = document.createElement('div');
+    pop.className = 'bj-chat__pop';
+    pop.innerHTML =
+      '<button class="bj-chat__pop-close" type="button" aria-label="關閉">✕</button>' +
+      '<div class="bj-chat__pop-av">✦</div>' +
+      '<div class="bj-chat__pop-body"><div class="bj-chat__pop-name">小淨 · 線上陪您看</div><div class="bj-chat__pop-text"></div></div>';
+    document.body.appendChild(pop);
+    var popText = pop.querySelector('.bj-chat__pop-text');
+
+    var triggered = {}, queue = [], busy = false, dismissed = false, hideTimer = null, lastMsg = '';
+
+    function pickVary(arr) {
+      if (arr.length === 1) return arr[0];
+      var m, t = 0;
+      do { m = arr[Math.floor(Math.random() * arr.length)]; t++; } while (m === lastMsg && t < 6);
+      lastMsg = m; return m;
+    }
+    function hidePop() {
+      pop.classList.remove('is-show');
+      clearTimeout(hideTimer);
+      setTimeout(function () { busy = false; pump(); }, 320);
+    }
+    function showPop(item) {
+      if (root.classList.contains('is-open')) { busy = false; return; }
+      var msg = (typeof item === 'string') ? item : item.text;
+      var cta = (item && typeof item === 'object') ? item.cta : null;
+      busy = true;
+      pop.classList.add('is-show');
+      popText.innerHTML = '<span class="bj-chat__pop-typing"><span></span><span></span><span></span></span>';
+      clearTimeout(hideTimer);
+      setTimeout(function () {
+        if (!pop.classList.contains('is-show')) { busy = false; return; }
+        popText.textContent = msg;
+        if (cta) {
+          var a = document.createElement('a');
+          a.className = 'bj-chat__pop-cta';
+          a.href = cta.href; a.target = '_blank'; a.rel = 'noopener';
+          a.textContent = cta.label;
+          a.addEventListener('click', function (ev) { ev.stopPropagation(); });
+          popText.appendChild(a);
+        }
+        hideTimer = setTimeout(hidePop, cta ? 9000 : 5200);
+      }, 700);
+    }
+    function pump() {
+      if (dismissed || busy || !queue.length) return;
+      if (root.classList.contains('is-open')) return;
+      showPop(queue.shift());
+    }
+    function enqueue(msg) { if (msg && !dismissed && queue.length < 3) { queue.push(msg); pump(); } }
+    /* 小淨把跨頁累積的需求整理好,主動提議帶去 LINE */
+    function offerLine() {
+      var items = (RV.items || []).slice(0, 4);
+      enqueue({
+        text: '我看您對「' + items.join('、') + '」很有興趣 😊 已幫您整理好需求,點下面直接帶去 LINE 報價!',
+        cta: { label: '帶我的需求去 LINE →', href: lineWithItems() }
+      });
+    }
+
+    pop.querySelector('.bj-chat__pop-close').addEventListener('click', function (e) {
+      e.stopPropagation(); dismissed = true; queue = []; hidePop();
+    });
+    pop.addEventListener('click', function () { pop.classList.remove('is-show'); open(); });
+    fab.addEventListener('click', function () { pop.classList.remove('is-show'); });
+
+    /* 區塊觸發:看到哪段就聊那段 */
+    if (window.IntersectionObserver) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting && e.intersectionRatio >= 0.35) {
+            var key = e.target.getAttribute('data-bjpopkey');
+            var el = e.target;
+            if (key && !triggered[key]) {
+              triggered[key] = true;
+              io.unobserve(el);
+              setTimeout(function () { enqueue(pickVary(JSON.parse(el.getAttribute('data-bjpop')))); }, 300);
+            }
+          }
+        });
+      }, { threshold: [0, 0.35, 0.6] });
+      SECTION_POPS.forEach(function (p, i) {
+        var el = document.querySelector(p.sel);
+        if (el) { el.setAttribute('data-bjpopkey', 's' + i); el.setAttribute('data-bjpop', JSON.stringify(p.msgs)); io.observe(el); }
+      });
+    }
+
+    /* 閒置陪聊:停下來沒動,主動關心一下(像有人在旁邊) */
+    var idleTimer = null;
+    function resetIdle() {
+      clearTimeout(idleTimer);
+      idleTimer = setTimeout(function () {
+        if (!dismissed && !busy && !root.classList.contains('is-open')) enqueue(pickVary(SMALL_TALK));
+      }, 8000);
+    }
+    window.addEventListener('scroll', resetIdle, { passive: true });
+    window.addEventListener('mousemove', resetIdle, { passive: true });
+    resetIdle();
+
+    /* 開場招呼(回訪者會被「認出」) */
+    var opener = returning
+      ? (prevTopic ? '歡迎回來!😊 上次您看了「' + prevTopic + '」,要繼續了解,還是直接幫您安排報價?'
+                   : '歡迎回來~又見面了 😊 需要我幫您接續上次的諮詢嗎?')
+      : '嗨~我是小淨 👋 我會在旁邊陪您看,有任何想問的都可以喊我喔!';
+    setTimeout(function () {
+      if (!dismissed && !busy && !root.classList.contains('is-open') && !Object.keys(triggered).length)
+        enqueue(opener);
+    }, returning ? 1800 : 3500);
+
+    /* 看到底:收尾關心一下 */
+    var bottomDone = false;
+    window.addEventListener('scroll', function () {
+      if (bottomDone || dismissed) return;
+      if (window.innerHeight + window.pageYOffset >= document.documentElement.scrollHeight - 140) {
+        bottomDone = true;
+        if ((RV.items || []).length) offerLine(); else enqueue(BOTTOM_TALK);
+      }
+    }, { passive: true });
+
+    /* 記住瀏覽過的服務(供下次回訪認出) */
+    Array.prototype.forEach.call(document.querySelectorAll('.bj-svc-item, .bj-svc-card'), function (el) {
+      el.addEventListener('mouseenter', function () {
+        var n = el.querySelector('.bj-svc-name, .bj-svc-card__title');
+        if (n) addItem(n.textContent.replace(/\s+/g, ''));
+      });
+    });
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build);
+  else build();
+})();
+</script>

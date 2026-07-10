@@ -1,0 +1,142 @@
+<!-- ============================================================
+     BJ AI 智慧諮詢「跳窗精靈」— 白境空間清潔
+     左下角啟動鈕 → 彈出視窗(Z軸跳窗)→ 左右滑動步驟 → AI 分析 → 配對需求 → 導 LINE 報價
+     貼進 1shop 全域 head.html。上線前把 LINE_URL 換成官方連結。
+     ============================================================ -->
+<style>
+.bj-aw__fab{position:fixed;left:24px;bottom:24px;z-index:1500;display:inline-flex;align-items:center;gap:8px;padding:13px 20px;border:none;border-radius:999px;background:#E6DDD0;color:#111;font-family:'Noto Sans TC',sans-serif;font-size:14px;font-weight:700;letter-spacing:.04em;cursor:pointer;box-shadow:0 8px 28px rgba(0,0,0,.45);transition:transform .3s,background .3s;}
+.bj-aw__fab:hover{transform:translateY(-3px);background:#fff;}
+.bj-aw__fab .bj-aw__spark{font-size:15px;}
+.bj-aw__overlay{position:fixed;inset:0;z-index:2200;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(5,5,5,.72);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);opacity:0;pointer-events:none;transition:opacity .35s;}
+.bj-aw__overlay.is-open{opacity:1;pointer-events:auto;}
+.bj-aw__win{width:420px;max-width:100%;max-height:88vh;display:flex;flex-direction:column;background:#0E0E0E;border:1px solid rgba(255,255,255,.12);border-radius:18px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.6);transform:translateY(22px) scale(.94);opacity:0;transition:transform .42s cubic-bezier(.16,1,.3,1),opacity .42s;font-family:'Noto Sans TC',sans-serif;}
+.bj-aw__overlay.is-open .bj-aw__win{transform:none;opacity:1;}
+.bj-aw__head{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid rgba(255,255,255,.08);background:linear-gradient(135deg,#191919,#111);}
+.bj-aw__title{display:flex;align-items:center;gap:9px;color:#F2F2F2;font-size:15px;font-weight:600;letter-spacing:.04em;}
+.bj-aw__title .bj-aw__spark{color:#E6DDD0;}
+.bj-aw__close{background:none;border:none;color:#888;font-size:18px;cursor:pointer;padding:4px;line-height:1;}
+.bj-aw__close:hover{color:#fff;}
+.bj-aw__dots{display:flex;gap:6px;justify-content:center;padding:14px 0 2px;}
+.bj-aw__dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.18);transition:background .3s,width .3s;}
+.bj-aw__dot.is-on{background:#E6DDD0;width:18px;border-radius:99px;}
+.bj-aw__body{overflow:hidden;flex:1;}
+.bj-aw__track{display:flex;height:100%;transition:transform .45s cubic-bezier(.16,1,.3,1);}
+.bj-aw__step{flex:0 0 100%;box-sizing:border-box;padding:22px 24px 26px;display:flex;flex-direction:column;gap:6px;}
+.bj-aw__q{font-family:'Noto Serif TC',serif;font-size:18px;font-weight:600;letter-spacing:.04em;color:#F2F2F2;margin-bottom:14px;}
+.bj-aw__opts{display:flex;flex-wrap:wrap;gap:10px;}
+.bj-aw__opt{padding:11px 16px;border:1px solid rgba(230,221,208,.3);border-radius:12px;background:none;color:#ddd;font-size:14px;cursor:pointer;font-family:inherit;transition:background .2s,border-color .2s,color .2s;}
+.bj-aw__opt:hover{background:rgba(230,221,208,.12);border-color:rgba(230,221,208,.6);color:#fff;}
+.bj-aw__back{align-self:flex-start;margin-top:10px;background:none;border:none;color:#888;font-size:13px;cursor:pointer;padding:4px 0;font-family:inherit;}
+.bj-aw__back:hover{color:#ccc;}
+.bj-aw__analyze{align-items:center;justify-content:center;text-align:center;gap:18px;min-height:240px;}
+.bj-aw__ring{width:54px;height:54px;border-radius:50%;border:2px solid rgba(255,255,255,.12);border-top-color:#E6DDD0;animation:bj-aw-spin .9s linear infinite;}
+@keyframes bj-aw-spin{to{transform:rotate(360deg);}}
+.bj-aw__analyze p{color:#bbb;font-size:14px;letter-spacing:.05em;}
+.bj-aw__result{align-items:center;text-align:center;gap:8px;}
+.bj-aw__match{font-size:12px;letter-spacing:.1em;color:#06C755;}
+.bj-aw__combo{font-size:13px;color:#9a9a9a;letter-spacing:.04em;}
+.bj-aw__price{font-family:'Jost','Noto Sans TC',sans-serif;font-size:30px;color:#fff;font-weight:500;margin:6px 0;}
+.bj-aw__rec{font-family:'Noto Serif TC','Noto Sans TC',serif;font-size:22px;color:#fff;margin:8px 0;}
+.bj-aw__rec b{color:#E6DDD0;font-weight:600;}
+.bj-aw__plan{font-size:14px;color:#cfcfcf;line-height:1.75;}
+.bj-aw__note{font-size:11px;color:#777;margin-top:4px;}
+.bj-aw__cta{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:16px;padding:13px;border-radius:10px;background:#06C755;color:#fff;text-decoration:none;font-weight:700;font-size:14px;letter-spacing:.04em;box-sizing:border-box;}
+.bj-aw__cta:hover{background:#05b14c;}
+.bj-aw__again{background:none;border:none;color:#888;font-size:13px;cursor:pointer;margin-top:8px;font-family:inherit;}
+.bj-aw__again:hover{color:#ccc;}
+@media(max-width:560px){.bj-aw__fab{left:16px;bottom:16px;padding:11px 16px;font-size:13px;}.bj-aw__win{max-height:86vh;}}
+@media(prefers-reduced-motion:reduce){.bj-aw__ring{animation-duration:2s;}.bj-aw__track{transition:none;}}
+</style>
+<script>
+(function () {
+  var LINE_URL = 'https://lin.ee/XXXXXXX';   // ← 換成官方 LINE 連結
+
+  var SPACE = [{ k: '住家', m: 1 }, { k: '辦公室', m: 1.1 }, { k: '廠房', m: 1.25 }, { k: '社區公設', m: 1.2 }];
+  var AREA  = [{ k: '10坪以下', mid: 8 }, { k: '10–20坪', mid: 15 }, { k: '20–35坪', mid: 27 }, { k: '35坪以上', mid: 45 }];
+  var ITEM  = [{ k: '裝潢後細清', r: 380 }, { k: '一般居家清潔', r: 180 }, { k: '玻璃無水痕', r: 160 }, { k: '石材美容', r: 520 }, { k: '外牆清洗', r: 260 }];
+  var STEPS = 5;
+
+  function build() {
+    if (document.getElementById('bj-aw')) return;
+
+    var fab = document.createElement('button');
+    fab.type = 'button';
+    fab.className = 'bj-aw__fab';
+    fab.innerHTML = '<span class="bj-aw__spark">✨</span> AI 智慧諮詢';
+    document.body.appendChild(fab);
+
+    var ov = document.createElement('div');
+    ov.id = 'bj-aw';
+    ov.className = 'bj-aw__overlay';
+    ov.innerHTML =
+      '<div class="bj-aw__win" role="dialog" aria-label="AI 智慧諮詢">' +
+        '<div class="bj-aw__head"><span class="bj-aw__title"><span class="bj-aw__spark">✨</span>AI 智慧諮詢</span>' +
+          '<button class="bj-aw__close" type="button" aria-label="關閉">✕</button></div>' +
+        '<div class="bj-aw__dots"></div>' +
+        '<div class="bj-aw__body"><div class="bj-aw__track">' +
+          '<div class="bj-aw__step"><div class="bj-aw__q">您想清潔的是?</div><div class="bj-aw__opts" data-opt="0"></div></div>' +
+          '<div class="bj-aw__step"><div class="bj-aw__q">空間大約多大?</div><div class="bj-aw__opts" data-opt="1"></div><button class="bj-aw__back" type="button" data-back>← 上一步</button></div>' +
+          '<div class="bj-aw__step"><div class="bj-aw__q">需要哪一種清潔?</div><div class="bj-aw__opts" data-opt="2"></div><button class="bj-aw__back" type="button" data-back>← 上一步</button></div>' +
+          '<div class="bj-aw__step bj-aw__analyze"><div class="bj-aw__ring"></div><p>AI 正在分析最適方案…</p></div>' +
+          '<div class="bj-aw__step bj-aw__result"></div>' +
+        '</div></div>' +
+      '</div>';
+    document.body.appendChild(ov);
+
+    var win = ov.querySelector('.bj-aw__win');
+    var track = ov.querySelector('.bj-aw__track');
+    var dotsWrap = ov.querySelector('.bj-aw__dots');
+    var resultEl = ov.querySelector('.bj-aw__result');
+    var choice = [], cur = 0;
+
+    for (var d = 0; d < STEPS; d++) { var dot = document.createElement('span'); dot.className = 'bj-aw__dot'; dotsWrap.appendChild(dot); }
+    var dots = dotsWrap.querySelectorAll('.bj-aw__dot');
+
+    function fill(stepIdx, list) {
+      var wrap = ov.querySelector('.bj-aw__opts[data-opt="' + stepIdx + '"]');
+      list.forEach(function (o, i) {
+        var b = document.createElement('button');
+        b.type = 'button'; b.className = 'bj-aw__opt'; b.textContent = o.k;
+        b.addEventListener('click', function () { choice[stepIdx] = i; go(stepIdx + 1); });
+        wrap.appendChild(b);
+      });
+    }
+    fill(0, SPACE); fill(1, AREA); fill(2, ITEM);
+
+    function go(n) {
+      cur = n;
+      track.style.transform = 'translateX(-' + (n * 100) + '%)';
+      for (var i = 0; i < dots.length; i++) dots[i].classList.toggle('is-on', i === n);
+      if (n === 3) setTimeout(analyze, 1700);
+    }
+    function analyze() {
+      var s = SPACE[choice[0]], a = AREA[choice[1]], it = ITEM[choice[2]];
+      var match = 92 + Math.floor(Math.random() * 7);
+      resultEl.innerHTML =
+        '<div class="bj-aw__match">★ 需求配對完成 ' + match + '%</div>' +
+        '<div class="bj-aw__combo">' + s.k + ' · ' + a.k + ' · ' + it.k + '</div>' +
+        '<div class="bj-aw__rec">AI 為您配對:<b>' + it.k + '</b></div>' +
+        '<p class="bj-aw__plan">已幫您整理好需求 ✅<br>點下方加 LINE,專人立即為您報價與安排時間 😊</p>' +
+        '<a class="bj-aw__cta" href="' + LINE_URL + '" target="_blank" rel="noopener">加 LINE,專人為您報價 →</a>' +
+        '<button class="bj-aw__again" type="button">重新配對</button>';
+      resultEl.querySelector('.bj-aw__again').addEventListener('click', reset);
+      go(4);
+    }
+    function reset() { choice = []; resultEl.innerHTML = ''; go(0); }
+
+    function openWin() { reset(); ov.classList.add('is-open'); if (window.__bjLenis) window.__bjLenis.stop(); }
+    function closeWin() { ov.classList.remove('is-open'); if (window.__bjLenis) window.__bjLenis.start(); }
+
+    fab.addEventListener('click', openWin);
+    ov.querySelector('.bj-aw__close').addEventListener('click', closeWin);
+    ov.addEventListener('click', function (e) { if (e.target === ov) closeWin(); });
+    Array.prototype.forEach.call(ov.querySelectorAll('[data-back]'), function (b) {
+      b.addEventListener('click', function () { if (cur > 0) go(cur - 1); });
+    });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && ov.classList.contains('is-open')) closeWin(); });
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build);
+  else build();
+})();
+</script>
