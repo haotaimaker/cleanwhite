@@ -1,26 +1,35 @@
 # 白境空間清潔 — 1shop 網站
 
-裝潢後細部清潔品牌官網,深色精緻風格,共 4 頁 + 一套設計系統。
-所有頁面共用 `css/bj-base.css` 的設計變數,並由 `shared/nav-footer.html` 自動注入導覽列與頁尾。
+裝潢後細部清潔品牌官網,藍白清爽風格,共 4 頁 + 一套設計系統。
+**全站 CSS 集中在 `css/bj-base.css` 一個檔案**(含各頁區塊樣式);頁面 skeleton 是純 HTML;
+導覽列與頁尾由 `shared/nav-footer.html` 自動注入。
 
 ---
 
 ## 檔案結構
 
-```
+```text
 clean/
 ├─ css/
-│  └─ bj-base.css          設計系統(變數/排版/按鈕/卡片/Grid/內頁標頭) — 全站共用
+│  └─ bj-base.css          全站唯一 CSS:設計系統(變數/排版/按鈕/卡片)+ 四頁的區塊樣式
 ├─ shared/
 │  ├─ nav-footer.html      共用導覽列 + 頁尾(自帶 <style> 與 <script>,全域貼一次)
-│  ├─ motion.html          動態層:GSAP 滾動揭幕 + Lenis 絲滑捲動 + 橫向捲動服務 + Hero 拭淨光暈
-│  └─ chat.html            右下角常見問題罐頭聊天框(點問題顯示預設答案)
-├─ preview.html            本機預覽(由上述檔案自動組合,可直接用瀏覽器開,非正式檔)
-├─ home/skeleton.html      首頁
+│  ├─ motion.html          動態層:GSAP 揭幕/逐字標題 + Lenis 絲滑捲動 + vanilla-tilt 3D 卡片
+│  └─ chat.html            右下角「小淨」AI 客服(問答資料源=GitHub kb.json)
+├─ home/skeleton.html      首頁(純 HTML + 該頁 JS)
 ├─ services/skeleton.html  服務項目
 ├─ about/skeleton.html     關於我們
-└─ contact/skeleton.html   聯絡我們
+├─ contact/skeleton.html   聯絡我們
+├─ build-preview.js        預覽組裝器:把上面來源檔組成 preview.html
+├─ build-preview.bat       ↑ 的雙擊版:點兩下 = 重組 + 自動開瀏覽器
+└─ preview.html            本機預覽「產物」— 不要手改,改來源檔後重組
 ```
+
+## 開發流程
+
+1. 改來源檔(skeleton / shared / bj-base.css)
+2. 點兩下 `build-preview.bat`(或跑 `node build-preview.js`)
+3. 瀏覽器就開出最新的 preview.html
 
 ---
 
@@ -60,18 +69,19 @@ clean/
 
 **① 全域(只做一次,套用到所有頁)**
 1. 後台 →「自訂 CSS / head」欄位 → 貼上 `css/bj-base.css` 全部內容。
+   - **這一份已包含全站+四頁的所有樣式**(頁面 skeleton 是純 HTML,不再自帶 CSS)。
    - 若該欄位只吃純 CSS,直接貼;若是 head HTML,請用 `<style> … </style>` 包起來。
 2. 緊接著 → 貼上 `shared/nav-footer.html` 全部內容(它已自帶 `<style>` 與 `<script>`)。
    - 這段會在每頁自動注入導覽列與頁尾,**不需要**在每頁重複貼。
 3. 再貼上 `shared/motion.html` 全部內容(動態層)。
-   - 它會載入 GSAP / ScrollTrigger / Lenis(CDN),負責滾動揭幕動畫、絲滑捲動與首頁 Hero 拭淨光暈。
+   - 它會載入 GSAP / ScrollTrigger / Lenis / vanilla-tilt(CDN),負責揭幕動畫、逐字標題、絲滑捲動、3D 卡片。
    - 需要對外連網才能載入函式庫;若載入失敗,內容會自動維持靜態可見(不會白頁)。
    - 已內建 `prefers-reduced-motion` 與手機降載處理。
-4. 最後貼上 `shared/chat.html`(右下角常見問題罐頭聊天框)。
+4. 最後貼上 `shared/chat.html`(右下角「小淨」AI 客服)。
    - 自帶 `<style>` 與 `<script>`,會自動出現在右下角;`LINE_URL` 同樣記得換成官方 LINE。
-   - 答案是預設罐頭內容(非真 AI),要改問答直接編輯檔內的 `FAQ` 陣列。
+   - 問答內容從 GitHub `kb.json` 載入(見上方「小淨 AI 知識庫」段落),改問答不用動這個檔。
 
-**② 各頁(對應貼上)**
+**② 各頁(對應貼上,純 HTML)**
 | 1shop 頁面 | 貼上檔案 |
 |-----------|---------|
 | 首頁 | `home/skeleton.html` |
