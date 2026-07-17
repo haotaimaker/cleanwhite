@@ -8,7 +8,7 @@
 
 ## 檔案結構
 
-**部署模式:單頁「假頁面」。** 整站其實只放在 **1shop 的一個頁面**;導覽列點「服務/關於/聯絡」時,由 `shared/router.html` 切換 4 個隱藏區塊 + 布幕轉場,做出「跳到另一頁」的錯覺,不需要真的開 4 個 1shop 頁面。
+**部署模式:單頁「假頁面」+ CDN。** 整站只放在 **1shop 一個頁面**;導覽列點「服務/關於/聯絡」時由 `shared/router.html` 切換 4 個隱藏區塊 + 布幕轉場,做出「跳到另一頁」的錯覺。因 1shop 自訂CSS 有 15000 字上限,CSS/JS 改放**公開 repo `Raffertyxu/baijing-assets`**,由 jsDelivr 載入,1shop 只貼幾行載入器。
 
 ```text
 clean/
@@ -18,27 +18,29 @@ clean/
 │  ├─ nav-footer.html      共用導覽列 + 頁尾 + 全站設定區(LINE/電話)
 │  ├─ motion.html          動態層:GSAP 揭幕/逐字標題 + Lenis + vanilla-tilt + 布幕轉場
 │  ├─ chat.html            右下角「小淨」AI 客服(問答資料源=GitHub kb.json)
-│  └─ router.html          假頁面路由:切換 4 區塊 + 觸發轉場(正式上線用)
-├─ home/skeleton.html      首頁區塊(純 HTML,#bj-home)
-├─ services/skeleton.html  服務項目區塊(#bj-services)
-├─ about/skeleton.html     關於我們區塊(#bj-about)
-├─ contact/skeleton.html   聯絡我們區塊(#bj-contact)
+│  └─ router.html          假頁面路由:切換 4 區塊 + 觸發轉場
+├─ home|services|about|contact/skeleton.html   四個頁面區塊(純 HTML)
 ├─ build-preview.js/.bat   預覽組裝器 → preview.html(本機看效果)
-├─ build-deploy.js/.bat    上線檔產生器 → deploy/(貼上 1shop 用)
+├─ build-cdn.js/.bat       CDN 產生器 → dist/(要 push 的資產)+ deploy/(貼 1shop)
 ├─ preview.html            本機預覽「產物」— 不要手改
-└─ deploy/                 上線「產物」— 不要手改
-   ├─ 1-global-head.html   貼進 1shop 全域 head(貼一次)
-   ├─ 2-one-page.html      貼進「那一頁」的自訂 HTML
-   └─ README.txt           貼上步驟
+├─ dist/                   編譯資產「產物」site.css / site.js(push 到 baijing-assets)
+└─ deploy/                 1shop 貼上檔「產物」— 不要手改
+   ├─ 1-自訂CSS.txt          貼進 1shop「自訂CSS」欄位(兩行 @import)
+   ├─ 2-自訂JavaScript.txt   貼進「自訂JavaScript」欄位(載入器)
+   ├─ 3-頁面HTML.html        貼進「那一頁」的自訂 HTML
+   └─ README.txt            貼上步驟
 ```
+
+外部 repo:`Raffertyxu/baijing-assets`(公開,放 site.css/site.js,本機 clone 在 `C:\Users\user\baijing-assets`)、`Raffertyxu/baijing-kb`(公開,小淨問答)、`Raffertyxu/baijing-site`(私人,本專案源碼)。
 
 ## 開發流程
 
 1. 改來源檔(skeleton / shared / bj-base.css)
 2. **看效果**:點兩下 `build-preview.bat` → 瀏覽器開出 preview.html
-3. **要上線**:點兩下 `build-deploy.bat` → 產生 `deploy/` 兩個貼上檔
+3. **要上線 / 發佈改動**:點兩下 `build-cdn.bat`(重建 dist → 複製到 assets repo → push → purge jsDelivr)
 
-> `preview.html` 與 `deploy/` 用的是**同一份** `shared/router.html`,所以預覽看到的 = 線上,零落差。
+> `preview.html` 與線上用的是**同一份** `shared/*`,預覽看到的 = 線上,零落差。
+> CSS/JS 改動只要 `build-cdn.bat`(不必再動 1shop);只有**頁面內容**改動才需要重貼 `deploy/3-頁面HTML.html`。
 
 ---
 
@@ -71,21 +73,24 @@ var LINE_OA  = '@白境官方ID';               // ← LINE 官方帳號 ID(小�
 
 ---
 
-## 部署到 1shop 步驟(單頁 · 假頁面版)
+## 部署到 1shop 步驟(單頁 · 假頁面 · CDN 版)
 
-先點兩下 `build-deploy.bat` 產生 `deploy/`,然後**只貼兩個地方**:
+1shop 把樣式/程式分三個欄位,且**自訂CSS 上限 15000 字**(我們的 CSS 約 70KB 塞不下),
+所以 CSS/JS 放公開 repo `baijing-assets`、由 jsDelivr 載入,1shop 只貼「載入器」。
+先點兩下 `build-cdn.bat`(產生 `deploy/` 並把資產 push 上去),再貼**三個欄位**:
 
-**① 全域 head(整站貼一次)**
-打開 `deploy/1-global-head.html` → 全選複製 → 貼進 1shop「全域自訂 head / CSS」欄位。
-這份已把 `bj-base.css`(含全部樣式)、字型連結、導覽列/頁尾、動態層、小淨聊天、假頁面路由**全部包在一起**,不用再一個一個貼。
+| 貼到 1shop 哪個欄位 | 貼哪個檔 | 內容 |
+|---|---|---|
+| **自訂CSS** | `deploy/1-自訂CSS.txt` | 兩行 `@import`(字型 + jsDelivr 的 site.css) |
+| **自訂JavaScript** | `deploy/2-自訂JavaScript.txt` | 依序載入函式庫與 site.js 的小載入器 |
+| **那一頁的自訂 HTML** | `deploy/3-頁面HTML.html` | 4 個區塊,靠導覽列假路由切換 |
 
-**② 那一頁的內容(貼一次)**
-打開 `deploy/2-one-page.html` → 全選複製 → 貼進你**那一個** 1shop 頁面的「自訂 HTML」欄位。
-裡面是 4 個區塊(首頁/服務/關於/聯絡),靠導覽列假路由切換 + 布幕轉場;**不需要真的開 4 個 1shop 頁面**。
-
-> - 函式庫(GSAP/Lenis/vanilla-tilt)走 CDN,載入失敗會自動維持靜態可見、不白頁,並已處理 `prefers-reduced-motion` 與手機降載。
+> - CSS/JS 之後要改,**只要重跑 `build-cdn.bat`**(更新 `baijing-assets`),1shop 不用再動。
+> - 只有**頁面內容**(skeleton)改動,才需要重貼 `deploy/3-頁面HTML.html`。
+> - 函式庫(GSAP/Lenis/vanilla-tilt)走 CDN,載入失敗會自動維持靜態可見、不白頁。
 > - 小淨問答從 GitHub `kb.json` 載入(見上方「小淨 AI 知識庫」)。
-> - 上線前記得改 `deploy/1-global-head.html` 裡的 LINE 設定(搜尋「設定區」)。
+> - 上線前改 LINE 設定:`shared/nav-footer.html` 的「設定區」→ 重跑 `build-cdn.bat`。
+> - jsDelivr `@main` 快取數小時;`build-cdn.bat` 會自動請求 purge,通常幾分鐘內更新。
 
 ---
 

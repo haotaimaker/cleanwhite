@@ -40,6 +40,8 @@
     }
   });
 
-  document.addEventListener('DOMContentLoaded', function () { show('/'); });
+  function boot() { show('/'); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();  // JS 若最後才載入(DOM 已就緒)也要立刻啟動
 })();
 </script>

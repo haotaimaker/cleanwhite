@@ -1,0 +1,18 @@
+/* 白境空間清潔 — 依序載入函式庫與 site.js;改樣式/動效不必動這裡,push GitHub 即可 */
+(function () {
+  var urls = [
+    "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js",
+    "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js",
+    "https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js",
+    "https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js",
+    "https://cdn.jsdelivr.net/gh/Raffertyxu/baijing-assets@main/site.js"
+  ];
+  var i = 0;
+  (function next() {
+    if (i >= urls.length) return;
+    var s = document.createElement("script");
+    s.src = urls[i++];
+    s.onload = next; s.onerror = next;  /* 某支失敗也繼續,畫面降級但不整包壞 */
+    document.head.appendChild(s);
+  })();
+})();
