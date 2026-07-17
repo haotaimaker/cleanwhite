@@ -8,28 +8,37 @@
 
 ## 檔案結構
 
+**部署模式:單頁「假頁面」。** 整站其實只放在 **1shop 的一個頁面**;導覽列點「服務/關於/聯絡」時,由 `shared/router.html` 切換 4 個隱藏區塊 + 布幕轉場,做出「跳到另一頁」的錯覺,不需要真的開 4 個 1shop 頁面。
+
 ```text
 clean/
 ├─ css/
-│  └─ bj-base.css          全站唯一 CSS:設計系統(變數/排版/按鈕/卡片)+ 四頁的區塊樣式
+│  └─ bj-base.css          全站唯一 CSS:設計系統 + 四頁的區塊樣式
 ├─ shared/
-│  ├─ nav-footer.html      共用導覽列 + 頁尾(自帶 <style> 與 <script>,全域貼一次)
-│  ├─ motion.html          動態層:GSAP 揭幕/逐字標題 + Lenis 絲滑捲動 + vanilla-tilt 3D 卡片
-│  └─ chat.html            右下角「小淨」AI 客服(問答資料源=GitHub kb.json)
-├─ home/skeleton.html      首頁(純 HTML + 該頁 JS)
-├─ services/skeleton.html  服務項目
-├─ about/skeleton.html     關於我們
-├─ contact/skeleton.html   聯絡我們
-├─ build-preview.js        預覽組裝器:把上面來源檔組成 preview.html
-├─ build-preview.bat       ↑ 的雙擊版:點兩下 = 重組 + 自動開瀏覽器
-└─ preview.html            本機預覽「產物」— 不要手改,改來源檔後重組
+│  ├─ nav-footer.html      共用導覽列 + 頁尾 + 全站設定區(LINE/電話)
+│  ├─ motion.html          動態層:GSAP 揭幕/逐字標題 + Lenis + vanilla-tilt + 布幕轉場
+│  ├─ chat.html            右下角「小淨」AI 客服(問答資料源=GitHub kb.json)
+│  └─ router.html          假頁面路由:切換 4 區塊 + 觸發轉場(正式上線用)
+├─ home/skeleton.html      首頁區塊(純 HTML,#bj-home)
+├─ services/skeleton.html  服務項目區塊(#bj-services)
+├─ about/skeleton.html     關於我們區塊(#bj-about)
+├─ contact/skeleton.html   聯絡我們區塊(#bj-contact)
+├─ build-preview.js/.bat   預覽組裝器 → preview.html(本機看效果)
+├─ build-deploy.js/.bat    上線檔產生器 → deploy/(貼上 1shop 用)
+├─ preview.html            本機預覽「產物」— 不要手改
+└─ deploy/                 上線「產物」— 不要手改
+   ├─ 1-global-head.html   貼進 1shop 全域 head(貼一次)
+   ├─ 2-one-page.html      貼進「那一頁」的自訂 HTML
+   └─ README.txt           貼上步驟
 ```
 
 ## 開發流程
 
 1. 改來源檔(skeleton / shared / bj-base.css)
-2. 點兩下 `build-preview.bat`(或跑 `node build-preview.js`)
-3. 瀏覽器就開出最新的 preview.html
+2. **看效果**:點兩下 `build-preview.bat` → 瀏覽器開出 preview.html
+3. **要上線**:點兩下 `build-deploy.bat` → 產生 `deploy/` 兩個貼上檔
+
+> `preview.html` 與 `deploy/` 用的是**同一份** `shared/router.html`,所以預覽看到的 = 線上,零落差。
 
 ---
 
@@ -62,34 +71,21 @@ var LINE_OA  = '@白境官方ID';               // ← LINE 官方帳號 ID(小�
 
 ---
 
-## 部署到 1shop 步驟
+## 部署到 1shop 步驟(單頁 · 假頁面版)
 
-1shop 通常分「全域自訂 CSS / 程式碼」與「各頁自訂 HTML 區塊」兩部分:
+先點兩下 `build-deploy.bat` 產生 `deploy/`,然後**只貼兩個地方**:
 
-**① 全域(只做一次,套用到所有頁)**
-1. 後台 →「自訂 CSS / head」欄位 → 貼上 `css/bj-base.css` 全部內容。
-   - **這一份已包含全站+四頁的所有樣式**(頁面 skeleton 是純 HTML,不再自帶 CSS)。
-   - 若該欄位只吃純 CSS,直接貼;若是 head HTML,請用 `<style> … </style>` 包起來。
-2. 緊接著 → 貼上 `shared/nav-footer.html` 全部內容(它已自帶 `<style>` 與 `<script>`)。
-   - 這段會在每頁自動注入導覽列與頁尾,**不需要**在每頁重複貼。
-3. 再貼上 `shared/motion.html` 全部內容(動態層)。
-   - 它會載入 GSAP / ScrollTrigger / Lenis / vanilla-tilt(CDN),負責揭幕動畫、逐字標題、絲滑捲動、3D 卡片。
-   - 需要對外連網才能載入函式庫;若載入失敗,內容會自動維持靜態可見(不會白頁)。
-   - 已內建 `prefers-reduced-motion` 與手機降載處理。
-4. 最後貼上 `shared/chat.html`(右下角「小淨」AI 客服)。
-   - 自帶 `<style>` 與 `<script>`,會自動出現在右下角;`LINE_URL` 同樣記得換成官方 LINE。
-   - 問答內容從 GitHub `kb.json` 載入(見上方「小淨 AI 知識庫」段落),改問答不用動這個檔。
+**① 全域 head(整站貼一次)**
+打開 `deploy/1-global-head.html` → 全選複製 → 貼進 1shop「全域自訂 head / CSS」欄位。
+這份已把 `bj-base.css`(含全部樣式)、字型連結、導覽列/頁尾、動態層、小淨聊天、假頁面路由**全部包在一起**,不用再一個一個貼。
 
-**② 各頁(對應貼上,純 HTML)**
-| 1shop 頁面 | 貼上檔案 |
-|-----------|---------|
-| 首頁 | `home/skeleton.html` |
-| 服務項目 | `services/skeleton.html` |
-| 關於我們 | `about/skeleton.html` |
-| 聯絡我們 | `contact/skeleton.html` |
+**② 那一頁的內容(貼一次)**
+打開 `deploy/2-one-page.html` → 全選複製 → 貼進你**那一個** 1shop 頁面的「自訂 HTML」欄位。
+裡面是 4 個區塊(首頁/服務/關於/聯絡),靠導覽列假路由切換 + 布幕轉場;**不需要真的開 4 個 1shop 頁面**。
 
-每頁底部都有一個「識別標籤」區塊(`#lbl-bj-…`),只是貼錯頁時方便辨認,
-它會自動隱藏,不影響上線畫面;確認無誤後可刪除。
+> - 函式庫(GSAP/Lenis/vanilla-tilt)走 CDN,載入失敗會自動維持靜態可見、不白頁,並已處理 `prefers-reduced-motion` 與手機降載。
+> - 小淨問答從 GitHub `kb.json` 載入(見上方「小淨 AI 知識庫」)。
+> - 上線前記得改 `deploy/1-global-head.html` 裡的 LINE 設定(搜尋「設定區」)。
 
 ---
 

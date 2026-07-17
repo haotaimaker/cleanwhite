@@ -1,0 +1,45 @@
+<!-- ============================================================
+     BJ 假頁面路由 — 白境空間清潔
+     單頁部署核心:整站其實在同一頁,4 個 #bj-* 區塊預設隱藏,
+     點導覽列(/、/services、/about、/contact)時切換區塊,並觸發
+     window.bjCurtain 布幕轉場,做出「跳到另一頁」的錯覺(假頁面)。
+     貼進 1shop 全域 head.html(放在 nav-footer / motion / chat 之後)。
+     ============================================================ -->
+<script>
+(function () {
+  var MAP   = { '/': 'bj-home', '/services': 'bj-services', '/about': 'bj-about', '/contact': 'bj-contact' };
+  var PAGES = ['bj-home', 'bj-services', 'bj-about', 'bj-contact'];
+  var current = '';
+
+  function setActive(path) {
+    document.querySelectorAll('.bj-nav__link, .bj-nav__mobile a').forEach(function (a) {
+      a.classList.toggle('bj-nav__link--active', a.getAttribute('href') === path);
+    });
+  }
+  function closeMenu() {
+    var panel = document.querySelector('.bj-nav__mobile'); if (panel) panel.classList.remove('bj-nav__mobile--open');
+    var tog   = document.querySelector('.bj-nav__toggle'); if (tog) tog.setAttribute('aria-expanded', 'false');
+  }
+  function show(path) {
+    var id = MAP[path] || 'bj-home';
+    PAGES.forEach(function (p) { var el = document.getElementById(p); if (el) el.style.display = (p === id) ? '' : 'none'; });
+    setActive(path);
+    current = path;
+    closeMenu();
+    window.scrollTo(0, 0);
+    document.dispatchEvent(new Event('bj:pageshow'));  // 讓 motion.html 重算捲動動畫
+  }
+
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a') : null; if (!a) return;
+    var href = a.getAttribute('href');
+    if (href && href.charAt(0) === '/' && MAP.hasOwnProperty(href)) {
+      e.preventDefault();
+      if (href === current) { closeMenu(); window.scrollTo({ top: 0, behavior: 'smooth' }); return; }  // 已在同頁:不重播轉場
+      if (window.bjCurtain) { window.bjCurtain(function () { show(href); }); } else { show(href); }
+    }
+  });
+
+  document.addEventListener('DOMContentLoaded', function () { show('/'); });
+})();
+</script>

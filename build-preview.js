@@ -22,32 +22,8 @@ const navFooter = read('shared/nav-footer.html');
 const motion = read('shared/motion.html');
 const chat = read('shared/chat.html');
 
-/* 預覽專用 SPA router:攔截站內連結、切換頁面 div、觸發 bj:pageshow */
-const router = `<script>
-(function () {
-  var MAP = { '/': 'bj-home', '/services': 'bj-services', '/about': 'bj-about', '/contact': 'bj-contact' };
-  var PAGES = ['bj-home', 'bj-services', 'bj-about', 'bj-contact'];
-  function setActive(path){ document.querySelectorAll('.bj-nav__link, .bj-nav__mobile a').forEach(function(a){ a.classList.toggle('bj-nav__link--active', a.getAttribute('href')===path); }); }
-  function show(path){
-    var id=MAP[path]||'bj-home';
-    PAGES.forEach(function(p){ var el=document.getElementById(p); if(el) el.style.display=(p===id)?'':'none'; });
-    setActive(path);
-    var panel=document.querySelector('.bj-nav__mobile'); if(panel) panel.classList.remove('bj-nav__mobile--open');
-    var tog=document.querySelector('.bj-nav__toggle'); if(tog) tog.setAttribute('aria-expanded','false');
-    window.scrollTo(0,0);
-    document.dispatchEvent(new Event('bj:pageshow'));
-  }
-  document.addEventListener('click', function(e){
-    var a=e.target.closest?e.target.closest('a'):null; if(!a) return;
-    var href=a.getAttribute('href');
-    if(href && href.charAt(0)==='/' && MAP.hasOwnProperty(href)){
-      e.preventDefault();
-      if(window.bjCurtain){ window.bjCurtain(function(){ show(href); }); } else { show(href); }
-    }
-  });
-  document.addEventListener('DOMContentLoaded', function(){ show('/'); });
-})();
-<\/script>`;
+/* 假頁面路由:與正式上線用的是同一份 shared/router.html(預覽 = 線上,零落差) */
+const router = read('shared/router.html').trimEnd();
 
 const html = [
   '<!doctype html>',
