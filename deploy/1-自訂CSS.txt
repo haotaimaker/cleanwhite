@@ -1,2 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;600;900&family=Jost:wght@300;400;500;600&display=swap');
 @import url('https://cdn.jsdelivr.net/gh/Raffertyxu/baijing-assets@main/site.css');
+
+/* ── 1shop 版型修正(改這裡即時生效,不必等 CDN)── */
+.head:has(.navbar), .footer { display: none !important; }  /* 藏 1shop 原生頁首/頁尾 */
+/* 突破 1shop 內容容器(Bootstrap .container 最大寬 + 內距 + 白底),恢復滿版 */
+.page-single:has(#bj-site-root),
+.container:has(#bj-site-root),
+.customize:has(#bj-site-root),
+.code:has(#bj-site-root) {
+  max-width: 100% !important; width: 100% !important;
+  padding: 0 !important; margin: 0 !important;
+  background: transparent !important; overflow: visible !important;
+}

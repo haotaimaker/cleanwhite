@@ -76,7 +76,23 @@ fs.writeFileSync(path.join(distDir, 'site.js'), siteJs);
 const libs = extractLibSrc(motion).concat([CDN + '/site.js']);
 
 /* ── 1shop 三欄位內容 ── */
-const cssField = FONT_IMPORT + "\n@import url('" + CDN + "/site.css');\n";
+/* 1shop 專屬修正直接寫在「自訂CSS 欄位」:即時生效、不經 CDN 快取,方便調版型 */
+const ONESHOP_FIX = [
+  '',
+  '/* ── 1shop 版型修正(改這裡即時生效,不必等 CDN)── */',
+  '.head:has(.navbar), .footer { display: none !important; }  /* 藏 1shop 原生頁首/頁尾 */',
+  '/* 突破 1shop 內容容器(Bootstrap .container 最大寬 + 內距 + 白底),恢復滿版 */',
+  '.page-single:has(#bj-site-root),',
+  '.container:has(#bj-site-root),',
+  '.customize:has(#bj-site-root),',
+  '.code:has(#bj-site-root) {',
+  '  max-width: 100% !important; width: 100% !important;',
+  '  padding: 0 !important; margin: 0 !important;',
+  '  background: transparent !important; overflow: visible !important;',
+  '}',
+  '',
+].join('\n');
+const cssField = FONT_IMPORT + "\n@import url('" + CDN + "/site.css');\n" + ONESHOP_FIX;
 
 const jsField =
 '/* 白境空間清潔 — 依序載入函式庫與 site.js;改樣式/動效不必動這裡,push GitHub 即可 */\n' +

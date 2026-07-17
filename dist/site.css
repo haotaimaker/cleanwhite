@@ -257,24 +257,8 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
     padding-top: 0 !important;
     margin-top:  0 !important;
 }
-/* 隱藏 1shop 原生頁首/頁尾(我們有自己的 bj-nav 與 bj-footer,兩者不同名不衝突) */
-.head:has(.navbar),   /* 原生頂部:品牌 + 首頁/所有產品 + 搜尋/購物車 */
-.footer {             /* 原生底部:客服專線 0000 + Copyright + 1shop 維護字樣 */
-    display: none !important;
-}
-/* 突破 1shop 的內容容器限制(Bootstrap .container 最大寬 1140 + 內距 + 白底),
-   恢復我們的滿版設計。只作用在「包住我們內容」的那條容器鏈,不影響其他頁。 */
-.page-single:has(#bj-site-root),
-.container:has(#bj-site-root),
-.customize:has(#bj-site-root),
-.code:has(#bj-site-root) {
-    max-width:   100% !important;
-    width:       100% !important;
-    padding:     0 !important;
-    margin:      0 !important;
-    background:  transparent !important;
-    overflow:    visible !important;
-}
+/* 註:1shop 專屬版型修正(藏原生頁首頁尾、突破容器)已移到「自訂CSS 欄位」
+   直接寫,這樣調整即時生效、不必等 CDN 快取。見 deploy/1-自訂CSS.txt。 */
 
 /* ════════════════════════════════════════════════════════════
    首頁(home/skeleton.html)區塊樣式
