@@ -89,6 +89,8 @@ const ONESHOP_FIX = [
   '  margin-left: 0 !important; margin-right: 0 !important;',
   '  background: transparent !important;',
   '}',
+  '/* thesis 裝飾星 ✦ 在襯線字體會變豆腐方塊,直接藏掉(源碼已移除,這行是給尚未重貼頁面的即時修正)*/',
+  '.bj-pain__thesis-spark { display: none !important; }',
   '',
 ].join('\n');
 const cssField = FONT_IMPORT + "\n@import url('" + CDN + "/site.css');\n" + ONESHOP_FIX;
