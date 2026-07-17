@@ -1,0 +1,92 @@
+<!-- ============================================================
+     BJ SEO 結構化資料 — 白境空間清潔
+     這段會被 build-cdn 放進「頁面HTML」,讓 Google 與 AI 引擎
+     認出你是誰、在哪、做什麼。
+
+     ★ 只有下面第一段(LocalBusiness)要你填,標「請填-」的都要換成真資料;
+       第二段(FAQ)已用網站現有問答,不用動。
+       填完 → 雙擊 build-cdn.bat → 重貼 deploy/3-頁面HTML.html 到 1shop。
+     ★ 沒有的欄位(例:沒有 IG),把整行連同前面逗號刪掉即可。
+     ★ 經緯度:Google 地圖搜你的地址 → 在店的位置點右鍵 → 最上面那串數字就是。
+     ============================================================ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CleaningService",
+  "name": "白境空間清潔",
+  "url": "https://whiteclean.my1shop.com",
+  "image": "請填-一張店招或代表作品照的網址",
+  "description": "台南專業裝潢後細部清潔、石材美容、水塔清洗、外牆與高空玻璃清潔。極致的淨,看不見的細節。",
+  "telephone": "請填-電話,例:+886-6-2550811",
+  "email": "請填-Email(沒有就刪這行)",
+  "priceRange": "$$",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "請填-街道地址,例:安南區功安三街43號",
+    "addressLocality": "台南市",
+    "addressRegion": "台南市",
+    "postalCode": "請填-郵遞區號,例:709",
+    "addressCountry": "TW"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": "請填-緯度,例:23.0478",
+    "longitude": "請填-經度,例:120.1830"
+  },
+  "areaServed": { "@type": "City", "name": "台南市" },
+  "openingHoursSpecification": [{
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+    "opens": "請填-開店時間,例:09:00",
+    "closes": "請填-關店時間,例:18:00"
+  }],
+  "sameAs": [
+    "請填-官方LINE連結",
+    "請填-Facebook網址(沒有就刪這行)",
+    "請填-Instagram網址(沒有就刪這行)",
+    "請填-Google商家檔案網址(沒有就刪這行)"
+  ],
+  "makesOffer": [
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "裝潢後細部清潔" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "新屋交屋清潔" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "石材美容養護" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "水塔清洗" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "外牆與高空玻璃清洗" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "廠房辦公室清潔" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "重油汙地板清洗" } }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "服務範圍包含哪些地區？",
+      "acceptedAnswer": { "@type": "Answer", "text": "主要服務台南市全區,包含安南區、永康區、仁德區、東區、南區等。外縣市可另行洽詢,視工程規模及距離報價。" }
+    },
+    {
+      "@type": "Question",
+      "name": "裝潢後清潔和一般清潔有什麼不同？",
+      "acceptedAnswer": { "@type": "Answer", "text": "裝潢後清潔（Fine Cleaning）針對施工殘留物進行深層清潔,包含木屑、矽利康殘膠、水泥漿、油漆噴濺等,使用的工具和技法與一般日常清潔完全不同,需要有豐富施作經驗的專業人員執行。" }
+    },
+    {
+      "@type": "Question",
+      "name": "如何計算清潔費用？",
+      "acceptedAnswer": { "@type": "Answer", "text": "費用依空間面積、污染程度、清潔項目及施作時間綜合估算。建議先聯絡我們,安排現場勘查後提供準確報價,避免模糊估算造成的誤解。" }
+    },
+    {
+      "@type": "Question",
+      "name": "清潔前我需要準備什麼？",
+      "acceptedAnswer": { "@type": "Answer", "text": "建議清潔前移除空間內的私人物品,確保水電正常供應。其餘清潔所需的器具、藥劑均由我們準備,無需業主額外採購。" }
+    },
+    {
+      "@type": "Question",
+      "name": "石材清潔後還需要追加保護嗎？",
+      "acceptedAnswer": { "@type": "Answer", "text": "建議在研磨拋光完成後,施作石材防污保護劑,延長石材美觀狀態。我們可依照石材種類推薦最適合的保護方案。" }
+    }
+  ]
+}
+</script>

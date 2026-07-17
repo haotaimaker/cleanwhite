@@ -106,6 +106,7 @@ function cleanPage(file, id) {
 }
 const onePage = [
   '<!-- 白境空間清潔 · 頁面內容(貼進 1shop「那一頁」的自訂 HTML)。整站在這一頁,靠假路由切換。 -->',
+  read('shared/seo.html').trimEnd(),
   '<div class="BJ-Base-App" id="bj-site-root">',
   [['home/skeleton.html','bj-home'],['services/skeleton.html','bj-services'],
    ['about/skeleton.html','bj-about'],['contact/skeleton.html','bj-contact']]
@@ -147,6 +148,28 @@ const readme = [
   '',
 ].join('\n');
 fs.writeFileSync(path.join(outDir, 'README.txt'), readme);
+
+/* ── SEO:給 1shop 頁面設定填的標題/描述(貼到 1shop 後台,不是程式)── */
+const seoSettings = [
+  '白境空間清潔 — 1shop 頁面 SEO 設定(填在 1shop 後台的頁面設定,不是程式碼)',
+  '=================================================================',
+  '',
+  '【頁面標題 title】← 目前是 1shop 預設「首頁 - 白境空間清潔」,沒有關鍵字,請改成:',
+  '  白境空間清潔｜台南裝潢後細部清潔・石材美容・水塔清洗',
+  '',
+  '【頁面描述 description】← 目前沒有,請填(約 70-90 字,含關鍵字與地區):',
+  '  白境空間清潔，台南專業裝潢後細部清潔、新屋交屋、石材美容養護、水塔清洗、',
+  '  外牆與高空玻璃清潔。職人團隊、近乎苛求的完成標準，為您守護每一寸空間。',
+  '  歡迎加 LINE 諮詢與報價。',
+  '',
+  '【分享縮圖 og:image】建議上傳一張 1200×630 品牌圖(深藍底 + Logo)。',
+  '',
+  '★ 結構化資料(LocalBusiness / FAQ)已放在「頁面HTML」裡(見 shared/seo.html),',
+  '  請先把 seo.html 標「請填-」的真資料填好,再重貼 3-頁面HTML.html。',
+  '★ 站外最有效:去 Google「商家檔案」登記/認領(免費),對在地與 AI 搜尋幫助最大。',
+  '',
+].join('\n');
+fs.writeFileSync(path.join(outDir, 'SEO-1shop設定.txt'), seoSettings);
 
 console.log('✅ 產生完成');
 console.log('   dist/site.css            ' + (siteCss.length / 1024).toFixed(1) + ' KB');
