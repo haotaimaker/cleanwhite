@@ -257,6 +257,11 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
     padding-top: 0 !important;
     margin-top:  0 !important;
 }
+/* 隱藏 1shop 原生頁首/頁尾(我們有自己的 bj-nav 與 bj-footer,兩者不同名不衝突) */
+.head:has(.navbar),   /* 原生頂部:品牌 + 首頁/所有產品 + 搜尋/購物車 */
+.footer {             /* 原生底部:客服專線 0000 + Copyright + 1shop 維護字樣 */
+    display: none !important;
+}
 
 /* ════════════════════════════════════════════════════════════
    首頁(home/skeleton.html)區塊樣式
