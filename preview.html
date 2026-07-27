@@ -1446,9 +1446,11 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
     height: 2px;
   }
 }
+#bj-preload-broom{animation:bjpl-sweep .95s ease-in-out infinite;}@keyframes bjpl-sweep{0%,100%{transform:rotate(-11deg)}50%{transform:rotate(11deg)}}#bj-preload{animation:bjpl-safe 0s linear 8s forwards;}@keyframes bjpl-safe{to{opacity:0;visibility:hidden;}}
 </style>
 </head>
 <body>
+<div id="bj-preload" style="position:fixed;inset:0;z-index:2147483000;background:linear-gradient(160deg,#EAF2FC,#FFFFFF);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;"><svg id="bj-preload-broom" viewBox="0 0 24 24" fill="none" stroke="#15273F" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="width:56px;height:56px;transform-origin:50% 16%;"><path d="m16 22-1-4"/><path d="M19 14a1 1 0 0 0 1-1v-1a2 2 0 0 0-2-2h-3a1 1 0 0 1-1-1V4a2 2 0 0 0-4 0v5a1 1 0 0 1-1 1H6a2 2 0 0 0-2 2v1a1 1 0 0 0 1 1"/><path d="M19 14H5l-1.973 6.767A1 1 0 0 0 4 22h16a1 1 0 0 0 .973-1.233z" fill="#EAF1FC"/><path d="m8 22 1-4"/></svg><span style="font-family:'Noto Sans TC',sans-serif;font-size:14px;font-weight:600;letter-spacing:.25em;color:#15273F;">載入中...</span></div>
 <div class="BJ-Base-App" id="bj-preview-root">
 <div id="bj-home" class="BJ-Base-App" style="display:none">
 
@@ -2397,8 +2399,8 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
         <span class="bj-line"></span>
         <h2 class="bj-title">服務區域</h2>
         <p class="bj-body" style="margin-top:16px">
-          主要服務台南市全區，包含市區、安南區、永康區、仁德區等。
-          外縣市亦可洽詢，視距離及工程規模另行報價。
+          主要服務台南市全區，並含高雄市、嘉義縣市；
+          遠距離縣市如台中、南投、彰化亦可洽詢，視距離及工程規模另行報價。
         </p>
       </div>
       <div class="bj-area-contact">
@@ -2580,7 +2582,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
       <details class="bj-faq-item">
         <summary class="bj-faq-item__q">服務範圍包含哪些地區？</summary>
         <p class="bj-body bj-faq-item__a">
-          主要服務台南市全區，包含安南區、永康區、仁德區、東區、南區等。外縣市可另行洽詢，視工程規模及距離報價。
+          主要服務台南市全區，並含高雄市、嘉義縣市；遠距離縣市如台中、南投、彰化亦可洽詢，視距離及工程規模另行報價。
         </p>
       </details>
       <details class="bj-faq-item">
@@ -3483,24 +3485,20 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   }
 
   /* 進場 Loader:品牌 Logo 自我描繪 + 進度條填滿,完成後整片滑開 */
+  /* 進場:淡出「頁面內建的靜態載入遮罩」#bj-preload
+     (遮罩是頁面第一時間就在的 inline 元素,不等 CSS/JS;此處 site.js 載完後才把它收掉) */
   function initIntro() {
+    var ov = document.getElementById('bj-preload');
+    if (!ov) return;                                        // 沒有靜態遮罩就不處理
     var seen = false;
     try { seen = sessionStorage.getItem('bj_intro'); } catch (e) {}
     if (!seen) { try { sessionStorage.setItem('bj_intro', '1'); } catch (e) {} }
-
-    var ov = document.createElement('div');
-    ov.className = 'bj-trans bj-trans--intro' + (seen ? ' bj-trans--quick' : '');
-    ov.innerHTML = '<div class="bj-load"><svg class="bj-broom" viewBox="0 0 24 24" fill="none" stroke="#15273F" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m16 22-1-4"/><path d="M19 14a1 1 0 0 0 1-1v-1a2 2 0 0 0-2-2h-3a1 1 0 0 1-1-1V4a2 2 0 0 0-4 0v5a1 1 0 0 1-1 1H6a2 2 0 0 0-2 2v1a1 1 0 0 0 1 1"/><path d="M19 14H5l-1.973 6.767A1 1 0 0 0 4 22h16a1 1 0 0 0 .973-1.233z" fill="#EAF1FC"/><path d="m8 22 1-4"/></svg><span class="bj-load__floor"></span><span class="bj-load__text">載入中<span class="bj-dot">.</span><span class="bj-dot">.</span><span class="bj-dot">.</span></span></div>';
-    document.body.appendChild(ov);
-
-    var killed = false;
-    function kill() { if (killed) return; killed = true; if (ov.parentNode) ov.parentNode.removeChild(ov); }
-    setTimeout(kill, 4200);                                  // 失效保險
-
-    var hold = reduce ? 250 : (seen ? 600 : 1700);
+    var hold = reduce ? 120 : (seen ? 300 : 600);           // site.js 已最後載入,頁面大致就緒,短暫停留即收
     setTimeout(function () {
-      ov.classList.add('bj-trans--out');
-      setTimeout(kill, 900);
+      ov.style.transition = 'opacity 0.55s ease';
+      ov.style.opacity = '0';
+      ov.style.pointerEvents = 'none';
+      setTimeout(function () { if (ov.parentNode) ov.parentNode.removeChild(ov); }, 600);
     }, hold);
   }
 

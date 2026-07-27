@@ -96,9 +96,20 @@ const ONESHOP_FIX = [
   '}',
   '/* thesis 裝飾星 ✦ 在襯線字體會變豆腐方塊,直接藏掉(源碼已移除,這行是給尚未重貼頁面的即時修正)*/',
   '.bj-pain__thesis-spark { display: none !important; }',
+  '/* 進場載入遮罩:掃把擺動 + 保險自動淡出(避免 site.js 沒載到時卡住)*/',
+  '#bj-preload-broom { animation: bjpl-sweep 0.95s ease-in-out infinite; }',
+  '@keyframes bjpl-sweep { 0%,100% { transform: rotate(-11deg); } 50% { transform: rotate(11deg); } }',
+  '#bj-preload { animation: bjpl-safe 0s linear 8s forwards; }',
+  '@keyframes bjpl-safe { to { opacity: 0; visibility: hidden; } }',
+  '@media (prefers-reduced-motion: reduce) { #bj-preload-broom { animation: none; } }',
   '',
 ].join('\n');
 const cssField = FONT_IMPORT + "\n@import url('" + CDN + "/site.css');\n" + ONESHOP_FIX;
+
+/* 進場靜態遮罩:inline 樣式=頁面第一時間就蓋住(不等 CSS/JS);site.js 載完後由 initIntro 淡出 */
+const PRELOAD = '<div id="bj-preload" style="position:fixed;inset:0;z-index:2147483000;background:linear-gradient(160deg,#EAF2FC,#FFFFFF);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;">'
+  + '<svg id="bj-preload-broom" viewBox="0 0 24 24" fill="none" stroke="#15273F" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="width:56px;height:56px;transform-origin:50% 16%;"><path d="m16 22-1-4"/><path d="M19 14a1 1 0 0 0 1-1v-1a2 2 0 0 0-2-2h-3a1 1 0 0 1-1-1V4a2 2 0 0 0-4 0v5a1 1 0 0 1-1 1H6a2 2 0 0 0-2 2v1a1 1 0 0 0 1 1"/><path d="M19 14H5l-1.973 6.767A1 1 0 0 0 4 22h16a1 1 0 0 0 .973-1.233z" fill="#EAF1FC"/><path d="m8 22 1-4"/></svg>'
+  + '<span style="font-family:\'Noto Sans TC\',sans-serif;font-size:14px;font-weight:600;letter-spacing:.25em;color:#15273F;">載入中...</span></div>';
 
 const jsField =
 '/* 境白空間清潔 — 依序載入函式庫與 site.js;改樣式/動效不必動這裡,push GitHub 即可 */\n' +
@@ -134,6 +145,7 @@ const seoBlock = seoRaw.includes('請填-')
 
 const onePage = [
   '<!-- 境白空間清潔 · 頁面內容(貼進 1shop「那一頁」的自訂 HTML)。整站在這一頁,靠假路由切換。 -->',
+  PRELOAD,
   seoBlock,
   '<div class="BJ-Base-App" id="bj-site-root">',
   [['home/skeleton.html','bj-home'],['services/skeleton.html','bj-services'],

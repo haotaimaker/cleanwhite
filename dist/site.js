@@ -501,23 +501,17 @@
   }
 
   function initIntro() {
+    var ov = document.getElementById('bj-preload');
+    if (!ov) return;                                        // 沒有靜態遮罩就不處理
     var seen = false;
     try { seen = sessionStorage.getItem('bj_intro'); } catch (e) {}
     if (!seen) { try { sessionStorage.setItem('bj_intro', '1'); } catch (e) {} }
-
-    var ov = document.createElement('div');
-    ov.className = 'bj-trans bj-trans--intro' + (seen ? ' bj-trans--quick' : '');
-    ov.innerHTML = '<div class="bj-load"><svg class="bj-broom" viewBox="0 0 24 24" fill="none" stroke="#15273F" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m16 22-1-4"/><path d="M19 14a1 1 0 0 0 1-1v-1a2 2 0 0 0-2-2h-3a1 1 0 0 1-1-1V4a2 2 0 0 0-4 0v5a1 1 0 0 1-1 1H6a2 2 0 0 0-2 2v1a1 1 0 0 0 1 1"/><path d="M19 14H5l-1.973 6.767A1 1 0 0 0 4 22h16a1 1 0 0 0 .973-1.233z" fill="#EAF1FC"/><path d="m8 22 1-4"/></svg><span class="bj-load__floor"></span><span class="bj-load__text">載入中<span class="bj-dot">.</span><span class="bj-dot">.</span><span class="bj-dot">.</span></span></div>';
-    document.body.appendChild(ov);
-
-    var killed = false;
-    function kill() { if (killed) return; killed = true; if (ov.parentNode) ov.parentNode.removeChild(ov); }
-    setTimeout(kill, 4200);                                  // 失效保險
-
-    var hold = reduce ? 250 : (seen ? 600 : 1700);
+    var hold = reduce ? 120 : (seen ? 300 : 600);           // site.js 已最後載入,頁面大致就緒,短暫停留即收
     setTimeout(function () {
-      ov.classList.add('bj-trans--out');
-      setTimeout(kill, 900);
+      ov.style.transition = 'opacity 0.55s ease';
+      ov.style.opacity = '0';
+      ov.style.pointerEvents = 'none';
+      setTimeout(function () { if (ov.parentNode) ov.parentNode.removeChild(ov); }, 600);
     }, hold);
   }
 
