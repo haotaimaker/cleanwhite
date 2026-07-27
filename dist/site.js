@@ -508,7 +508,7 @@
     var seen = false;
     try { seen = sessionStorage.getItem('bj_intro'); } catch (e) {}
     if (!seen) { try { sessionStorage.setItem('bj_intro', '1'); } catch (e) {} }
-    var hold = reduce ? 120 : (seen ? 300 : 600);           // site.js 已最後載入,頁面大致就緒,短暫停留即收
+    var hold = reduce ? 80 : (seen ? 180 : 380);            // site.js 已最後載入,頁面大致就緒,短暫停留即收
     setTimeout(function () {
       ov.style.transition = 'opacity 0.55s ease';
       ov.style.opacity = '0';
