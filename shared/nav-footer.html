@@ -1,5 +1,5 @@
 <!-- ============================================================
-     BJ 共用導覽列 + 頁尾 — 白境空間清潔
+     BJ 共用導覽列 + 頁尾 — 境白空間清潔
      全域注入版:只需貼進 1shop 全域 head.html 一次(放在 bj-base.css 之後)
      會自動在每一頁的 .BJ-Base-App 內注入 Nav 與 Footer,
      並依下方「設定區」自動改寫全站的 LINE / 電話連結。
@@ -265,12 +265,12 @@
 (function () {
   /* ===== 設定區(全站唯一,上線前只改這裡) ========================== */
   var LINE_URL = 'https://lin.ee/XXXXXXX';          // ← 換成官方 LINE 連結
-  var LINE_OA  = '@白境官方ID';                      // ← LINE 官方帳號 ID(小淨帶需求單用)
+  var LINE_OA  = '@境白官方ID';                      // ← LINE 官方帳號 ID(小淨帶需求單用)
   var PHONE    = '06-2550811';
   var TEL      = 'tel:062550811';
   var EMAIL    = 'bentley0903499936@gmail.com';
   var ADDRESS  = '台南市安南區功安三街43號';
-  var BRAND    = '白境空間清潔';
+  var BRAND    = '境白空間清潔';
   /* 公開給其他模組(chat.html 的小淨會讀取) */
   window.BJ_CONF = { LINE_URL: LINE_URL, LINE_OA: LINE_OA, PHONE: PHONE, TEL: TEL, EMAIL: EMAIL, ADDRESS: ADDRESS, BRAND: BRAND };
   var NAV_LINKS = [                                  // ← 若 1shop 網址不同請改 href

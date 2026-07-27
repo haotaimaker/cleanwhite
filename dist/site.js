@@ -1,14 +1,14 @@
-/* 白境空間清潔 site.js — 由 build-cdn.js 產生,勿手改 */
+/* 境白空間清潔 site.js — 由 build-cdn.js 產生,勿手改 */
 /* ===== nav-footer ===== */
 (function () {
   /* ===== 設定區(全站唯一,上線前只改這裡) ========================== */
   var LINE_URL = 'https://lin.ee/XXXXXXX';          // ← 換成官方 LINE 連結
-  var LINE_OA  = '@白境官方ID';                      // ← LINE 官方帳號 ID(小淨帶需求單用)
+  var LINE_OA  = '@境白官方ID';                      // ← LINE 官方帳號 ID(小淨帶需求單用)
   var PHONE    = '06-2550811';
   var TEL      = 'tel:062550811';
   var EMAIL    = 'bentley0903499936@gmail.com';
   var ADDRESS  = '台南市安南區功安三街43號';
-  var BRAND    = '白境空間清潔';
+  var BRAND    = '境白空間清潔';
   /* 公開給其他模組(chat.html 的小淨會讀取) */
   window.BJ_CONF = { LINE_URL: LINE_URL, LINE_OA: LINE_OA, PHONE: PHONE, TEL: TEL, EMAIL: EMAIL, ADDRESS: ADDRESS, BRAND: BRAND };
   var NAV_LINKS = [                                  // ← 若 1shop 網址不同請改 href
@@ -662,7 +662,7 @@
   /* LINE 設定一律讀 nav-footer.html 頂端的「設定區」(window.BJ_CONF),此處只是保底 */
   var CONF = window.BJ_CONF || {};
   var LINE_URL = CONF.LINE_URL || 'https://lin.ee/XXXXXXX';
-  var LINE_OA  = CONF.LINE_OA  || '@白境官方ID';
+  var LINE_OA  = CONF.LINE_OA  || '@境白官方ID';
 
   /* 常見問題 + 智慧問答:唯一資料源 = GitHub kb.json(見下方 KB_URL) */
   var FAQ = [];
@@ -719,7 +719,7 @@
         '<div class="bj-chat__head">' +
           '<div class="bj-chat__brand">' +
             '<span class="bj-chat__avatar">✦</span>' +
-            '<div><strong>小淨 · 白境小幫手</strong><span class="bj-chat__status">線上中,隨時為您服務 😊</span></div>' +
+            '<div><strong>小淨 · 境白小幫手</strong><span class="bj-chat__status">線上中,隨時為您服務 😊</span></div>' +
           '</div>' +
           '<button class="bj-chat__close" type="button" aria-label="關閉">' + IC_CLOSE + '</button>' +
         '</div>' +
@@ -850,7 +850,7 @@
           typeMsg(returning
             ? (prevTopic ? '歡迎回來!😊 我是小淨~上次您看的是「' + prevTopic + '」,需要我接著為您介紹,或直接安排報價嗎?'
                          : '歡迎回來!很高興又見到您 😊 需要我幫您接續上次的諮詢嗎?')
-            : '嗨~我是小淨,白境的清潔小幫手 👋\n想了解什麼都可以問我,點下方常見問題也行喔 😊');
+            : '嗨~我是小淨,境白的清潔小幫手 👋\n想了解什麼都可以問我,點下方常見問題也行喔 😊');
         }, 250);
       }
     }

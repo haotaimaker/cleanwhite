@@ -1,5 +1,5 @@
 /* ============================================================
-   build-preview.js — 白境空間清潔 本機預覽組裝器
+   build-preview.js — 境白空間清潔 本機預覽組裝器
    用法:node build-preview.js
    將 css/ + 各頁 skeleton + shared/ 組成單一 preview.html。
    preview.html 是「產物」,不要手改;要改內容改來源檔再重組。
@@ -31,7 +31,7 @@ const html = [
   '<head>',
   '<meta charset="utf-8">',
   '<meta name="viewport" content="width=device-width, initial-scale=1">',
-  '<title>白境空間清潔 — 本機預覽</title>',
+  '<title>境白空間清潔 — 本機預覽</title>',
   '<link rel="preconnect" href="https://fonts.googleapis.com">',
   '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>',
   '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;600;900&family=Jost:wght@300;400;500;600&display=swap">',

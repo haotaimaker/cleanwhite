@@ -1,4 +1,4 @@
-/* 白境空間清潔 — 依序載入函式庫與 site.js;改樣式/動效不必動這裡,push GitHub 即可 */
+/* 境白空間清潔 — 依序載入函式庫與 site.js;改樣式/動效不必動這裡,push GitHub 即可 */
 (function () {
   var urls = [
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js",

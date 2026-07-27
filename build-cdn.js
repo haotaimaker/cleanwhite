@@ -1,5 +1,5 @@
 /* ============================================================
-   build-cdn.js — 白境空間清潔 CDN 部署產生器
+   build-cdn.js — 境白空間清潔 CDN 部署產生器
    用法:node build-cdn.js
    1shop 把 CSS / JS 分成兩個欄位,且自訂CSS 上限 15000 字元,
    我們的資產遠超過 → 改成:把 CSS/JS 放公開 repo(jsDelivr),
@@ -59,7 +59,7 @@ const siteCss = [
 
 /* ── dist/site.js(順序:nav→motion→chat→router)── */
 const siteJs = [
-  '/* 白境空間清潔 site.js — 由 build-cdn.js 產生,勿手改 */',
+  '/* 境白空間清潔 site.js — 由 build-cdn.js 產生,勿手改 */',
   '/* ===== nav-footer ===== */', extractInlineJs(navFooter),
   '/* ===== motion ===== */',     extractInlineJs(motion),
   '/* ===== chat ===== */',       extractInlineJs(chat),
@@ -96,7 +96,7 @@ const ONESHOP_FIX = [
 const cssField = FONT_IMPORT + "\n@import url('" + CDN + "/site.css');\n" + ONESHOP_FIX;
 
 const jsField =
-'/* 白境空間清潔 — 依序載入函式庫與 site.js;改樣式/動效不必動這裡,push GitHub 即可 */\n' +
+'/* 境白空間清潔 — 依序載入函式庫與 site.js;改樣式/動效不必動這裡,push GitHub 即可 */\n' +
 '(function () {\n' +
 '  var urls = ' + JSON.stringify(libs, null, 2).replace(/\n/g, '\n  ') + ';\n' +
 '  var i = 0;\n' +
@@ -121,9 +121,15 @@ function cleanPage(file, id) {
   }
   return s;
 }
+/* SEO 結構化資料:填好 shared/seo.html 的「請填-」欄位前先不納入,避免佔位資料上線 */
+const seoRaw = read('shared/seo.html').trimEnd();
+const seoBlock = seoRaw.includes('請填-')
+  ? '<!-- SEO 結構化資料:待 shared/seo.html 的商家資料填妥後,重跑 build-cdn 即自動納入 -->'
+  : seoRaw;
+
 const onePage = [
-  '<!-- 白境空間清潔 · 頁面內容(貼進 1shop「那一頁」的自訂 HTML)。整站在這一頁,靠假路由切換。 -->',
-  read('shared/seo.html').trimEnd(),
+  '<!-- 境白空間清潔 · 頁面內容(貼進 1shop「那一頁」的自訂 HTML)。整站在這一頁,靠假路由切換。 -->',
+  seoBlock,
   '<div class="BJ-Base-App" id="bj-site-root">',
   [['home/skeleton.html','bj-home'],['services/skeleton.html','bj-services'],
    ['about/skeleton.html','bj-about'],['contact/skeleton.html','bj-contact']]
@@ -143,7 +149,7 @@ fs.writeFileSync(path.join(outDir, '2-自訂JavaScript.txt'), jsField);
 fs.writeFileSync(path.join(outDir, '3-頁面HTML.html'), onePage);
 
 const readme = [
-  '白境空間清潔 — 1shop 上線說明(CDN 版 · 三個欄位各貼一次)',
+  '境白空間清潔 — 1shop 上線說明(CDN 版 · 三個欄位各貼一次)',
   '=========================================================',
   '',
   '★ 前置(我方做,一次性):dist/site.css 與 dist/site.js 已 push 到公開 repo',
@@ -168,14 +174,14 @@ fs.writeFileSync(path.join(outDir, 'README.txt'), readme);
 
 /* ── SEO:給 1shop 頁面設定填的標題/描述(貼到 1shop 後台,不是程式)── */
 const seoSettings = [
-  '白境空間清潔 — 1shop 頁面 SEO 設定(填在 1shop 後台的頁面設定,不是程式碼)',
+  '境白空間清潔 — 1shop 頁面 SEO 設定(填在 1shop 後台的頁面設定,不是程式碼)',
   '=================================================================',
   '',
-  '【頁面標題 title】← 目前是 1shop 預設「首頁 - 白境空間清潔」,沒有關鍵字,請改成:',
-  '  白境空間清潔｜台南裝潢後細部清潔・石材美容・水塔清洗',
+  '【頁面標題 title】← 目前是 1shop 預設「首頁 - 境白空間清潔」,沒有關鍵字,請改成:',
+  '  境白空間清潔｜台南裝潢後細部清潔・石材美容・水塔清洗',
   '',
   '【頁面描述 description】← 目前沒有,請填(約 70-90 字,含關鍵字與地區):',
-  '  白境空間清潔，台南專業裝潢後細部清潔、新屋交屋、石材美容養護、水塔清洗、',
+  '  境白空間清潔，台南專業裝潢後細部清潔、新屋交屋、石材美容養護、水塔清洗、',
   '  外牆與高空玻璃清潔。職人團隊、近乎苛求的完成標準，為您守護每一寸空間。',
   '  歡迎加 LINE 諮詢與報價。',
   '',
