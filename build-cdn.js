@@ -25,6 +25,11 @@ const CDN = 'https://cdn.jsdelivr.net/gh/' + GH + '@main';
 const FONT_IMPORT =
   "@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;600;900&family=Jost:wght@300;400;500;600&display=swap');";
 
+/* 產出去註解:來源檔保留註解供維護,貼上/上線的產物一律乾淨 */
+const stripHtml = s => s.replace(/<!--[\s\S]*?-->/g, '').replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
+const stripCss  = s => s.replace(/\/\*[\s\S]*?\*\//g, '').replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
+const stripJs   = s => s.replace(/\/\*[\s\S]*?\*\//g, '').replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
+
 /* 從共用檔抽出 <style> / 無 src 的 <script> / 有 src 的函式庫 URL */
 function extractStyles(html) {
   const out = []; const re = /<style>([\s\S]*?)<\/style>/g; let m;
@@ -69,8 +74,8 @@ const siteJs = [
 
 const distDir = path.join(ROOT, 'dist');
 if (!fs.existsSync(distDir)) fs.mkdirSync(distDir);
-fs.writeFileSync(path.join(distDir, 'site.css'), siteCss);
-fs.writeFileSync(path.join(distDir, 'site.js'), siteJs);
+fs.writeFileSync(path.join(distDir, 'site.css'), stripCss(siteCss) + '\n');
+fs.writeFileSync(path.join(distDir, 'site.js'), stripJs(siteJs) + '\n');
 
 /* ── 函式庫清單(motion 的 <script src>)+ 我們的 site.js,依序載入 ── */
 const libs = extractLibSrc(motion).concat([CDN + '/site.js']);
@@ -144,9 +149,9 @@ if (!fs.existsSync(outDir)) fs.mkdirSync(outDir);
 ['1-global-head.html', '2-one-page.html'].forEach(f => {
   const p = path.join(outDir, f); if (fs.existsSync(p)) fs.unlinkSync(p);
 });
-fs.writeFileSync(path.join(outDir, '1-自訂CSS.txt'), cssField);
-fs.writeFileSync(path.join(outDir, '2-自訂JavaScript.txt'), jsField);
-fs.writeFileSync(path.join(outDir, '3-頁面HTML.html'), onePage);
+fs.writeFileSync(path.join(outDir, '1-自訂CSS.txt'), stripCss(cssField) + '\n');
+fs.writeFileSync(path.join(outDir, '2-自訂JavaScript.txt'), stripJs(jsField) + '\n');
+fs.writeFileSync(path.join(outDir, '3-頁面HTML.html'), stripHtml(onePage) + '\n');
 
 const readme = [
   '境白空間清潔 — 1shop 上線說明(CDN 版 · 三個欄位各貼一次)',

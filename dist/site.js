@@ -1,7 +1,5 @@
-/* 境白空間清潔 site.js — 由 build-cdn.js 產生,勿手改 */
-/* ===== nav-footer ===== */
 (function () {
-  /* ===== 設定區(全站唯一,上線前只改這裡) ========================== */
+
   var LINE_URL = 'https://lin.ee/XXXXXXX';          // ← 換成官方 LINE 連結
   var LINE_OA  = '@境白官方ID';                      // ← LINE 官方帳號 ID(小淨帶需求單用)
   var PHONE    = '06-2550811';
@@ -9,7 +7,7 @@
   var EMAIL    = 'bentley0903499936@gmail.com';
   var ADDRESS  = '台南市安南區功安三街43號';
   var BRAND    = '境白空間清潔';
-  /* 公開給其他模組(chat.html 的小淨會讀取) */
+
   window.BJ_CONF = { LINE_URL: LINE_URL, LINE_OA: LINE_OA, PHONE: PHONE, TEL: TEL, EMAIL: EMAIL, ADDRESS: ADDRESS, BRAND: BRAND };
   var NAV_LINKS = [                                  // ← 若 1shop 網址不同請改 href
     { label: '首頁',     href: '/' },
@@ -17,7 +15,6 @@
     { label: '關於我們', href: '/about' },
     { label: '聯絡我們', href: '/contact' }
   ];
-  /* =============================================================== */
 
   // 房屋 + 璀璨星 Logo（與站內視覺一致）
   var LOGO = '<svg viewBox="54 34 156 130" fill="none" xmlns="http://www.w3.org/2000/svg">' +
@@ -146,7 +143,6 @@
     wire(app);
   }
 
-  /* 依設定區自動改寫頁面上所有 LINE / 電話連結(skeleton 內保持佔位即可) */
   function applyConf() {
     Array.prototype.forEach.call(document.querySelectorAll('a[href^="https://lin.ee/"], a[href^="https://line.me/"]'), function (a) {
       if (a.href.indexOf('line.me/R/oaMessage') !== -1) return;  // 小淨帶單連結由 chat.html 管
@@ -174,7 +170,7 @@
     start();
   }
 })();
-/* ===== motion ===== */
+
 (function () {
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -192,7 +188,6 @@
     else document.addEventListener('DOMContentLoaded', fn);
   }
 
-  /* 安全網:把目前在視窗內、卻仍隱藏的揭幕元素顯示出來(切頁後保險) */
   function revealInView(G) {
     if (!G) return;
     var vh = window.innerHeight || document.documentElement.clientHeight;
@@ -204,7 +199,7 @@
         G.to(el, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.9, ease: 'power3.out', overwrite: true });
       }
     });
-    /* 逐字標題:切頁後若仍藏在下方,補跑揭幕 */
+
     Array.prototype.forEach.call(document.querySelectorAll('[data-bj-split]'), function (el) {
       if (el.offsetParent === null) return;
       var r = el.getBoundingClientRect();
@@ -222,7 +217,6 @@
 
     initIntro();   // 進場載入動畫(最先)
 
-    /* ── 絲滑捲動 Lenis ─────────────────────────────── */
     var lenis = null;
     if (window.Lenis && G && !reduce) {
       try {
@@ -240,7 +234,6 @@
     initGallery();
     initProgress();
 
-    /* 跑馬燈隨捲動速度傾斜(Awwwards 動態) */
     if (lenis && G) {
       var mqs = document.querySelectorAll('.bj-marquee');
       if (mqs.length) {
@@ -261,7 +254,6 @@
     initTilt();
     window.addEventListener('load', function () { if (window.ScrollTrigger) ScrollTrigger.refresh(); });
 
-    /* 預覽切頁時重算 ScrollTrigger 位置,並把在視窗內的元素顯示出來 */
     document.addEventListener('bj:pageshow', function () {
       if (lenis) lenis.scrollTo(0, { immediate: true }); else window.scrollTo(0, 0);
       if (ST) ScrollTrigger.refresh();
@@ -270,7 +262,6 @@
     });
   });
 
-  /* ── 滾動揭幕:模糊→清晰 + 上浮 + 群組錯落 ───────────── */
   function initReveals(G, ST) {
     if (!G || !ST || reduce) return;
     var sel = REVEAL_SEL;
@@ -286,13 +277,11 @@
       }
     });
 
-    /* 內頁標頭光暈視差 */
     G.utils.toArray('.bj-pg-header__bg').forEach(function (el) {
       G.to(el, { yPercent: 30, ease: 'none', scrollTrigger: { trigger: el.parentNode, start: 'top top', end: 'bottom top', scrub: true } });
     });
   }
 
-  /* ── Hero:GSAP 揭幕時序 + 拭淨光暈 ─────────────────── */
   function initHero(G) {
     if (G && !reduce) {
       var has = document.querySelector('.bj-hero__inner');
@@ -314,7 +303,6 @@
       }
     }
 
-    /* 捲動時 Hero 位移縮放、水印反向漂移(Awwwards 視差) */
     if (G && window.ScrollTrigger && !reduce) {
       var hero = document.querySelector('.bj-hero');
       if (hero) {
@@ -331,7 +319,6 @@
     initPolish();
   }
 
-  /* 拭淨光暈:游標(或閒置時自動)在深色底上「擦」出潔淨亮光 */
   function initPolish() {
     var hero  = document.querySelector('.bj-hero');
     var sheen = document.querySelector('.bj-hero__sheen');
@@ -365,7 +352,6 @@
     requestAnimationFrame(tick);
   }
 
-  /* 施作前後對比滑桿 */
   function initBA() {
     var list = document.querySelectorAll('[data-bj-ba]');
     if (!list.length) return;
@@ -412,7 +398,6 @@
     }
   }
 
-  /* 頂部閱讀進度條 */
   function initProgress() {
     var bar = document.createElement('div');
     bar.className = 'bj-progress';
@@ -428,7 +413,6 @@
     upd();
   }
 
-  /* AI 口碑分析:進視窗 → 掃描 → 揭曉(百分比跳動 + 長條 + 關鍵詞) */
   function initAIReview() {
     var els = document.querySelectorAll('[data-bj-aireview]');
     if (!els.length || !window.IntersectionObserver) return;
@@ -461,7 +445,6 @@
     }
   }
 
-  /* 數字滾動計數:[data-count] 進視窗 → 0 跳到目標 */
   function initCounters() {
     var els = document.querySelectorAll('[data-count]');
     if (!els.length || !window.IntersectionObserver) return;
@@ -486,7 +469,6 @@
     }
   }
 
-  /* 卡片光暈跟隨游標 */
   function initSpotlight() {
     Array.prototype.forEach.call(document.querySelectorAll('.bj-svc-item, .bj-svc-card'), function (el) {
       el.addEventListener('mousemove', function (e) {
@@ -497,7 +479,6 @@
     });
   }
 
-  /* 橫向捲動服務區:捲動時釘住,水平推進(Awwwards 互動) */
   function initHScroll(G) {
     if (!G || !window.ScrollTrigger || reduce) return;
     if (!window.matchMedia || !matchMedia('(min-width: 760px)').matches) return;  // 手機保留原生橫滑
@@ -519,7 +500,6 @@
     });
   }
 
-  /* 進場 Loader:品牌 Logo 自我描繪 + 進度條填滿,完成後整片滑開 */
   function initIntro() {
     var seen = false;
     try { seen = sessionStorage.getItem('bj_intro'); } catch (e) {}
@@ -541,7 +521,6 @@
     }, hold);
   }
 
-  /* 換頁布幕:覆蓋 → 切換 → 揭開(供路由呼叫) */
   window.bjCurtain = function (cb) {
     var G = window.gsap;
     if (reduce || !G) { if (cb) cb(); return; }
@@ -556,7 +535,6 @@
     } });
   };
 
-  /* 標題逐字揭幕(Awwwards 手法):捲到區段,大標題一個字一個字浮上來 */
   function initSplitTitles(G, ST) {
     if (!G || !ST || reduce) return;
     var titles = document.querySelectorAll('.bj-sec-hd .bj-title, .bj-pg-header .bj-title');
@@ -586,7 +564,6 @@
     });
   }
 
-  /* 卡片 3D 傾斜(vanilla-tilt):滑鼠移過去,卡片立體地朝游標傾斜 + 光澤 */
   function initTilt() {
     if (!window.VanillaTilt || reduce) return;
     if (!window.matchMedia || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
@@ -598,7 +575,6 @@
     });
   }
 
-  /* 圖片絲滑淡入:載入完成才浮現,避免「啪」一下跳出 */
   function initImgFade() {
     var imgs = document.querySelectorAll('.BJ-Base-App img');
     for (var i = 0; i < imgs.length; i++) (function (img) {
@@ -611,7 +587,6 @@
     })(imgs[i]);
   }
 
-  /* 作品集燈箱:點圖放大 + 左右切換 + Esc/方向鍵 */
   function initGallery() {
     var gals = document.querySelectorAll('[data-bj-gallery]');
     if (!gals.length) return;
@@ -657,14 +632,13 @@
     });
   }
 })();
-/* ===== chat ===== */
+
 (function () {
-  /* LINE 設定一律讀 nav-footer.html 頂端的「設定區」(window.BJ_CONF),此處只是保底 */
+
   var CONF = window.BJ_CONF || {};
   var LINE_URL = CONF.LINE_URL || 'https://lin.ee/XXXXXXX';
   var LINE_OA  = CONF.LINE_OA  || '@境白官方ID';
 
-  /* 常見問題 + 智慧問答:唯一資料源 = GitHub kb.json(見下方 KB_URL) */
   var FAQ = [];
 
   var IC_CHAT = '<svg class="bj-chat__ic-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>';
@@ -673,7 +647,6 @@
   function build() {
     if (document.getElementById('bj-chat')) return;
 
-    /* ── AI 記得你 + 跨頁需求清單(localStorage) ── */
     var RV = { visits: 0, topic: '', items: [] };
     try { var _r = localStorage.getItem('bj_visitor'); if (_r) RV = JSON.parse(_r); } catch (e) {}
     if (!RV.items) RV.items = [];
@@ -755,7 +728,7 @@
       body.scrollTop = body.scrollHeight;
       return m;
     }
-    /* 逐字「生成」出 bot 訊息 + 閃爍游標(假 ChatGPT) */
+
     function typeMsg(text) {
       var m = document.createElement('div');
       m.className = 'bj-chat__msg bj-chat__msg--bot';
@@ -777,7 +750,7 @@
         }
       })();
     }
-    /* 顯示「思考中」再逐字回答(共用) */
+
     function respond(answer) {
       var typing = document.createElement('div');
       typing.className = 'bj-chat__typing';
@@ -794,7 +767,6 @@
       respond(item.a);
     }
 
-    /* ── 小淨智慧問答:自由輸入 → 關鍵字比對知識庫(內容由 kb.json 載入) ── */
     var KB = [];
     function smartReply(q) {
       var s = q.toLowerCase();
@@ -823,8 +795,6 @@
       }
     });
 
-    /* ── 知識庫唯一來源:GitHub kb.json ──
-       改問答:https://github.com/Raffertyxu/baijing-kb 編輯 kb.json,約 5 分鐘生效 */
     var KB_URL = 'https://raw.githubusercontent.com/Raffertyxu/baijing-kb/main/kb.json';
     if (window.fetch) {
       fetch(KB_URL, { cache: 'no-cache' })
@@ -859,7 +829,6 @@
     fab.addEventListener('click', toggle);
     closeBtn.addEventListener('click', function () { root.classList.remove('is-open'); });
 
-    /* ── 主動式智慧客服「小淨」:像真人在旁邊陪您看 ── */
     var SECTION_POPS = [
       { sel: '.bj-pain', msgs: [
         '裝潢後的粉塵殘膠真的超難搞對吧 😣 別擔心,這正是我們最拿手的~要我幫您估個價嗎?',
@@ -948,7 +917,7 @@
       showPop(queue.shift());
     }
     function enqueue(msg) { if (msg && !dismissed && queue.length < 3) { queue.push(msg); pump(); } }
-    /* 小淨把跨頁累積的需求整理好,主動提議帶去 LINE */
+
     function offerLine() {
       var items = (RV.items || []).slice(0, 4);
       enqueue({
@@ -963,7 +932,6 @@
     pop.addEventListener('click', function () { pop.classList.remove('is-show'); open(); });
     fab.addEventListener('click', function () { pop.classList.remove('is-show'); });
 
-    /* 區塊觸發:看到哪段就聊那段 */
     if (window.IntersectionObserver) {
       var io = new IntersectionObserver(function (entries) {
         entries.forEach(function (e) {
@@ -984,7 +952,6 @@
       });
     }
 
-    /* 閒置陪聊:停下來沒動,主動關心一下(像有人在旁邊) */
     var idleTimer = null;
     function resetIdle() {
       clearTimeout(idleTimer);
@@ -996,7 +963,6 @@
     window.addEventListener('mousemove', resetIdle, { passive: true });
     resetIdle();
 
-    /* 開場招呼(回訪者會被「認出」) */
     var opener = returning
       ? (prevTopic ? '歡迎回來!😊 上次您看了「' + prevTopic + '」,要繼續了解,還是直接幫您安排報價?'
                    : '歡迎回來~又見面了 😊 需要我幫您接續上次的諮詢嗎?')
@@ -1006,7 +972,6 @@
         enqueue(opener);
     }, returning ? 1800 : 3500);
 
-    /* 看到底:收尾關心一下 */
     var bottomDone = false;
     window.addEventListener('scroll', function () {
       if (bottomDone || dismissed) return;
@@ -1016,7 +981,6 @@
       }
     }, { passive: true });
 
-    /* 記住瀏覽過的服務(供下次回訪認出) */
     Array.prototype.forEach.call(document.querySelectorAll('.bj-svc-item, .bj-svc-card'), function (el) {
       el.addEventListener('mouseenter', function () {
         var n = el.querySelector('.bj-svc-name, .bj-svc-card__title');
@@ -1028,7 +992,7 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build);
   else build();
 })();
-/* ===== router(假頁面)===== */
+
 (function () {
   var MAP   = { '/': 'bj-home', '/services': 'bj-services', '/about': 'bj-about', '/contact': 'bj-contact' };
   var PAGES = ['bj-home', 'bj-services', 'bj-about', 'bj-contact'];

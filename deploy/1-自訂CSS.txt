@@ -1,15 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;600;900&family=Jost:wght@300;400;500;600&display=swap');
 @import url('https://cdn.jsdelivr.net/gh/Raffertyxu/baijing-assets@main/site.css');
 
-/* ── 1shop 版型修正(改這裡即時生效,不必等 CDN;不用 :has 以求相容)── */
-/* 藏 1shop 原生頁首/頁尾(我們有自己的 bj-nav / bj-footer,class 不同名不衝突)*/
 .head, .footer { display: none !important; }
-/* 突破 1shop 內容容器(Bootstrap .container 最大寬 + 內距 + 白底),恢復滿版 */
+
 .page-single, .page-single .container, .customize, .code {
   max-width: 100% !important; width: auto !important;
   padding-left: 0 !important; padding-right: 0 !important;
   margin-left: 0 !important; margin-right: 0 !important;
   background: transparent !important;
 }
-/* thesis 裝飾星 ✦ 在襯線字體會變豆腐方塊,直接藏掉(源碼已移除,這行是給尚未重貼頁面的即時修正)*/
+
 .bj-pain__thesis-spark { display: none !important; }
