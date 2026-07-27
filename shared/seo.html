@@ -35,7 +35,15 @@
     "latitude": "請填-緯度,例:23.0478",
     "longitude": "請填-經度,例:120.1830"
   },
-  "areaServed": { "@type": "City", "name": "台南市" },
+  "areaServed": [
+    { "@type": "City", "name": "台南市" },
+    { "@type": "City", "name": "高雄市" },
+    { "@type": "City", "name": "嘉義市" },
+    { "@type": "County", "name": "嘉義縣" },
+    { "@type": "City", "name": "台中市" },
+    { "@type": "County", "name": "南投縣" },
+    { "@type": "County", "name": "彰化縣" }
+  ],
   "openingHoursSpecification": [{
     "@type": "OpeningHoursSpecification",
     "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
@@ -67,7 +75,7 @@
     {
       "@type": "Question",
       "name": "服務範圍包含哪些地區？",
-      "acceptedAnswer": { "@type": "Answer", "text": "主要服務台南市全區,包含安南區、永康區、仁德區、東區、南區等。外縣市可另行洽詢,視工程規模及距離報價。" }
+      "acceptedAnswer": { "@type": "Answer", "text": "主要服務台南市全區,並含高雄市、嘉義縣市;遠距離縣市如台中、南投、彰化亦可洽詢,視距離及工程規模另行報價。" }
     },
     {
       "@type": "Question",
