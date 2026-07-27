@@ -1573,6 +1573,17 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   .BJ-Base-App .bj-nav__links  { display: none; }
   .BJ-Base-App .bj-nav__toggle { display: flex; }
   .BJ-Base-App .bj-nav__inner  { padding: 0 20px; }
+
+  .BJ-Base-App .bj-nav--scrolled {
+    background: rgba(255,255,255,0.96);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  .BJ-Base-App .bj-nav__mobile {
+    background: #FFFFFF;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
 }
 
 .BJ-Base-App .bj-footer {

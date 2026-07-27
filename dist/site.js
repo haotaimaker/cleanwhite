@@ -174,6 +174,8 @@
 (function () {
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  var noBlur = !window.matchMedia || window.matchMedia('(hover: none)').matches || window.matchMedia('(max-width: 900px)').matches;
+
   var REVEAL_SEL = [
     '.bj-sec-hd', '.bj-pain__intro', '.bj-pain__item', '.bj-pain__thesis',
     '.bj-svc-item', '.bj-svc-card', '.bj-flow__step', '.bj-why-item', '.bj-value-item',
@@ -196,7 +198,7 @@
       if (parseFloat(getComputedStyle(el).opacity) > 0.05) return;
       var r = el.getBoundingClientRect();
       if (r.top < vh * 0.95 && r.bottom > 0) {
-        G.to(el, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.9, ease: 'power3.out', overwrite: true });
+        G.to(el, Object.assign({ opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', overwrite: true }, noBlur ? {} : { filter: 'blur(0px)' }));
       }
     });
 
@@ -266,14 +268,14 @@
     if (!G || !ST || reduce) return;
     var sel = REVEAL_SEL;
 
-    G.set(sel, { opacity: 0, y: 44, filter: 'blur(8px)' });
+    G.set(sel, noBlur ? { opacity: 0, y: 28 } : { opacity: 0, y: 44, filter: 'blur(8px)' });
     ScrollTrigger.batch(sel, {
       start: 'top 88%',
       onEnter: function (batch) {
-        G.to(batch, {
-          opacity: 1, y: 0, filter: 'blur(0px)',
+        G.to(batch, Object.assign({
+          opacity: 1, y: 0,
           duration: 1.05, ease: 'power3.out', stagger: 0.09, overwrite: true
-        });
+        }, noBlur ? {} : { filter: 'blur(0px)' }));
       }
     });
 
@@ -286,7 +288,7 @@
     if (G && !reduce) {
       var has = document.querySelector('.bj-hero__inner');
       if (has) {
-        G.set('.bj-hero__logo',            { opacity: 0, scale: 0.82, filter: 'blur(8px)' });
+        G.set('.bj-hero__logo',            noBlur ? { opacity: 0, scale: 0.82 } : { opacity: 0, scale: 0.82, filter: 'blur(8px)' });
         G.set('.bj-hero__text .bj-eyebrow',{ opacity: 0, y: 16 });
         G.set('.bj-hero__name',            { opacity: 0, y: 34 });
         G.set('.bj-hero__tagline',         { opacity: 0, y: 22 });
@@ -294,7 +296,7 @@
         G.set('.bj-hero__scroll',          { opacity: 0 });
 
         var tl = G.timeline({ defaults: { ease: 'power3.out' }, delay: 0.25 });
-        tl.to('.bj-hero__logo',            { opacity: 1, scale: 1, filter: 'blur(0px)', duration: 1.5 })
+        tl.to('.bj-hero__logo',            Object.assign({ opacity: 1, scale: 1, duration: 1.5 }, noBlur ? {} : { filter: 'blur(0px)' }))
           .to('.bj-hero__text .bj-eyebrow',{ opacity: 0.7, y: 0, duration: 0.9 }, '-=0.9')
           .to('.bj-hero__name',            { opacity: 1, y: 0, duration: 1.2, ease: 'power4.out' }, '-=0.6')
           .to('.bj-hero__tagline',         { opacity: 1, y: 0, duration: 1.0 }, '-=0.8')

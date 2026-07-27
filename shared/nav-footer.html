@@ -166,6 +166,17 @@
   .BJ-Base-App .bj-nav__links  { display: none; }
   .BJ-Base-App .bj-nav__toggle { display: flex; }
   .BJ-Base-App .bj-nav__inner  { padding: 0 20px; }
+  /* 手機:毛玻璃(backdrop-filter)持續重算很吃效能,改用接近不透明的實底 */
+  .BJ-Base-App .bj-nav--scrolled {
+    background: rgba(255,255,255,0.96);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  .BJ-Base-App .bj-nav__mobile {
+    background: #FFFFFF;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
 }
 
 /* ── 頁尾 ───────────────────────────────────────────────────── */
