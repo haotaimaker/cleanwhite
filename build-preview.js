@@ -37,7 +37,7 @@ const html = [
   '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;600;900&family=Jost:wght@300;400;500;600&display=swap">',
   '<style>',
   baseCss.trimEnd(),
-  '#bj-preload-broom{animation:bjpl-sweep .95s ease-in-out infinite;}@keyframes bjpl-sweep{0%,100%{transform:rotate(-11deg)}50%{transform:rotate(11deg)}}#bj-preload{animation:bjpl-safe 0s linear 8s forwards;}@keyframes bjpl-safe{to{opacity:0;visibility:hidden;}}',
+  '#bj-preload-broom{animation:bjpl-sweep .95s ease-in-out infinite;will-change:transform;backface-visibility:hidden;transform:translateZ(0);}@keyframes bjpl-sweep{0%,100%{transform:translateZ(0) rotate(-11deg)}50%{transform:translateZ(0) rotate(11deg)}}#bj-preload{animation:bjpl-safe 0s linear 8s forwards;}@keyframes bjpl-safe{to{opacity:0;visibility:hidden;}}',
   '</style>',
   '</head>',
   '<body>',
