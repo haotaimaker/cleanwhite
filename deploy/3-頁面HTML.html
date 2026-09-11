@@ -1276,7 +1276,7 @@
 .bj-chat__chip{background:#fff;border:1px solid rgba(47,111,228,.35);color:#2F6FE4;font-size:12px;padding:7px 12px;border-radius:999px;cursor:pointer;transition:background .25s,border-color .25s,transform .18s cubic-bezier(.22,1,.36,1);font-family:inherit;line-height:1.3;}
 .bj-chat__chip:hover{background:#EAF1FC;border-color:#2F6FE4;transform:translateY(-1px);}
 .bj-chat__chip:active{transform:scale(.94);}
-/* 自由輸入列(小淨真的能回答) */
+
 .bj-chat__inputrow{display:flex;gap:8px;padding:10px 12px;border-top:1px solid rgba(22,52,94,.09);background:#fff;}
 .bj-chat__input{flex:1;min-width:0;border:1px solid rgba(22,52,94,.14);border-radius:999px;padding:9px 16px;font-size:13px;font-family:inherit;color:#15273F;background:#F6F9FE;outline:none;transition:border-color .25s,background .25s,box-shadow .25s;}
 .bj-chat__input::placeholder{color:#9DB0CC;}
@@ -1289,7 +1289,7 @@
 .bj-chat__line{display:flex;align-items:center;justify-content:center;gap:8px;background:#06C755;color:#fff;text-decoration:none;font-size:13px;font-weight:700;padding:12px;border-radius:10px;letter-spacing:.05em;transition:background .25s;}
 .bj-chat__line:hover{background:#05b14c;}
 @media (max-width:560px){.bj-chat{right:16px;bottom:16px;}.bj-chat__fab{width:54px;height:54px;}.bj-chat__panel{width:calc(100vw - 32px);height:70vh;}}
-/* 主動式智慧客服 氣泡 */
+
 .bj-chat__pop{position:fixed;right:24px;bottom:98px;z-index:1499;width:272px;max-width:calc(100vw - 40px);background:#FFFFFF;border:1px solid rgba(22,52,94,.10);border-radius:16px;border-bottom-right-radius:5px;padding:14px;display:flex;gap:10px;box-shadow:0 16px 40px rgba(22,52,94,.18);transform:translateY(18px) scale(.92);opacity:0;pointer-events:none;transition:opacity .35s cubic-bezier(.22,1,.36,1),transform .55s cubic-bezier(.3,1.35,.4,1);font-family:'Noto Sans TC',sans-serif;}
 .bj-chat__pop.is-show{opacity:1;transform:none;pointer-events:auto;cursor:pointer;}
 .bj-chat__pop-av{width:34px;height:34px;border-radius:50%;background:#2F6FE4;color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
@@ -1304,19 +1304,18 @@
 .bj-chat__pop-typing span:nth-child(2){animation-delay:.15s;}
 .bj-chat__pop-typing span:nth-child(3){animation-delay:.3s;}
 @media (max-width:560px){.bj-chat__pop{bottom:84px;right:16px;}}
-/* 需求清單(跨頁記憶)+ 氣泡行動鈕 */
+
 .bj-chat__cart{font-size:12px;line-height:1.65;color:#42597A;background:#EEF4FD;border:1px solid rgba(47,111,228,.18);border-radius:10px;padding:9px 12px;margin-bottom:10px;}
 .bj-chat__pop-cta{display:inline-block;margin-top:10px;background:#06C755;color:#fff;text-decoration:none;font-size:12px;font-weight:700;letter-spacing:.03em;padding:8px 14px;border-radius:8px;}
 .bj-chat__pop-cta:hover{background:#05b14c;}
 </style>
 <script>
 (function () {
-  /* LINE 設定一律讀 nav-footer.html 頂端的「設定區」(window.BJ_CONF),此處只是保底 */
+
   var CONF = window.BJ_CONF || {};
   var LINE_URL = CONF.LINE_URL || 'https://lin.ee/oyyGjilc';
   var LINE_OA  = CONF.LINE_OA  || '@境白官方ID';
 
-  /* 常見問題 + 智慧問答:唯一資料源 = GitHub kb.json(見下方 KB_URL) */
   var FAQ = [];
 
   var IC_CHAT = '<svg class="bj-chat__ic-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>';
@@ -1325,7 +1324,6 @@
   function build() {
     if (document.getElementById('bj-chat')) return;
 
-    /* ── AI 記得你 + 跨頁需求清單(localStorage) ── */
     var RV = { visits: 0, topic: '', items: [] };
     try { var _r = localStorage.getItem('bj_visitor'); if (_r) RV = JSON.parse(_r); } catch (e) {}
     if (!RV.items) RV.items = [];
@@ -1407,7 +1405,7 @@
       body.scrollTop = body.scrollHeight;
       return m;
     }
-    /* 逐字「生成」出 bot 訊息 + 閃爍游標(假 ChatGPT) */
+
     function typeMsg(text) {
       var m = document.createElement('div');
       m.className = 'bj-chat__msg bj-chat__msg--bot';
@@ -1429,7 +1427,7 @@
         }
       })();
     }
-    /* 顯示「思考中」再逐字回答(共用) */
+
     function respond(answer) {
       var typing = document.createElement('div');
       typing.className = 'bj-chat__typing';
@@ -1446,7 +1444,6 @@
       respond(item.a);
     }
 
-    /* ── 小淨智慧問答:自由輸入 → 關鍵字比對知識庫(內容由 kb.json 載入) ── */
     var KB = [];
     function smartReply(q) {
       var s = q.toLowerCase();
@@ -1475,8 +1472,6 @@
       }
     });
 
-    /* ── 知識庫唯一來源:GitHub kb.json ──
-       改問答:https://github.com/Raffertyxu/baijing-kb 編輯 kb.json,約 5 分鐘生效 */
     var KB_URL = 'https://raw.githubusercontent.com/Raffertyxu/baijing-kb/main/kb.json';
     if (window.fetch) {
       fetch(KB_URL, { cache: 'no-cache' })
@@ -1511,7 +1506,6 @@
     fab.addEventListener('click', toggle);
     closeBtn.addEventListener('click', function () { root.classList.remove('is-open'); });
 
-    /* ── 主動式智慧客服「小淨」:像真人在旁邊陪您看 ── */
     var SECTION_POPS = [
       { sel: '.bj-pain', msgs: [
         '裝潢後的粉塵殘膠真的超難搞對吧 😣 別擔心,這正是我們最拿手的~要我幫您估個價嗎?',
@@ -1600,7 +1594,7 @@
       showPop(queue.shift());
     }
     function enqueue(msg) { if (msg && !dismissed && queue.length < 3) { queue.push(msg); pump(); } }
-    /* 小淨把跨頁累積的需求整理好,主動提議帶去 LINE */
+
     function offerLine() {
       var items = (RV.items || []).slice(0, 4);
       enqueue({
@@ -1615,7 +1609,6 @@
     pop.addEventListener('click', function () { pop.classList.remove('is-show'); open(); });
     fab.addEventListener('click', function () { pop.classList.remove('is-show'); });
 
-    /* 區塊觸發:看到哪段就聊那段 */
     if (window.IntersectionObserver) {
       var io = new IntersectionObserver(function (entries) {
         entries.forEach(function (e) {
@@ -1636,7 +1629,6 @@
       });
     }
 
-    /* 閒置陪聊:停下來沒動,主動關心一下(像有人在旁邊) */
     var idleTimer = null;
     function resetIdle() {
       clearTimeout(idleTimer);
@@ -1648,7 +1640,6 @@
     window.addEventListener('mousemove', resetIdle, { passive: true });
     resetIdle();
 
-    /* 開場招呼(回訪者會被「認出」) */
     var opener = returning
       ? (prevTopic ? '歡迎回來!😊 上次您看了「' + prevTopic + '」,要繼續了解,還是直接幫您安排報價?'
                    : '歡迎回來~又見面了 😊 需要我幫您接續上次的諮詢嗎?')
@@ -1658,7 +1649,6 @@
         enqueue(opener);
     }, returning ? 1800 : 3500);
 
-    /* 看到底:收尾關心一下 */
     var bottomDone = false;
     window.addEventListener('scroll', function () {
       if (bottomDone || dismissed) return;
@@ -1668,7 +1658,6 @@
       }
     }, { passive: true });
 
-    /* 記住瀏覽過的服務(供下次回訪認出) */
     Array.prototype.forEach.call(document.querySelectorAll('.bj-svc-item, .bj-svc-card'), function (el) {
       el.addEventListener('mouseenter', function () {
         var n = el.querySelector('.bj-svc-name, .bj-svc-card__title');
