@@ -76,6 +76,10 @@ const distDir = path.join(ROOT, 'dist');
 if (!fs.existsSync(distDir)) fs.mkdirSync(distDir);
 fs.writeFileSync(path.join(distDir, 'site.css'), stripCss(siteCss) + '\n');
 fs.writeFileSync(path.join(distDir, 'site.js'), stripJs(siteJs) + '\n');
+// 為了兼容目前 1shop 已經貼上的舊網址（...@main/site.css/js），
+// 也同步保留一份 root 入口，避免舊欄位不需重貼即可恢復載入。
+fs.writeFileSync(path.join(ROOT, 'site.css'), stripCss(siteCss) + '\n');
+fs.writeFileSync(path.join(ROOT, 'site.js'), stripJs(siteJs) + '\n');
 
 /* ── 函式庫清單(motion 的 <script src>)+ 我們的 site.js,依序載入 ── */
 const libs = extractLibSrc(motion).concat([CDN + '/site.js']);
