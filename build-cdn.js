@@ -119,15 +119,23 @@ const PRELOAD = '<div id="bj-preload" style="position:fixed;inset:0;z-index:2147
   + '<span style="font-family:\'Noto Sans TC\',sans-serif;font-size:14px;font-weight:600;letter-spacing:.25em;color:#15273F;">載入中...</span></div>';
 
 const jsField =
-'/* 境白空間清潔 — 平行下載、依序執行函式庫與 site.js(async=false:同時下載但保證 GSAP 先於其他)*/\n' +
+'/* 白境空間清潔 — 依序載入函式庫與 site.js;改樣式/動效不必動這裡,push GitHub 即可 */\n' +
 '(function () {\n' +
-'  var urls = ' + JSON.stringify(libs, null, 2).replace(/\n/g, '\n  ') + ';\n' +
-'  for (var i = 0; i < urls.length; i++) {\n' +
+'  var urls = [\n' +
+'    "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js",\n' +
+'    "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js",\n' +
+'    "https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js",\n' +
+'    "https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js",\n' +
+'    "https://cdn.jsdelivr.net/gh/haotaimaker/cleanwhite@main/site.js"\n' +
+'  ];\n' +
+'  var i = 0;\n' +
+'  (function next() {\n' +
+'    if (i >= urls.length) return;\n' +
 '    var s = document.createElement("script");\n' +
-'    s.src = urls[i];\n' +
-'    s.async = false;  /* 平行下載,但依插入順序執行 */\n' +
+'    s.src = urls[i++];\n' +
+'    s.onload = next; s.onerror = next;  /* 某支失敗也繼續,畫面降級但不整包壞 */\n' +
 '    document.head.appendChild(s);\n' +
-'  }\n' +
+'  })();\n' +
 '})();\n';
 
 /* ── 那一頁的 HTML(4 個假頁面區塊)── */

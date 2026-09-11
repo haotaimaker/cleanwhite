@@ -6,10 +6,12 @@
     "https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js",
     "https://cdn.jsdelivr.net/gh/haotaimaker/cleanwhite@main/site.js"
   ];
-  for (var i = 0; i < urls.length; i++) {
+  var i = 0;
+  (function next() {
+    if (i >= urls.length) return;
     var s = document.createElement("script");
-    s.src = urls[i];
-    s.async = false;
+    s.src = urls[i++];
+    s.onload = next; s.onerror = next;
     document.head.appendChild(s);
-  }
+  })();
 })();
