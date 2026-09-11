@@ -20,7 +20,7 @@ const read = f => fs.readFileSync(path.join(ROOT, f), 'utf8');
 
 /* ← 放編譯資產的公開 repo(jsDelivr 只能讀公開 repo)*/
 const GH = process.env.BJ_GH_ASSET || 'haotaimaker/cleanwhite';
-const CDN = 'https://cdn.jsdelivr.net/gh/' + GH + '@main';
+const CDN = 'https://cdn.jsdelivr.net/gh/' + GH + '@main/dist';
 
 const FONT_IMPORT =
   "@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;600;900&family=Jost:wght@300;400;500;600&display=swap');";
@@ -121,13 +121,7 @@ const PRELOAD = '<div id="bj-preload" style="position:fixed;inset:0;z-index:2147
 const jsField =
 '/* 白境空間清潔 — 依序載入函式庫與 site.js;改樣式/動效不必動這裡,push GitHub 即可 */\n' +
 '(function () {\n' +
-'  var urls = [\n' +
-'    "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js",\n' +
-'    "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js",\n' +
-'    "https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js",\n' +
-'    "https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js",\n' +
-'    "https://cdn.jsdelivr.net/gh/haotaimaker/cleanwhite@main/site.js"\n' +
-'  ];\n' +
+'  var urls = ' + JSON.stringify(libs, null, 2).replace(/\n/g, '\n  ') + ';\n' +
 '  var i = 0;\n' +
 '  (function next() {\n' +
 '    if (i >= urls.length) return;\n' +
