@@ -18,6 +18,7 @@ body.InWeb > .chat { display: none !important; }
 }
 
 .bj-pain__thesis-spark { display: none !important; }
+.bj-promise-band__mark { display: none !important; }
 
 #bj-preload-broom { animation: bjpl-sweep 0.95s ease-in-out infinite; will-change: transform; backface-visibility: hidden; transform: translateZ(0); }
 @keyframes bjpl-sweep { 0%,100% { transform: translateZ(0) rotate(-11deg); } 50% { transform: translateZ(0) rotate(11deg); } }

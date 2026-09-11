@@ -107,6 +107,7 @@ const ONESHOP_FIX = [
   '}',
   '/* thesis 裝飾星 ✦ 在襯線字體會變豆腐方塊,直接藏掉(源碼已移除,這行是給尚未重貼頁面的即時修正)*/',
   '.bj-pain__thesis-spark { display: none !important; }',
+  '.bj-promise-band__mark { display: none !important; }',
   '/* 進場載入遮罩:掃把擺動 + 保險自動淡出(避免 site.js 沒載到時卡住)*/',
   '#bj-preload-broom { animation: bjpl-sweep 0.95s ease-in-out infinite; will-change: transform; backface-visibility: hidden; transform: translateZ(0); }',
   '@keyframes bjpl-sweep { 0%,100% { transform: translateZ(0) rotate(-11deg); } 50% { transform: translateZ(0) rotate(11deg); } }',
