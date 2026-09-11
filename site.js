@@ -1,6 +1,6 @@
 (function () {
 
-  var LINE_URL = 'https://lin.ee/XXXXXXX';          // ← 換成官方 LINE 連結
+  var LINE_URL = 'https://lin.ee/oyyGjilc';          // ← 換成官方 LINE 連結
   var LINE_OA  = '@境白官方ID';                      // ← LINE 官方帳號 ID(小淨帶需求單用)
   var PHONE    = '06-2550811';
   var TEL      = 'tel:062550811';
@@ -638,7 +638,7 @@
 (function () {
 
   var CONF = window.BJ_CONF || {};
-  var LINE_URL = CONF.LINE_URL || 'https://lin.ee/XXXXXXX';
+  var LINE_URL = CONF.LINE_URL || 'https://lin.ee/oyyGjilc';
   var LINE_OA  = CONF.LINE_OA  || '@境白官方ID';
 
   var FAQ = [];
