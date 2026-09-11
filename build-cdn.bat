@@ -1,7 +1,7 @@
 @echo off
-rem 一鍵發佈:重建 CDN 資產 → 複製到 baijing-assets → push GitHub → purge jsDelivr
+rem 一鍵發佈:重建 CDN 資產 → 複製到 cleanwhite → push GitHub → purge jsDelivr
 cd /d "%~dp0"
-set ASSET=C:\Users\user\baijing-assets
+set ASSET=%~dp0..\cleanwhite
 
 node build-cdn.js
 if errorlevel 1 ( echo. & echo build-cdn 失敗,請看上方訊息 & pause & exit /b 1 )
@@ -18,8 +18,8 @@ if errorlevel 1 (
   git push
   echo.
   echo 已 push 資產,請求 jsDelivr purge...
-  curl -s "https://purge.jsdelivr.net/gh/Raffertyxu/baijing-assets@main/site.css" >nul
-  curl -s "https://purge.jsdelivr.net/gh/Raffertyxu/baijing-assets@main/site.js" >nul
+  curl -s "https://purge.jsdelivr.net/gh/haotaimaker/cleanwhite@main/site.css" >nul
+  curl -s "https://purge.jsdelivr.net/gh/haotaimaker/cleanwhite@main/site.js" >nul
   echo 完成。網站約數分鐘內更新。
 ) else (
   echo.

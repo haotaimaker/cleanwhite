@@ -231,6 +231,8 @@
 
 html, body { overflow-x: clip; max-width: 100%; margin: 0; background: var(--bj-bg); }
 
+body.InWeb > .chat { display: none !important; }
+
 
 
 ::selection { background: rgba(47,111,228,0.16); color: var(--bj-white); }
@@ -310,10 +312,13 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   align-items:     center;
   gap:             28px;
 }
-.BJ-Base-App .bj-hero__logo svg {
-  width:  120px;
-  height: auto;
-  margin: 0 auto;
+.BJ-Base-App .bj-hero__logo img {
+  display:    block !important;
+  width:      160px !important;
+  height:     160px !important;
+  max-width:  160px !important;
+  object-fit: contain !important;
+  margin:     0 auto !important;
   filter: drop-shadow(0 6px 18px rgba(47,111,228,0.18));
 }
 .BJ-Base-App .bj-hero__text {
@@ -596,7 +601,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   width:         100%;
   max-width:     880px;
   margin:        0 auto;
-  aspect-ratio:  3 / 2;
+  aspect-ratio:  4 / 3;
   border:        1px solid var(--bj-border);
   overflow:      hidden;
   user-select:   none;
@@ -1084,7 +1089,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   background:     var(--bj-surf);
   text-align:     center;
 }
-.BJ-Base-App .bj-about-story__logo-wrap svg { width:100%; max-width:200px; }
+.BJ-Base-App .bj-about-story__logo-wrap img { display:block !important; width:220px !important; max-width:220px !important; height:auto !important; object-fit:contain !important; }
 .BJ-Base-App .bj-about-story__brand-name { text-align:center; }
 .BJ-Base-App .bj-about-story__text {
   display:   flex;
@@ -1454,7 +1459,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   align-items: center;
   gap:         10px;
 }
-.BJ-Base-App .bj-nav__brand svg { width: 26px; height: auto; }
+.BJ-Base-App .bj-nav__brand img { width:34px !important; height:34px !important; max-width:34px !important; object-fit:contain !important; }
 .BJ-Base-App .bj-nav__brand-name {
   font-family:    var(--bj-fs);
   font-size:      16px;
@@ -1605,7 +1610,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
 }
 .BJ-Base-App .bj-footer__brand { display: flex; flex-direction: column; gap: 16px; }
 .BJ-Base-App .bj-footer__brand-top { display: flex; align-items: center; gap: 12px; }
-.BJ-Base-App .bj-footer__brand-top svg { width: 34px; height: auto; opacity: 0.85; }
+.BJ-Base-App .bj-footer__brand-top img { width:44px !important; height:44px !important; max-width:44px !important; object-fit:contain !important; }
 .BJ-Base-App .bj-footer__name {
   font-family:    var(--bj-fs);
   font-size:      18px;

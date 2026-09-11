@@ -8,7 +8,7 @@
 
 ## 檔案結構
 
-**部署模式:單頁「假頁面」+ CDN。** 整站只放在 **1shop 一個頁面**;導覽列點「服務/關於/聯絡」時由 `shared/router.html` 切換 4 個隱藏區塊 + 布幕轉場,做出「跳到另一頁」的錯覺。因 1shop 自訂CSS 有 15000 字上限,CSS/JS 改放**公開 repo `Raffertyxu/baijing-assets`**,由 jsDelivr 載入,1shop 只貼幾行載入器。
+**部署模式:單頁「假頁面」+ CDN。** 整站只放在 **1shop 一個頁面**;導覽列點「服務/關於/聯絡」時由 `shared/router.html` 切換 4 個隱藏區塊 + 布幕轉場,做出「跳到另一頁」的錯覺。因 1shop 自訂CSS 有 15000 字上限,CSS/JS 改放**公開 repo `haotaimaker/cleanwhite`**,由 jsDelivr 載入,1shop 只貼幾行載入器。
 
 ```text
 clean/
@@ -17,13 +17,13 @@ clean/
 ├─ shared/
 │  ├─ nav-footer.html      共用導覽列 + 頁尾 + 全站設定區(LINE/電話)
 │  ├─ motion.html          動態層:GSAP 揭幕/逐字標題 + Lenis + vanilla-tilt + 布幕轉場
-│  ├─ chat.html            右下角「小淨」AI 客服(問答資料源=GitHub kb.json)
+│  ├─ chat.html            右下角「小淨」客服(問答資料源=GitHub kb.json)
 │  └─ router.html          假頁面路由:切換 4 區塊 + 觸發轉場
 ├─ home|services|about|contact/skeleton.html   四個頁面區塊(純 HTML)
 ├─ build-preview.js/.bat   預覽組裝器 → preview.html(本機看效果)
 ├─ build-cdn.js/.bat       CDN 產生器 → dist/(要 push 的資產)+ deploy/(貼 1shop)
 ├─ preview.html            本機預覽「產物」— 不要手改
-├─ dist/                   編譯資產「產物」site.css / site.js(push 到 baijing-assets)
+├─ dist/                   編譯資產「產物」site.css / site.js(push 到 cleanwhite)
 └─ deploy/                 1shop 貼上檔「產物」— 不要手改
    ├─ 1-自訂CSS.txt          貼進 1shop「自訂CSS」欄位(兩行 @import)
    ├─ 2-自訂JavaScript.txt   貼進「自訂JavaScript」欄位(載入器)
@@ -31,7 +31,7 @@ clean/
    └─ README.txt            貼上步驟
 ```
 
-外部 repo:`Raffertyxu/baijing-assets`(公開,放 site.css/site.js,本機 clone 在 `C:\Users\user\baijing-assets`)、`Raffertyxu/baijing-kb`(公開,小淨問答)、`Raffertyxu/baijing-site`(私人,本專案源碼)。
+外部 repo:`haotaimaker/cleanwhite`(公開,放 site.css/site.js,本機 clone 可放在 `C:\Users\user\浩太程式\cleanwhite`)、`Raffertyxu/baijing-kb`(公開,小淨問答)、`haotaimaker/cleanwhite`(私人/公開,本專案源碼)。
 
 ## 開發流程
 
@@ -50,12 +50,11 @@ clean/
 
 ```js
 var LINE_URL = 'https://lin.ee/XXXXXXX';   // ← 換成官方 LINE 連結(必改)
-var LINE_OA  = '@境白官方ID';               // ← LINE 官方帳號 ID(小淨帶需求單用,必改)
+var LINE_OA  = '@境白官方ID';               // ← 小淨帶需求單使用(必改)
 ```
 
 改這兩行就會**自動套用到全站**:導覽列/頁尾/各頁按鈕的 LINE 連結、電話連結、
-小淨聊天室的 LINE 按鈕與「帶需求去 LINE」——skeleton 檔案裡的佔位連結不用動,
-上線時會由 JS 統一改寫。
+skeleton 檔案裡的佔位連結不用動,上線時會由 JS 統一改寫。
 
 > 官方帳號連結格式通常是 `https://lin.ee/xxxxxxx`(LINE Official Account Manager →「加入好友」→ 網址)。
 
@@ -64,19 +63,16 @@ var LINE_OA  = '@境白官方ID';               // ← LINE 官方帳號 ID(小�
 
 ---
 
-## 小淨 AI 知識庫(唯一來源 = GitHub)
+## 小淨客服
 
-小淨的常見問題按鈕 + 打字問答,**全部**從 GitHub 讀取,站內不留副本:
-
-- **改問答**:到 <https://github.com/Raffertyxu/baijing-kb> 編輯 `kb.json` → Commit → 約 5 分鐘全站生效(格式說明在該 repo 的 README)
-- kb.json 格式錯誤或網路抓不到時,小淨仍可開啟,但暫時沒有問答資料(修好 kb.json 即恢復),所以改完建議先用 jsonlint.com 驗證格式再 Commit
+右下角「小淨」客服已納入預覽與 CDN 建置，常見問題及關鍵字回答從 GitHub `baijing-kb` 載入。1shop 原生的購物／回頂端浮動按鈕由 `body.InWeb > .chat` 規則隱藏，不影響 `#bj-chat`。
 
 ---
 
 ## 部署到 1shop 步驟(單頁 · 假頁面 · CDN 版)
 
 1shop 把樣式/程式分三個欄位,且**自訂CSS 上限 15000 字**(我們的 CSS 約 70KB 塞不下),
-所以 CSS/JS 放公開 repo `baijing-assets`、由 jsDelivr 載入,1shop 只貼「載入器」。
+所以 CSS/JS 放公開 repo `cleanwhite`、由 jsDelivr 載入,1shop 只貼「載入器」。
 先點兩下 `build-cdn.bat`(產生 `deploy/` 並把資產 push 上去),再貼**三個欄位**:
 
 | 貼到 1shop 哪個欄位 | 貼哪個檔 | 內容 |
@@ -85,10 +81,9 @@ var LINE_OA  = '@境白官方ID';               // ← LINE 官方帳號 ID(小�
 | **自訂JavaScript** | `deploy/2-自訂JavaScript.txt` | 依序載入函式庫與 site.js 的小載入器 |
 | **那一頁的自訂 HTML** | `deploy/3-頁面HTML.html` | 4 個區塊,靠導覽列假路由切換 |
 
-> - CSS/JS 之後要改,**只要重跑 `build-cdn.bat`**(更新 `baijing-assets`),1shop 不用再動。
+> - CSS/JS 之後要改,**只要重跑 `build-cdn.bat`**(更新 `cleanwhite`),1shop 不用再動。
 > - 只有**頁面內容**(skeleton)改動,才需要重貼 `deploy/3-頁面HTML.html`。
 > - 函式庫(GSAP/Lenis/vanilla-tilt)走 CDN,載入失敗會自動維持靜態可見、不白頁。
-> - 小淨問答從 GitHub `kb.json` 載入(見上方「小淨 AI 知識庫」)。
 > - 上線前改 LINE 設定:`shared/nav-footer.html` 的「設定區」→ 重跑 `build-cdn.bat`。
 > - jsDelivr `@main` 快取數小時;`build-cdn.bat` 會自動請求 purge,通常幾分鐘內更新。
 
@@ -119,7 +114,7 @@ var LINE_OA  = '@境白官方ID';               // ← LINE 官方帳號 ID(小�
 .bj-ba__after  { background: url('施作後.jpg') center/cover; }  /* 明亮那層 */
 ```
 
-兩張照片建議**同一角度、同一構圖**(只差髒↔淨),比例約 3:2,效果最好。
+兩張照片請使用**同一角度、同一構圖**(只差髒↔淨),尺寸建議 1200×900、比例 4:3。
 
 ---
 

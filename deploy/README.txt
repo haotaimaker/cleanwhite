@@ -2,7 +2,7 @@
 =========================================================
 
 ★ 前置(我方做,一次性):dist/site.css 與 dist/site.js 已 push 到公開 repo
-  Raffertyxu/baijing-assets,由 jsDelivr 提供。以後改樣式/動效只要更新那個 repo,不必再動 1shop。
+  haotaimaker/cleanwhite,由 jsDelivr 提供。以後改樣式/動效只要更新那個 repo,不必再動 1shop。
 
 在 1shop 後台貼三個地方:
 

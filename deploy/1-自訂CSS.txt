@@ -1,7 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;600;900&family=Jost:wght@300;400;500;600&display=swap');
-@import url('https://cdn.jsdelivr.net/gh/Raffertyxu/baijing-assets@main/site.css');
+@import url('https://cdn.jsdelivr.net/gh/haotaimaker/cleanwhite@main/site.css');
 
 .head, .footer { display: none !important; }
+
+body.InWeb > .chat { display: none !important; }
+
+.BJ-Base-App .bj-hero__logo img { display:block !important; width:160px !important; height:160px !important; max-width:160px !important; object-fit:contain !important; margin:0 auto !important; }
+.BJ-Base-App .bj-about-story__logo-wrap img { display:block !important; width:220px !important; height:auto !important; max-width:220px !important; object-fit:contain !important; }
+.BJ-Base-App .bj-nav__brand img { width:34px !important; height:34px !important; max-width:34px !important; object-fit:contain !important; }
+.BJ-Base-App .bj-footer__brand-top img { width:44px !important; height:44px !important; max-width:44px !important; object-fit:contain !important; }
 
 .page-single, .page-single .container, .customize, .code {
   max-width: 100% !important; width: auto !important;

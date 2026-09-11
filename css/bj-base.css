@@ -234,6 +234,8 @@
 /* 防止 100vw 滿版區塊(hero/footer)在有捲軸時造成水平溢出 */
 /* margin:0 + 深色底:消除頁面左右露出的白色預設邊距(那兩條白線) */
 html, body { overflow-x: clip; max-width: 100%; margin: 0; background: var(--bj-bg); }
+/* 1shop 原生購物/回頂端浮動按鈕；保留獨立的 #bj-chat 小淨客服 */
+body.InWeb > .chat { display: none !important; }
 
 /* ── App 手感細節 ─────────────────────────────────────────── */
 /* 選取文字 → 品牌藍 */
@@ -317,10 +319,13 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   align-items:     center;
   gap:             28px;
 }
-.BJ-Base-App .bj-hero__logo svg {
-  width:  120px;
-  height: auto;
-  margin: 0 auto;
+.BJ-Base-App .bj-hero__logo img {
+  display:    block !important;
+  width:      160px !important;
+  height:     160px !important;
+  max-width:  160px !important;
+  object-fit: contain !important;
+  margin:     0 auto !important;
   filter: drop-shadow(0 6px 18px rgba(47,111,228,0.18));
 }
 .BJ-Base-App .bj-hero__text {
@@ -603,7 +608,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   width:         100%;
   max-width:     880px;
   margin:        0 auto;
-  aspect-ratio:  3 / 2;
+  aspect-ratio:  4 / 3;
   border:        1px solid var(--bj-border);
   overflow:      hidden;
   user-select:   none;
@@ -1095,7 +1100,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   background:     var(--bj-surf);
   text-align:     center;
 }
-.BJ-Base-App .bj-about-story__logo-wrap svg { width:100%; max-width:200px; }
+.BJ-Base-App .bj-about-story__logo-wrap img { display:block !important; width:220px !important; max-width:220px !important; height:auto !important; object-fit:contain !important; }
 .BJ-Base-App .bj-about-story__brand-name { text-align:center; }
 .BJ-Base-App .bj-about-story__text {
   display:   flex;

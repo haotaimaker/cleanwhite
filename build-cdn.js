@@ -19,7 +19,7 @@ const ROOT = __dirname;
 const read = f => fs.readFileSync(path.join(ROOT, f), 'utf8');
 
 /* ← 放編譯資產的公開 repo(jsDelivr 只能讀公開 repo)*/
-const GH = 'Raffertyxu/baijing-assets';
+const GH = process.env.BJ_GH_ASSET || 'haotaimaker/cleanwhite';
 const CDN = 'https://cdn.jsdelivr.net/gh/' + GH + '@main';
 
 const FONT_IMPORT =
@@ -87,6 +87,13 @@ const ONESHOP_FIX = [
   '/* ── 1shop 版型修正(改這裡即時生效,不必等 CDN;不用 :has 以求相容)── */',
   '/* 藏 1shop 原生頁首/頁尾(我們有自己的 bj-nav / bj-footer,class 不同名不衝突)*/',
   '.head, .footer { display: none !important; }',
+  '/* 藏 1shop 原生購物/回頂端浮動按鈕,保留我們的 #bj-chat 小淨客服 */',
+  'body.InWeb > .chat { display: none !important; }',
+  '/* Logo 尺寸保險:直接放在 1shop CSS 欄位,不受 CDN 舊快取影響 */',
+  '.BJ-Base-App .bj-hero__logo img { display:block !important; width:160px !important; height:160px !important; max-width:160px !important; object-fit:contain !important; margin:0 auto !important; }',
+  '.BJ-Base-App .bj-about-story__logo-wrap img { display:block !important; width:220px !important; height:auto !important; max-width:220px !important; object-fit:contain !important; }',
+  '.BJ-Base-App .bj-nav__brand img { width:34px !important; height:34px !important; max-width:34px !important; object-fit:contain !important; }',
+  '.BJ-Base-App .bj-footer__brand-top img { width:44px !important; height:44px !important; max-width:44px !important; object-fit:contain !important; }',
   '/* 突破 1shop 內容容器(Bootstrap .container 最大寬 + 內距 + 白底),恢復滿版 */',
   '.page-single, .page-single .container, .customize, .code {',
   '  max-width: 100% !important; width: auto !important;',
@@ -143,6 +150,13 @@ const seoBlock = seoRaw.includes('請填-')
 
 const onePage = [
   '<!-- 境白空間清潔 · 頁面內容(貼進 1shop「那一頁」的自訂 HTML)。整站在這一頁,靠假路由切換。 -->',
+  '<style>' +
+    'body.InWeb > .chat{display:none!important}' +
+    '.BJ-Base-App .bj-hero__logo img{display:block!important;width:160px!important;height:160px!important;max-width:160px!important;object-fit:contain!important;margin:0 auto!important}' +
+    '.BJ-Base-App .bj-about-story__logo-wrap img{display:block!important;width:220px!important;height:auto!important;max-width:220px!important;object-fit:contain!important}' +
+    '.BJ-Base-App .bj-nav__brand img{display:block!important;width:34px!important;height:34px!important;max-width:34px!important;object-fit:contain!important}' +
+    '.BJ-Base-App .bj-footer__brand-top img{display:block!important;width:44px!important;height:44px!important;max-width:44px!important;object-fit:contain!important}' +
+  '</style>',
   PRELOAD,
   seoBlock,
   '<div class="BJ-Base-App" id="bj-site-root">',
@@ -150,6 +164,9 @@ const onePage = [
    ['about/skeleton.html','bj-about'],['contact/skeleton.html','bj-contact']]
     .map(p => cleanPage(p[0], p[1])).join('\n\n'),
   '</div>',
+  /* Keep Xiaojing inside the single HTML artifact as well as site.js.
+     Its init guard (#bj-chat) prevents a duplicate on 1shop. */
+  chat,
   '',
 ].join('\n');
 

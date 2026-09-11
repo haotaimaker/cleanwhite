@@ -16,16 +16,11 @@
     { label: '聯絡我們', href: '/contact' }
   ];
 
-  // 房屋 + 璀璨星 Logo（與站內視覺一致）
-  var LOGO = '<svg viewBox="54 34 156 130" fill="none" xmlns="http://www.w3.org/2000/svg">' +
-    '<path d="M162 150 L162 98 L120 58" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>' +
-    '<path d="M120 58 L80 98 L80 150" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>' +
-    '<path d="M64 140 Q120 116 178 132 Q192 136 198 122" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>' +
-    '<path d="M84 150 Q132 134 178 132" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>' +
-    '<path d="M147 50.5 L150.5 59.5 L159.5 63 L150.5 66.5 L147 75.5 L143.5 66.5 L134.5 63 L143.5 59.5 Z" fill="currentColor"/>' +
-    '<path d="M164 41 L166.3 46.7 L172 49 L166.3 51.3 L164 57 L161.7 51.3 L156 49 L161.7 46.7 Z" fill="currentColor" opacity="0.85"/>' +
-    '<path d="M177 34.5 L178.6 38.4 L182.5 40 L178.6 41.6 L177 45.5 L175.4 41.6 L171.5 40 L175.4 38.4 Z" fill="currentColor" opacity="0.7"/>' +
-    '</svg>';
+  // 品牌正式 Logo（導覽列與頁尾共用）
+  var LOGO_URL = 'https://img.1shop.tw/197aMxy84AlqgWrRPm2d3QYq/5yxD7ZmWlk1Qm6kbYXgBqvRQ/original-2.png.avif';
+  function logoImg(size) {
+    return '<img src="' + LOGO_URL + '" alt="" style="display:block;width:' + size + 'px;height:' + size + 'px;object-fit:contain;max-width:none;">';
+  }
 
   function isActive(href) {
     var path = location.pathname.replace(/\/+$/, '') || '/';
@@ -50,7 +45,7 @@
     nav.innerHTML =
       '<div class="bj-nav__inner">' +
         '<a class="bj-nav__brand" href="/" aria-label="' + BRAND + ' 首頁">' +
-          '<span style="color:var(--bj-spark)">' + LOGO + '</span>' +
+          '<span style="color:var(--bj-spark)">' + logoImg(34) + '</span>' +
           '<span class="bj-nav__brand-name">' + BRAND + '</span>' +
         '</a>' +
         '<nav class="bj-nav__links">' + linksHtml +
@@ -73,7 +68,7 @@
       '<div class="bj-footer__inner">' +
         '<div class="bj-footer__brand">' +
           '<div class="bj-footer__brand-top">' +
-            '<span style="color:var(--bj-spark)">' + LOGO + '</span>' +
+            '<span style="color:var(--bj-spark)">' + logoImg(44) + '</span>' +
             '<span class="bj-footer__name">' + BRAND + '</span>' +
           '</div>' +
           '<p class="bj-footer__tagline">極致的淨,看不見的細節。<br>專業裝潢後細部清潔 · 石材美容 · 玻璃無水痕清潔</p>' +
@@ -153,7 +148,18 @@
     });
   }
 
+  function removeNativeChat() {
+    Array.prototype.forEach.call(document.querySelectorAll('body.InWeb > .chat'), function (el) {
+      if (el.parentNode) el.parentNode.removeChild(el);
+    });
+  }
+
   function start() {
+    removeNativeChat();
+
+    var nativeChatObs = new MutationObserver(removeNativeChat);
+    nativeChatObs.observe(document.body, { childList: true });
+    setTimeout(function () { nativeChatObs.disconnect(); }, 10000);
     var app = document.querySelector('.BJ-Base-App');
     if (app) { inject(app); applyConf(); return; }
     // 若頁面區塊是稍後才載入,觀察 DOM 直到出現
