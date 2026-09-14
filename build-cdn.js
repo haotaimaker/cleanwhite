@@ -20,7 +20,8 @@ const read = f => fs.readFileSync(path.join(ROOT, f), 'utf8');
 
 /* ← 放編譯資產的公開 repo(jsDelivr 只能讀公開 repo)*/
 const GH = process.env.BJ_GH_ASSET || 'haotaimaker/cleanwhite';
-const CDN = 'https://cdn.jsdelivr.net/gh/' + GH + '@main/dist';
+const CDN_VERSION = process.env.BJ_CDN_VERSION || 'fe0afb3';
+const CDN = 'https://cdn.jsdelivr.net/gh/' + GH + '@' + CDN_VERSION + '/dist';
 
 const FONT_IMPORT =
   "@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;600;900&family=Jost:wght@300;400;500;600&display=swap');";

@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;600;900&family=Jost:wght@300;400;500;600&display=swap');
-@import url('https://cdn.jsdelivr.net/gh/haotaimaker/cleanwhite@main/dist/site.css');
+@import url('https://cdn.jsdelivr.net/gh/haotaimaker/cleanwhite@fe0afb3/dist/site.css');
 
 .head, .footer { display: none !important; }
 
