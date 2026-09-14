@@ -111,6 +111,7 @@ const ONESHOP_FIX = [
   '.bj-pain__thesis-spark { display: none !important; }',
   '.bj-promise-band__mark { display: none !important; }',
   '.BJ-Base-App .bj-pain__thesis::before, .BJ-Base-App .bj-pain__thesis::after, .BJ-Base-App .bj-promise-band__quote::before, .BJ-Base-App .bj-promise-band__quote::after { content: none !important; display: none !important; }',
+  'html, body { overflow-x: clip !important; overflow-y: visible !important; }',
   '/* 進場載入遮罩:掃把擺動 + 保險自動淡出(避免 site.js 沒載到時卡住)*/',
   '#bj-preload-broom { animation: bjpl-sweep 0.95s ease-in-out infinite; will-change: transform; backface-visibility: hidden; transform: translateZ(0); }',
   '@keyframes bjpl-sweep { 0%,100% { transform: translateZ(0) rotate(-11deg); } 50% { transform: translateZ(0) rotate(11deg); } }',
