@@ -5,18 +5,7 @@
    preview.html 是「產物」,不要手改;要改內容改來源檔再重組。
    ============================================================ */
 'use strict';
-const fs = require('fs');
-const path = require('path');
-
-const ROOT = __dirname;
-const read = f => fs.readFileSync(path.join(ROOT, f), 'utf8');
-const clean = s => s
-  .replace(/<!--[\s\S]*?-->/g, '')
-  .replace(/\/\*[\s\S]*?\*\//g, '')
-  .replace(/^\s*\/\/.*$/gm, '')
-  .replace(/[ \t]+\n/g, '\n')
-  .replace(/\n{3,}/g, '\n\n')
-  .trim();
+const { read, write, cleanPreview: clean } = require('./scripts/build-utils');
 
 const baseCss = read('css/bj-base.css');
 const pages = [
@@ -27,6 +16,7 @@ const pages = [
 ];
 const seo = read('shared/seo.html');
 const navFooter = read('shared/nav-footer.html');
+const config = read('shared/config.html');
 const motion = read('shared/motion.html');
 const chat = read('shared/chat.html');
 
@@ -54,6 +44,7 @@ const html = [
   '<div class="BJ-Base-App" id="bj-preview-root">',
   pages.map(clean).join('\n'),
   '</div>',
+  clean(config),
   clean(navFooter),
   clean(motion),
   clean(chat),
@@ -63,5 +54,5 @@ const html = [
   '',
 ].join('\n');
 
-fs.writeFileSync(path.join(ROOT, 'preview.html'), html);
+write('preview.html', html);
 console.log('✅ preview.html 已重新組裝 (' + html.split('\n').length + ' 行)');

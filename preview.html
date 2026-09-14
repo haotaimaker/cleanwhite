@@ -2717,6 +2717,26 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
 </div>
 <script>(function(){var el=document.getElementById('lbl-bj-contact');if(el)el.style.display='none';})()</script>
 </div>
+<script>
+(function () {
+  window.BJ_CONFIG = Object.freeze({
+    LINE_URL: 'https://lin.ee/oyyGjilc',
+    LINE_OA: '@境白官方ID',
+    PHONE: '06-2550811',
+    TEL: 'tel:062550811',
+    EMAIL: 'bentley0903499936@gmail.com',
+    ADDRESS: '台南市安南區功安三街43號',
+    BRAND: '境白空間清潔',
+    LOGO_URL: 'https://img.1shop.tw/197aMxy84AlqgWrRPm2d3QYq/5yxD7ZmWlk1Qm6kbYXgBqvRQ/original-2.png.avif',
+    NAV_LINKS: [
+      { label: '首頁', href: '/' },
+      { label: '服務項目', href: '/services' },
+      { label: '關於我們', href: '/about' },
+      { label: '聯絡我們', href: '/contact' }
+    ]
+  });
+})();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;600;900&family=Jost:wght@300;400;500;600&display=swap">
@@ -2978,24 +2998,17 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
 
 <script>
 (function () {
-
-  var LINE_URL = 'https://lin.ee/oyyGjilc';          // ← 換成官方 LINE 連結
-  var LINE_OA  = '@境白官方ID';                      // ← LINE 官方帳號 ID(小淨帶需求單用)
-  var PHONE    = '06-2550811';
-  var TEL      = 'tel:062550811';
-  var EMAIL    = 'bentley0903499936@gmail.com';
-  var ADDRESS  = '台南市安南區功安三街43號';
-  var BRAND    = '境白空間清潔';
-
-  window.BJ_CONF = { LINE_URL: LINE_URL, LINE_OA: LINE_OA, PHONE: PHONE, TEL: TEL, EMAIL: EMAIL, ADDRESS: ADDRESS, BRAND: BRAND };
-  var NAV_LINKS = [                                  // ← 若 1shop 網址不同請改 href
-    { label: '首頁',     href: '/' },
-    { label: '服務項目', href: '/services' },
-    { label: '關於我們', href: '/about' },
-    { label: '聯絡我們', href: '/contact' }
-  ];
-
-  var LOGO_URL = 'https://img.1shop.tw/197aMxy84AlqgWrRPm2d3QYq/5yxD7ZmWlk1Qm6kbYXgBqvRQ/original-2.png.avif';
+  var CONFIG = window.BJ_CONFIG || {};
+  var LINE_URL = CONFIG.LINE_URL || 'https://lin.ee/oyyGjilc';
+  var LINE_OA  = CONFIG.LINE_OA || '@境白官方ID';
+  var PHONE    = CONFIG.PHONE || '06-2550811';
+  var TEL      = CONFIG.TEL || 'tel:062550811';
+  var EMAIL    = CONFIG.EMAIL || 'bentley0903499936@gmail.com';
+  var ADDRESS  = CONFIG.ADDRESS || '台南市安南區功安三街43號';
+  var BRAND    = CONFIG.BRAND || '境白空間清潔';
+  var NAV_LINKS = CONFIG.NAV_LINKS || [];
+  var LOGO_URL = CONFIG.LOGO_URL || '';
+  window.BJ_CONF = CONFIG;
   function logoImg(size) {
     return '<img src="' + LOGO_URL + '" alt="" style="display:block;width:' + size + 'px;height:' + size + 'px;object-fit:contain;max-width:none;">';
   }
@@ -3530,10 +3543,23 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   }
 
   function initHScroll(G) {
+    if (!G || !window.ScrollTrigger || reduce) return;
+    if (!window.matchMedia || !matchMedia('(min-width: 760px)').matches) return;
     Array.prototype.forEach.call(document.querySelectorAll('[data-bj-hscroll]'), function (sec) {
-      sec.classList.remove('is-pinned');
-      sec.style.overflowX = 'auto';
-      sec.style.overflowY = 'hidden';
+      var track = sec.querySelector('.bj-hsec__track');
+      if (!track) return;
+      sec.classList.add('is-pinned');
+      function dist() { return Math.max(0, track.scrollWidth - window.innerWidth); }
+      G.to(track, {
+        x: function () { return -dist(); },
+        ease: 'none',
+        scrollTrigger: {
+          trigger: sec,
+          start: 'top top',
+          end: function () { return '+=' + dist(); },
+          pin: true, scrub: 1, anticipatePin: 1, invalidateOnRefresh: true
+        }
+      });
     });
   }
 

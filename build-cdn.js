@@ -15,8 +15,18 @@
 'use strict';
 const fs = require('fs');
 const path = require('path');
-const ROOT = __dirname;
-const read = f => fs.readFileSync(path.join(ROOT, f), 'utf8');
+const {
+  ROOT,
+  read,
+  write,
+  cleanCss,
+  cleanJs,
+  cleanHtml,
+  extractStyles,
+  extractInlineJs,
+  extractLibSrc,
+  withoutStyleBlocks,
+} = require('./scripts/build-utils');
 
 /* ← 放編譯資產的公開 repo(jsDelivr 只能讀公開 repo)*/
 const GH = process.env.BJ_GH_ASSET || 'haotaimaker/cleanwhite';
@@ -26,30 +36,8 @@ const CDN = 'https://cdn.jsdelivr.net/gh/' + GH + '@' + CDN_VERSION + '/dist';
 const FONT_IMPORT =
   "@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;600;900&family=Jost:wght@300;400;500;600&display=swap');";
 
-/* 產出去註解:來源檔保留註解供維護,貼上/上線的產物一律乾淨 */
-const stripHtml = s => s.replace(/<!--[\s\S]*?-->/g, '').replace(/\/\*[\s\S]*?\*\//g, '').replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
-const stripCss  = s => s.replace(/\/\*[\s\S]*?\*\//g, '').replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
-const stripJs   = s => s.replace(/\/\*[\s\S]*?\*\//g, '').replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
-const withoutStyleBlocks = s => s.replace(/<style>[\s\S]*?<\/style>/gi, '');
-
-/* 從共用檔抽出 <style> / 無 src 的 <script> / 有 src 的函式庫 URL */
-function extractStyles(html) {
-  const out = []; const re = /<style>([\s\S]*?)<\/style>/g; let m;
-  while ((m = re.exec(html)) !== null) out.push(m[1].trim());
-  return out.join('\n');
-}
-function extractInlineJs(html) {
-  const out = []; const re = /<script>([\s\S]*?)<\/script>/g; let m;   // <script> 無屬性 = 內嵌;<script src> 不會被這個抓到
-  while ((m = re.exec(html)) !== null) out.push(m[1].trim());
-  return out.join('\n');
-}
-function extractLibSrc(html) {
-  const out = []; const re = /<script src="([^"]+)"><\/script>/g; let m;
-  while ((m = re.exec(html)) !== null) out.push(m[1]);
-  return out;
-}
-
 const navFooter = read('shared/nav-footer.html');
+const config    = read('shared/config.html');
 const motion    = read('shared/motion.html');
 const chat      = read('shared/chat.html');
 const router    = read('shared/router.html');
@@ -67,6 +55,7 @@ const siteCss = [
 /* ── dist/site.js(順序:nav→motion→chat→router)── */
 const siteJs = [
   '/* 境白空間清潔 site.js — 由 build-cdn.js 產生,勿手改 */',
+  '/* ===== config ===== */',     extractInlineJs(config),
   '/* ===== nav-footer ===== */', extractInlineJs(navFooter),
   '/* ===== motion ===== */',     extractInlineJs(motion),
   '/* ===== chat ===== */',       extractInlineJs(chat),
@@ -76,12 +65,12 @@ const siteJs = [
 
 const distDir = path.join(ROOT, 'dist');
 if (!fs.existsSync(distDir)) fs.mkdirSync(distDir);
-fs.writeFileSync(path.join(distDir, 'site.css'), stripCss(siteCss) + '\n');
-fs.writeFileSync(path.join(distDir, 'site.js'), stripJs(siteJs) + '\n');
+write('dist/site.css', cleanCss(siteCss) + '\n');
+write('dist/site.js', cleanJs(siteJs) + '\n');
 // 為了兼容目前 1shop 已經貼上的舊網址（...@main/site.css/js），
 // 也同步保留一份 root 入口，避免舊欄位不需重貼即可恢復載入。
-fs.writeFileSync(path.join(ROOT, 'site.css'), stripCss(siteCss) + '\n');
-fs.writeFileSync(path.join(ROOT, 'site.js'), stripJs(siteJs) + '\n');
+write('site.css', cleanCss(siteCss) + '\n');
+write('site.js', cleanJs(siteJs) + '\n');
 
 /* ── 函式庫清單(motion 的 <script src>)+ 我們的 site.js,依序載入 ── */
 const libs = extractLibSrc(motion).concat([CDN + '/site.js']);
@@ -187,9 +176,9 @@ if (!fs.existsSync(outDir)) fs.mkdirSync(outDir);
 ['1-global-head.html', '2-one-page.html'].forEach(f => {
   const p = path.join(outDir, f); if (fs.existsSync(p)) fs.unlinkSync(p);
 });
-fs.writeFileSync(path.join(outDir, '1-自訂CSS.txt'), stripCss(cssField) + '\n');
-fs.writeFileSync(path.join(outDir, '2-自訂JavaScript.txt'), stripJs(jsField) + '\n');
-fs.writeFileSync(path.join(outDir, '3-頁面HTML.html'), stripHtml(onePage) + '\n');
+write('deploy/1-自訂CSS.txt', cleanCss(cssField) + '\n');
+write('deploy/2-自訂JavaScript.txt', cleanJs(jsField) + '\n');
+write('deploy/3-頁面HTML.html', cleanHtml(onePage) + '\n');
 
 const readme = [
   '境白空間清潔 — 1shop 上線說明(CDN 版 · 三個欄位各貼一次)',
@@ -213,7 +202,7 @@ const readme = [
   '改完重跑 build-cdn 並 push 公開 repo 即生效(jsDelivr 快取約需數小時或手動 purge)。',
   '',
 ].join('\n');
-fs.writeFileSync(path.join(outDir, 'README.txt'), readme);
+write('deploy/README.txt', readme);
 
 /* ── SEO:給 1shop 頁面設定填的標題/描述(貼到 1shop 後台,不是程式)── */
 const seoSettings = [
@@ -235,7 +224,7 @@ const seoSettings = [
   '★ 站外最有效:去 Google「商家檔案」登記/認領(免費),對在地與 AI 搜尋幫助最大。',
   '',
 ].join('\n');
-fs.writeFileSync(path.join(outDir, 'SEO-1shop設定.txt'), seoSettings);
+write('deploy/SEO-1shop設定.txt', seoSettings);
 
 console.log('✅ 產生完成');
 console.log('   dist/site.css            ' + (siteCss.length / 1024).toFixed(1) + ' KB');

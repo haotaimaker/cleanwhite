@@ -1,23 +1,34 @@
 (function () {
+  window.BJ_CONFIG = Object.freeze({
+    LINE_URL: 'https://lin.ee/oyyGjilc',
+    LINE_OA: '@境白官方ID',
+    PHONE: '06-2550811',
+    TEL: 'tel:062550811',
+    EMAIL: 'bentley0903499936@gmail.com',
+    ADDRESS: '台南市安南區功安三街43號',
+    BRAND: '境白空間清潔',
+    LOGO_URL: 'https://img.1shop.tw/197aMxy84AlqgWrRPm2d3QYq/5yxD7ZmWlk1Qm6kbYXgBqvRQ/original-2.png.avif',
+    NAV_LINKS: [
+      { label: '首頁', href: '/' },
+      { label: '服務項目', href: '/services' },
+      { label: '關於我們', href: '/about' },
+      { label: '聯絡我們', href: '/contact' }
+    ]
+  });
+})();
 
-  var LINE_URL = 'https://lin.ee/oyyGjilc';          // ← 換成官方 LINE 連結
-  var LINE_OA  = '@境白官方ID';                      // ← LINE 官方帳號 ID(小淨帶需求單用)
-  var PHONE    = '06-2550811';
-  var TEL      = 'tel:062550811';
-  var EMAIL    = 'bentley0903499936@gmail.com';
-  var ADDRESS  = '台南市安南區功安三街43號';
-  var BRAND    = '境白空間清潔';
-
-  window.BJ_CONF = { LINE_URL: LINE_URL, LINE_OA: LINE_OA, PHONE: PHONE, TEL: TEL, EMAIL: EMAIL, ADDRESS: ADDRESS, BRAND: BRAND };
-  var NAV_LINKS = [                                  // ← 若 1shop 網址不同請改 href
-    { label: '首頁',     href: '/' },
-    { label: '服務項目', href: '/services' },
-    { label: '關於我們', href: '/about' },
-    { label: '聯絡我們', href: '/contact' }
-  ];
-
-  // 品牌正式 Logo（導覽列與頁尾共用）
-  var LOGO_URL = 'https://img.1shop.tw/197aMxy84AlqgWrRPm2d3QYq/5yxD7ZmWlk1Qm6kbYXgBqvRQ/original-2.png.avif';
+(function () {
+  var CONFIG = window.BJ_CONFIG || {};
+  var LINE_URL = CONFIG.LINE_URL || 'https://lin.ee/oyyGjilc';
+  var LINE_OA  = CONFIG.LINE_OA || '@境白官方ID';
+  var PHONE    = CONFIG.PHONE || '06-2550811';
+  var TEL      = CONFIG.TEL || 'tel:062550811';
+  var EMAIL    = CONFIG.EMAIL || 'bentley0903499936@gmail.com';
+  var ADDRESS  = CONFIG.ADDRESS || '台南市安南區功安三街43號';
+  var BRAND    = CONFIG.BRAND || '境白空間清潔';
+  var NAV_LINKS = CONFIG.NAV_LINKS || [];
+  var LOGO_URL = CONFIG.LOGO_URL || '';
+  window.BJ_CONF = CONFIG;
   function logoImg(size) {
     return '<img src="' + LOGO_URL + '" alt="" style="display:block;width:' + size + 'px;height:' + size + 'px;object-fit:contain;max-width:none;">';
   }
