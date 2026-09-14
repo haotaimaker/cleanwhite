@@ -395,25 +395,12 @@
     });
   }
 
-  /* 橫向捲動服務區:捲動時釘住,水平推進(Awwwards 互動) */
+  /* 橫向捲動服務區:保留原生水平滑動,不鎖住頁面垂直捲動 */
   function initHScroll(G) {
-    if (!G || !window.ScrollTrigger || reduce) return;
-    if (!window.matchMedia || !matchMedia('(min-width: 760px)').matches) return;  // 手機保留原生橫滑
     Array.prototype.forEach.call(document.querySelectorAll('[data-bj-hscroll]'), function (sec) {
-      var track = sec.querySelector('.bj-hsec__track');
-      if (!track) return;
-      sec.classList.add('is-pinned');
-      function dist() { return Math.max(0, track.scrollWidth - window.innerWidth); }
-      G.to(track, {
-        x: function () { return -dist(); },
-        ease: 'none',
-        scrollTrigger: {
-          trigger: sec,
-          start: 'top top',
-          end: function () { return '+=' + dist(); },
-          pin: true, scrub: 1, anticipatePin: 1, invalidateOnRefresh: true
-        }
-      });
+      sec.classList.remove('is-pinned');
+      sec.style.overflowX = 'auto';
+      sec.style.overflowY = 'hidden';
     });
   }
 
