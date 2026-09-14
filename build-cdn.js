@@ -29,6 +29,7 @@ const FONT_IMPORT =
 const stripHtml = s => s.replace(/<!--[\s\S]*?-->/g, '').replace(/\/\*[\s\S]*?\*\//g, '').replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
 const stripCss  = s => s.replace(/\/\*[\s\S]*?\*\//g, '').replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
 const stripJs   = s => s.replace(/\/\*[\s\S]*?\*\//g, '').replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
+const withoutStyleBlocks = s => s.replace(/<style>[\s\S]*?<\/style>/gi, '');
 
 /* 從共用檔抽出 <style> / 無 src 的 <script> / 有 src 的函式庫 URL */
 function extractStyles(html) {
@@ -177,7 +178,7 @@ const onePage = [
   '</div>',
   /* Keep Xiaojing inside the single HTML artifact as well as site.js.
      Its init guard (#bj-chat) prevents a duplicate on 1shop. */
-  chat,
+  withoutStyleBlocks(chat),
   '',
 ].join('\n');
 
