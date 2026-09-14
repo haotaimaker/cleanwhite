@@ -8,43 +8,33 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;600;900&family=Jost:wght@300;400;500;600&display=swap">
 <style>
-/* ============================================================
-   BJ Design System — 境白空間清潔
-   Prefix: bj-  |  App wrapper: .BJ-Base-App
-   Upload as 1shop 自訂CSS (head.html)
-   ============================================================ */
-
-/* 字型改由 <link> 載入(見 shared/nav-footer.html 頂端),
-   @import 會串行阻塞、拖慢首屏,勿加回。 */
-
-/* ── Variables(掛在 :root,全域規則也能取用)──────────────── */
 :root,
 .BJ-Base-App {
-    /* 藍 + 白(亮色系)— 清潔/水/潔淨 */
-    --bj-bg:        #F4F8FD;   /* 頁面底:極淺冷白 */
-    --bj-surf:      #FFFFFF;   /* 卡片:純白 */
-    --bj-surf2:     #E8F1FB;   /* hover:淺藍 */
+    
+    --bj-bg:        #F4F8FD;   
+    --bj-surf:      #FFFFFF;   
+    --bj-surf2:     #E8F1FB;   
     --bj-border:    rgba(22,52,94,0.12);
     --bj-bord-md:   rgba(22,52,94,0.20);
     --bj-bord-hi:   rgba(22,52,94,0.34);
 
-    --bj-white:     #15273F;   /* 主要文字:深藍灰(原 white 語意=主文字)*/
-    --bj-silver:    #43597A;   /* 次要文字 */
-    --bj-muted:     #7C8CA6;   /* 弱化文字 */
-    --bj-dim:       #AFBDD0;   /* 最淺 */
+    --bj-white:     #15273F;   
+    --bj-silver:    #43597A;   
+    --bj-muted:     #7C8CA6;   
+    --bj-dim:       #AFBDD0;   
 
-    /* 主色藍 — 對應品牌「水/淨」*/
+    
     --bj-spark:     #2F6FE4;
     --bj-spark-rgb: 47, 111, 228;
-    --bj-spark-deep:#2560C8;   /* 主藍 hover 加深 */
+    --bj-spark-deep:#2560C8;   
 
-    /* 輔助色 token */
-    --bj-pure:      #FFFFFF;   /* 絕對白(反白文字/圖示,不隨 surf 改) */
-    --bj-ice:       #EAF1FC;   /* 圖示圓底 淺藍 */
-    --bj-line:      #06C755;   /* LINE 綠 */
-    --bj-line-deep: #05B14C;   /* LINE 綠 hover */
-    --bj-scrollbar: #C3D4EE;   /* 捲軸 */
-    --bj-card-shadow: 0 18px 40px rgba(22,52,94,0.12);  /* 卡片 hover 陰影 */
+    
+    --bj-pure:      #FFFFFF;   
+    --bj-ice:       #EAF1FC;   
+    --bj-line:      #06C755;   
+    --bj-line-deep: #05B14C;   
+    --bj-scrollbar: #C3D4EE;   
+    --bj-card-shadow: 0 18px 40px rgba(22,52,94,0.12);  
 
     --bj-fn:  'Noto Sans TC', sans-serif;
     --bj-fs:  'Noto Serif TC', 'Noto Sans TC', serif;
@@ -65,7 +55,7 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* ── Reset ────────────────────────────────────────────────── */
+
 .BJ-Base-App *,
 .BJ-Base-App *::before,
 .BJ-Base-App *::after { margin:0; padding:0; box-sizing:border-box; }
@@ -74,7 +64,7 @@
 .BJ-Base-App ul,
 .BJ-Base-App ol  { list-style:none; }
 
-/* ── Layout ───────────────────────────────────────────────── */
+
 .BJ-Base-App .bj-wrap {
     max-width: 1100px;
     margin:    0 auto;
@@ -82,7 +72,7 @@
 }
 .BJ-Base-App .bj-section { padding: var(--bj-xl) 0; }
 
-/* ── Typography ───────────────────────────────────────────── */
+
 .BJ-Base-App .bj-eyebrow {
     font-family:    var(--bj-fen);
     font-size:      11px;
@@ -120,7 +110,7 @@
     text-transform: uppercase;
 }
 
-/* ── Decorators ───────────────────────────────────────────── */
+
 .BJ-Base-App .bj-line {
     display:    block;
     width:      36px;
@@ -131,7 +121,7 @@
 }
 .BJ-Base-App .bj-line--c { margin-left:auto; margin-right:auto; }
 
-/* ── Buttons ──────────────────────────────────────────────── */
+
 .BJ-Base-App .bj-btn {
     display:        inline-flex;
     align-items:    center;
@@ -152,7 +142,7 @@
     border-color:   var(--bj-spark);
     color:          var(--bj-spark);
     letter-spacing: 0.2em;
-    transform:      translateY(-2px);   /* App 手感:hover 微浮起 */
+    transform:      translateY(-2px);   
 }
 .BJ-Base-App .bj-btn--solid {
     background:   var(--bj-spark);
@@ -166,7 +156,7 @@
     color:          var(--bj-pure);
     letter-spacing: 0.15em;
 }
-/* LINE 行動按鈕 — 以 LINE 綠標示主要詢問通道 */
+
 .BJ-Base-App .bj-btn--line {
     background:   var(--bj-line);
     border-color: var(--bj-line);
@@ -187,13 +177,13 @@
     border-color:   var(--bj-line-deep);
     letter-spacing: 0.15em;
 }
-/* App 手感:按下微縮(即時觸覺回饋;hover 浮起已併入上方 .bj-btn:hover) */
+
 .BJ-Base-App .bj-btn:active {
     transform:           translateY(0) scale(0.965);
     transition-duration: 0.12s;
 }
 
-/* ── Section Header ───────────────────────────────────────── */
+
 .BJ-Base-App .bj-sec-hd {
     text-align:    center;
     margin-bottom: var(--bj-lg);
@@ -201,7 +191,7 @@
 .BJ-Base-App .bj-sec-hd .bj-line { margin-left:auto; margin-right:auto; }
 .BJ-Base-App .bj-sec-hd .bj-title { margin-top: 4px; }
 
-/* ── Page Header (內頁標頭,共用) ──────────────────────────── */
+
 .BJ-Base-App .bj-pg-header {
     position:       relative;
     padding:        calc(var(--bj-xl) + 24px) 0 var(--bj-lg);
@@ -222,11 +212,11 @@
     align-items:    center;
 }
 
-/* ── Grid ─────────────────────────────────────────────────── */
+
 .BJ-Base-App .bj-g4 { display:grid; grid-template-columns:repeat(4,1fr); gap:var(--bj-sm); }
 .BJ-Base-App .bj-g2 { display:grid; grid-template-columns:repeat(2,1fr); gap:var(--bj-sm); }
 
-/* ── Responsive ───────────────────────────────────────────── */
+
 @media (max-width: 1024px) {
     .BJ-Base-App .bj-g4 { grid-template-columns:repeat(2,1fr); }
 }
@@ -240,41 +230,38 @@
     .BJ-Base-App .bj-g2   { grid-template-columns:1fr; }
 }
 
-/* ── 1shop Reset ──────────────────────────────────────────── */
-/* 防止 100vw 滿版區塊(hero/footer)在有捲軸時造成水平溢出 */
-/* margin:0 + 深色底:消除頁面左右露出的白色預設邊距(那兩條白線) */
+
+
+
 html, body { overflow-x: clip; max-width: 100%; margin: 0; background: var(--bj-bg); }
-/* 1shop 原生購物/回頂端浮動按鈕；保留獨立的 #bj-chat 小淨客服 */
+
 body.InWeb > .chat { display: none !important; }
 
-/* ── App 手感細節 ─────────────────────────────────────────── */
-/* 選取文字 → 品牌藍 */
+
+
 ::selection { background: rgba(47,111,228,0.16); color: var(--bj-white); }
-/* 細捲軸(桌機),融入藍白視覺 */
+
 html { scrollbar-width: thin; scrollbar-color: var(--bj-scrollbar) transparent; }
 ::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--bj-scrollbar); border-radius: 8px; border: 2px solid var(--bj-bg); }
 ::-webkit-scrollbar-thumb:hover { background: #2F6FE4; }
-/* 手機:去除點擊灰色閃爍、消除 300ms 延遲 → 原生 App 觸感 */
+
 .BJ-Base-App, .BJ-Base-App * { -webkit-tap-highlight-color: transparent; }
 .BJ-Base-App a, .BJ-Base-App button { touch-action: manipulation; }
-/* 鍵盤操作時的焦點環(滑鼠點擊不出現) */
+
 .BJ-Base-App :focus { outline: none; }
 .BJ-Base-App :focus-visible { outline: 2px solid rgba(47,111,228,0.55); outline-offset: 3px; border-radius: 4px; }
-/* 圖片禁止拖曳殘影 → 已併入上方 Reset 的 img 規則 */
+
 .banner { display:none !important; }
 body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
     padding-top: 0 !important;
     margin-top:  0 !important;
 }
-/* 註:1shop 專屬版型修正(藏原生頁首頁尾、突破容器)已移到「自訂CSS 欄位」
-   直接寫,這樣調整即時生效、不必等 CDN 快取。見 deploy/1-自訂CSS.txt。 */
 
-/* ════════════════════════════════════════════════════════════
-   首頁(home/skeleton.html)區塊樣式
-   ════════════════════════════════════════════════════════════ */
-/* Hero */
+
+
+
 .BJ-Base-App .bj-hero {
   position:         relative;
   width:            100vw;
@@ -299,7 +286,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
     radial-gradient(ellipse 78% 60% at 50% 36%, rgba(47,111,228,0.10) 0%, transparent 60%),
     linear-gradient(155deg, #EAF2FC 0%, var(--bj-bg) 45%, var(--bj-pure) 100%);
 }
-/* 靜態暈影:讓未擦拭處沉斂,凸顯游標亮光 */
+
 .BJ-Base-App .bj-hero__veil {
   position:       absolute;
   inset:          0;
@@ -307,7 +294,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   pointer-events: none;
   background: radial-gradient(ellipse 72% 74% at 50% 40%, transparent 42%, rgba(47,111,228,0.07) 100%);
 }
-/* 拭淨光暈:跟隨游標的潔淨亮光(--mx/--my 由 JS 更新) */
+
 .BJ-Base-App .bj-hero__sheen {
   position:       absolute;
   inset:          0;
@@ -318,7 +305,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
     radial-gradient(circle 260px at var(--mx,50%) var(--my,40%), rgba(47,111,228,0.16), rgba(47,111,228,0.05) 42%, transparent 64%),
     radial-gradient(circle 100px at var(--mx,50%) var(--my,40%), rgba(47,111,228,0.22), transparent 72%);
 }
-/* Hero inner */
+
 .BJ-Base-App .bj-hero__inner {
   position:        relative;
   z-index:         3;
@@ -380,7 +367,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   flex-wrap: wrap;
   justify-content: center;
 }
-/* 捲動指示 */
+
 .BJ-Base-App .bj-hero__scroll {
   position:  absolute;
   bottom:    36px;
@@ -401,7 +388,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   50%     { opacity:0.15; transform:scaleY(0.5); }
 }
 
-/* 承 · 痛點 */
+
 .BJ-Base-App .bj-pain {
   padding:    var(--bj-xl) 0;
   background: linear-gradient(to bottom, var(--bj-bg), var(--bj-surf) 160%);
@@ -477,7 +464,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   margin-bottom: 18px;
 }
 
-/* 跑馬燈關鍵字帶 */
+
 .BJ-Base-App .bj-marquee {
   overflow:      hidden;
   white-space:   nowrap;
@@ -512,7 +499,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
 @keyframes bj-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 @media (prefers-reduced-motion: reduce) { .BJ-Base-App .bj-marquee__track { animation: none; } }
 
-/* 轉 · 服務橫向捲動區(Awwwards 互動) */
+
 .BJ-Base-App .bj-hsec { position: relative; }
 .BJ-Base-App .bj-hsec:not(.is-pinned) {
   overflow-x:        auto;
@@ -553,7 +540,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   transform:    translateY(-6px);
   box-shadow:   0 20px 44px rgba(22,52,94,0.14);
 }
-/* 跟隨游標的光暈 */
+
 .BJ-Base-App .bj-svc-item::after {
   content:    '';
   position:   absolute;
@@ -607,7 +594,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
 }
 .BJ-Base-App .bj-svc-item--cta:hover { background: var(--bj-surf); }
 
-/* 眼見為憑 · 施作前後對比 */
+
 .BJ-Base-App .bj-ba-section { border-top: 1px solid var(--bj-border); }
 .BJ-Base-App .bj-ba-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--bj-md); }
 .BJ-Base-App .bj-ba-grid .bj-ba { max-width: none; margin: 0; }
@@ -630,14 +617,14 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   background-size:     cover;
   background-position: center;
 }
-/* 施作後:明亮潔淨(換成 background-image: url('after.jpg') 即可) */
+
 .BJ-Base-App .bj-ba__after {
   z-index: 1;
   background:
     radial-gradient(circle at 62% 28%, rgba(255,255,255,0.65), transparent 52%),
     linear-gradient(135deg, #eef2f1 0%, #dde6e3 60%, #cfdad6 100%);
 }
-/* 施作前:灰暗汙濁(換成 background-image: url('before.jpg') 即可) */
+
 .BJ-Base-App .bj-ba__before {
   z-index:    2;
   clip-path:  inset(0 calc(100% - var(--pos, 50%)) 0 0);
@@ -700,7 +687,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
 .BJ-Base-App .bj-ba__range::-webkit-slider-thumb { -webkit-appearance: none; width: 44px; height: 100%; cursor: ew-resize; }
 .BJ-Base-App .bj-ba__range::-moz-range-thumb     { width: 44px; height: 100%; border: 0; background: transparent; cursor: ew-resize; }
 
-/* 信任 · 選擇理由 */
+
 .BJ-Base-App .bj-why { border-top: 1px solid var(--bj-border); }
 .BJ-Base-App .bj-why-item {
   text-align: center;
@@ -750,7 +737,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
 }
 .BJ-Base-App .bj-why-item .bj-body { font-size: 14px; max-width: 17em; }
 
-/* 作品集 · 施作實績 */
+
 .BJ-Base-App .bj-gallery-sec { border-top: 1px solid var(--bj-border); }
 .BJ-Base-App .bj-gallery {
   display:               grid;
@@ -800,7 +787,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
 @media (max-width: 560px) { .BJ-Base-App .bj-gallery { grid-template-columns: 1fr; } }
 @media (hover: none)      { .BJ-Base-App .bj-gallery__cap { opacity: 1; transform: none; } }
 
-/* AI 口碑分析 */
+
 .BJ-Base-App .bj-aireview { border-top: 1px solid var(--bj-border); }
 .BJ-Base-App .bj-aireview__panel {
   position:     relative;
@@ -871,7 +858,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
 }
 @media (prefers-reduced-motion: reduce){ .BJ-Base-App .bj-aireview__scanline { animation: none; } }
 
-/* 降低摩擦 · 服務流程 */
+
 .BJ-Base-App .bj-flow { border-top: 1px solid var(--bj-border); }
 .BJ-Base-App .bj-flow__steps {
   display:               grid;
@@ -908,7 +895,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
 }
 .BJ-Base-App .bj-flow__step .bj-body { font-size:13px; }
 
-/* 合 · 品牌故事 */
+
 .BJ-Base-App .bj-story {
   border-top: 1px solid var(--bj-border);
 }
@@ -932,7 +919,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
 }
 .BJ-Base-App .bj-story__media:hover img { transform: scale(1.04); }
 
-/* 合 · CTA */
+
 .BJ-Base-App .bj-cta {
   padding:       var(--bj-xl) 0;
   background:    var(--bj-surf);
@@ -953,7 +940,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   justify-content: center;
 }
 
-/* Responsive */
+
 @media (max-width:900px) {
   .BJ-Base-App .bj-story__grid { grid-template-columns:1fr; }
   .BJ-Base-App .bj-story__media { aspect-ratio: 16 / 10; }
@@ -967,10 +954,8 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   .BJ-Base-App .bj-flow__steps    { grid-template-columns:1fr; }
 }
 
-/* ════════════════════════════════════════════════════════════
-   服務項目(services/skeleton.html)區塊樣式
-   ════════════════════════════════════════════════════════════ */
-/* 服務列表 */
+
+
 .BJ-Base-App .bj-svc-list {
   display:        flex;
   flex-direction: column;
@@ -999,7 +984,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   border-color: var(--bj-bord-md);
   background:   var(--bj-surf2);
 }
-/* 跟隨游標的光暈 */
+
 .BJ-Base-App .bj-svc-card::after {
   content:    '';
   position:   absolute;
@@ -1062,7 +1047,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   opacity:    0.6;
 }
 
-/* CTA */
+
 .BJ-Base-App .bj-svc-cta {
   border-top:  1px solid var(--bj-border);
   text-align:  center;
@@ -1073,7 +1058,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   align-items:    center;
 }
 
-/* Responsive */
+
 @media (max-width:768px) {
   .BJ-Base-App .bj-svc-card {
     grid-template-columns: 1fr;
@@ -1086,10 +1071,8 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   }
 }
 
-/* ════════════════════════════════════════════════════════════
-   關於我們(about/skeleton.html)區塊樣式
-   ════════════════════════════════════════════════════════════ */
-/* 品牌故事 */
+
+
 .BJ-Base-App .bj-about-story {
   display:               grid;
   grid-template-columns: 1fr 1.4fr;
@@ -1120,7 +1103,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
 }
 .BJ-Base-App .bj-about-story__content .bj-title { margin-top: 6px; }
 
-/* 承諾帶 — 置中 pull-quote */
+
 .BJ-Base-App .bj-promise-band {
   padding:       var(--bj-xl) 0;
   border-top:    1px solid var(--bj-border);
@@ -1162,7 +1145,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   margin-top:     10px;
 }
 
-/* 核心價值 */
+
 .BJ-Base-App .bj-value-item {
   padding:    32px 30px;
   background: var(--bj-surf);
@@ -1209,7 +1192,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   margin:         0;
 }
 
-/* 服務實績(數字)*/
+
 .BJ-Base-App .bj-stats { border-top: 1px solid var(--bj-border); background: var(--bj-surf); padding: var(--bj-xl) 0; }
 .BJ-Base-App .bj-stats__grid { display: grid; grid-template-columns: repeat(4,1fr); gap: var(--bj-md); }
 .BJ-Base-App .bj-stat { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
@@ -1219,7 +1202,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
 .BJ-Base-App .bj-stat__label { font-size: 13px; letter-spacing: .12em; color: var(--bj-muted); }
 @media (max-width:760px){ .BJ-Base-App .bj-stats__grid { grid-template-columns: 1fr 1fr; gap: var(--bj-lg) var(--bj-md); } }
 
-/* 品牌歷程(里程碑)*/
+
 .BJ-Base-App .bj-timeline-sec { border-top: 1px solid var(--bj-border); }
 .BJ-Base-App .bj-timeline { position: relative; max-width: 680px; margin: 0 auto; list-style: none; }
 .BJ-Base-App .bj-tl { position: relative; padding: 0 0 var(--bj-md) 40px; }
@@ -1231,7 +1214,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
 .BJ-Base-App .bj-tl__t { font-family: var(--bj-fs); font-size: 18px; font-weight: 600; letter-spacing: .05em; color: var(--bj-white); margin: 5px 0 7px; }
 .BJ-Base-App .bj-tl .bj-body { font-size: 14px; }
 
-/* 服務區域 */
+
 .BJ-Base-App .bj-area-section {
   padding:       var(--bj-xl) 0;
   border-top:    1px solid var(--bj-border);
@@ -1260,7 +1243,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
 }
 .BJ-Base-App .bj-area-phone:hover { color: var(--bj-spark); }
 
-/* Responsive */
+
 @media (max-width:900px) {
   .BJ-Base-App .bj-about-story  { grid-template-columns:1fr; }
   .BJ-Base-App .bj-about-story__deco { position:static; }
@@ -1268,10 +1251,8 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   .BJ-Base-App .bj-promise-band__inner { flex-direction:column; text-align:center; }
 }
 
-/* ════════════════════════════════════════════════════════════
-   聯絡我們(contact/skeleton.html)區塊樣式
-   ════════════════════════════════════════════════════════════ */
-/* 聯絡區塊 */
+
+
 .BJ-Base-App .bj-contact-grid {
   display:               grid;
   grid-template-columns: 1fr 1.5fr;
@@ -1340,7 +1321,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   flex-wrap: wrap;
 }
 
-/* 地圖 */
+
 .BJ-Base-App .bj-contact-map__frame {
   width:      100%;
   height:     440px;
@@ -1351,7 +1332,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
 }
 .BJ-Base-App .bj-contact-map__frame:hover { filter: grayscale(0%) brightness(0.9); }
 
-/* 諮詢流程 */
+
 .BJ-Base-App .bj-process { border-top: 1px solid var(--bj-border); }
 .BJ-Base-App .bj-process-steps {
   display:     flex;
@@ -1391,7 +1372,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
 }
 .BJ-Base-App .bj-process-step .bj-body { font-size:13px; }
 
-/* FAQ */
+
 .BJ-Base-App .bj-faq { border-top: 1px solid var(--bj-border); }
 .BJ-Base-App .bj-faq-list {
   display:        flex;
@@ -1439,7 +1420,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   padding-top: 16px;
 }
 
-/* Responsive */
+
 @media (max-width:900px) {
   .BJ-Base-App .bj-contact-grid { grid-template-columns:1fr; }
   .BJ-Base-App .bj-contact-map__frame { height:300px; }
@@ -1455,10 +1436,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
 </style>
 </head>
 <body>
-<!-- ============================================================
-     BJ SEO 結構化資料 — 境白空間清潔
-     只調「資料結構」，不改頁面版面、文字與互動行為
-     ============================================================ -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -1574,24 +1551,24 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
 <div class="BJ-Base-App" id="bj-preview-root">
 <div id="bj-home" class="BJ-Base-App" style="display:none">
 
-<!-- ══ 起 · HERO ════════════════════════════════════════════════ -->
+
 <section class="bj-hero">
   <div class="bj-hero__bg"></div>
 
-  <!-- 超大背景水印字 -->
+  
   <span class="bj-hero__watermark" aria-hidden="true">淨</span>
 
-  <!-- 拭淨光暈:游標/閒置自動 在深色底上擦出潔淨亮光(由 motion.html 驅動) -->
+  
   <div class="bj-hero__veil" aria-hidden="true"></div>
   <div class="bj-hero__sheen" aria-hidden="true"></div>
 
   <div class="bj-hero__inner">
-    <!-- 品牌正式 Logo -->
+
     <div class="bj-hero__logo" aria-hidden="true">
       <img src="https://img.1shop.tw/197aMxy84AlqgWrRPm2d3QYq/5yxD7ZmWlk1Qm6kbYXgBqvRQ/original-2.png.avif" alt="" style="display:block;width:160px;height:160px;object-fit:contain;margin:0 auto;max-width:100%;">
     </div>
 
-    <!-- 品牌文字 -->
+    
     <div class="bj-hero__text">
       <p class="bj-eyebrow" style="margin-bottom:8px">台南專業空間清潔</p>
       <h1 class="bj-hero__name">境白空間清潔</h1>
@@ -1603,13 +1580,13 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
     </div>
   </div>
 
-  <!-- 向下捲動提示 -->
+  
   <div class="bj-hero__scroll" aria-hidden="true">
     <span class="bj-hero__scroll-line"></span>
   </div>
 </section>
 
-<!-- ══ 承 · 痛點共鳴 + 品牌主張 ═══════════════════════════════════ -->
+
 <section class="bj-pain">
   <div class="bj-wrap">
     <div class="bj-pain__intro">
@@ -1646,14 +1623,14 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   </div>
 </section>
 
-<!-- ══ 跑馬燈關鍵字帶 ══════════════════════════════════════════════ -->
+
 <div class="bj-marquee" aria-hidden="true">
   <div class="bj-marquee__track">
     <span class="bj-marquee__item">裝潢後細部清潔</span><span class="bj-marquee__item">新屋交屋清潔</span><span class="bj-marquee__item">廠房辦公室清潔</span><span class="bj-marquee__item">外牆清洗</span><span class="bj-marquee__item">社區大樓清洗</span><span class="bj-marquee__item">玻璃無水痕清潔</span><span class="bj-marquee__item">石材美容</span><span class="bj-marquee__item">裝潢後細部清潔</span><span class="bj-marquee__item">新屋交屋清潔</span><span class="bj-marquee__item">廠房辦公室清潔</span><span class="bj-marquee__item">外牆清洗</span><span class="bj-marquee__item">社區大樓清洗</span><span class="bj-marquee__item">玻璃無水痕清潔</span><span class="bj-marquee__item">石材美容</span>
   </div>
 </div>
 
-<!-- ══ 轉 · 服務解法 ═════════════════════════════════════════════ -->
+
 <section class="bj-section">
   <div class="bj-wrap">
     <div class="bj-sec-hd">
@@ -1770,7 +1747,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   </div>
 </section>
 
-<!-- ══ 眼見為憑 · 施作前後對比 ════════════════════════════════════ -->
+
 <section class="bj-section bj-ba-section">
   <div class="bj-wrap">
     <div class="bj-sec-hd">
@@ -1784,7 +1761,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
 
     <div class="bj-ba-grid">
 
-      <!-- 水塔清潔(前=b、後=a)-->
       <div class="bj-ba-cell">
         <div class="bj-ba" data-bj-ba>
           <div class="bj-ba__layer bj-ba__after" style="background-image:url('https://img.1shop.tw/197aMxy84AlqgWrRPm2d3QYq/v5zx6meKY4vk92D1l0DVkLyo/original.png');background-size:cover;background-position:center;">
@@ -1803,7 +1779,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
         <p class="bj-ba-cell__label">水塔清潔</p>
       </div>
 
-      <!-- 重油汙地板清洗(前=b、後=a)-->
       <div class="bj-ba-cell">
         <div class="bj-ba" data-bj-ba>
           <div class="bj-ba__layer bj-ba__after" style="background-image:url('https://img.1shop.tw/197aMxy84AlqgWrRPm2d3QYq/O5gwrR4GNQb4Rn1oYBpn071e/original.png');background-size:cover;background-position:center;">
@@ -1822,7 +1797,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
         <p class="bj-ba-cell__label">重油汙地板清洗</p>
       </div>
 
-      <!-- 裝潢後細部清潔(前=b、後=a)-->
       <div class="bj-ba-cell">
         <div class="bj-ba" data-bj-ba>
           <div class="bj-ba__layer bj-ba__after" style="background-image:url('https://img.1shop.tw/197aMxy84AlqgWrRPm2d3QYq/Kyg9vWx8NyK070KG3GJP14Zm/original-2.png.avif');background-size:cover;background-position:center;">
@@ -1841,7 +1815,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
         <p class="bj-ba-cell__label">裝潢後細部清潔</p>
       </div>
 
-      <!-- 水垢特別處理(前=b、後=a)-->
       <div class="bj-ba-cell">
         <div class="bj-ba" data-bj-ba>
           <div class="bj-ba__layer bj-ba__after" style="background-image:url('https://img.1shop.tw/197aMxy84AlqgWrRPm2d3QYq/wP6vpqMBNgzMoMzgld7DaZ0y/original-2.png.avif');background-size:cover;background-position:center;">
@@ -1860,7 +1833,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
         <p class="bj-ba-cell__label">水垢特別處理</p>
       </div>
 
-      <!-- 浴廁陳年發黴(前=b、後=a)-->
       <div class="bj-ba-cell">
         <div class="bj-ba" data-bj-ba>
           <div class="bj-ba__layer bj-ba__after" style="background-image:url('https://img.1shop.tw/197aMxy84AlqgWrRPm2d3QYq/BoQZq74kYmWeBowkl5PMywAK/original-2.png.avif');background-size:cover;background-position:center;">
@@ -1879,7 +1851,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
         <p class="bj-ba-cell__label">浴廁陳年發黴</p>
       </div>
 
-      <!-- 採光罩水垢清洗(前=b、後=a)-->
       <div class="bj-ba-cell">
         <div class="bj-ba" data-bj-ba>
           <div class="bj-ba__layer bj-ba__after" style="background-image:url('https://img.1shop.tw/197aMxy84AlqgWrRPm2d3QYq/5yxD7ZmWlk1Qm6KyYXgBqvRQ/original-2.png.avif');background-size:cover;background-position:center;">
@@ -1902,7 +1873,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   </div>
 </section>
 
-<!-- ══ 信任 · 為什麼選擇我們 ═══════════════════════════════════════ -->
+
 <section class="bj-section bj-why">
   <div class="bj-wrap">
     <div class="bj-sec-hd">
@@ -1936,7 +1907,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   </div>
 </section>
 
-<!-- ══ 作品集 · 施作實績 ════════════════════════════════════════════ -->
+
 <section class="bj-section bj-gallery-sec">
   <div class="bj-wrap">
     <div class="bj-sec-hd">
@@ -1948,7 +1919,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
       </p>
     </div>
 
-    <!-- 換照片:把每個 <img> 的 src 換成圖片網址即可(可另加 data-full="大圖網址") -->
+    
     <div class="bj-gallery" data-bj-gallery>
       <figure class="bj-gallery__item">
         <img class="bj-gallery__img" loading="lazy" alt="水晶燈清潔 實績" src="https://img.1shop.tw/197aMxy84AlqgWrRPm2d3QYq/1LPZao453vJLzZvr3QAR86mM/original.png">
@@ -1982,7 +1953,8 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   </div>
 </section>
 
-<!-- ══ AI 口碑分析 ════════════════════════════════════════════════ -->
+
+
 <section class="bj-section bj-aireview" data-bj-aireview>
   <div class="bj-wrap">
     <div class="bj-sec-hd">
@@ -1990,18 +1962,14 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
       <span class="bj-line bj-line--c"></span>
       <h2 class="bj-title">顧客都怎麼說?</h2>
     </div>
-
     <div class="bj-aireview__panel">
       <div class="bj-aireview__scan">
         <span class="bj-aireview__scanline"></span>
         <span class="bj-aireview__scantext">AI 正在分析 <b>218</b> 則顧客評論…</span>
       </div>
-
       <div class="bj-aireview__result">
         <div class="bj-aireview__score">
-          <div class="bj-aireview__pctwrap">
-            <span class="bj-aireview__pct" data-to="98">0</span><span class="bj-aireview__sym">%</span>
-          </div>
+          <div class="bj-aireview__pctwrap"><span class="bj-aireview__pct" data-to="98">0</span><span class="bj-aireview__sym">%</span></div>
           <span class="bj-aireview__label">正面評價</span>
         </div>
         <div class="bj-aireview__bars">
@@ -2010,24 +1978,13 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
           <div class="bj-aireview__bar"><span class="bj-aireview__bar-l">負面</span><span class="bj-aireview__bar-track"><i style="--w:0%"></i></span><span class="bj-aireview__bar-v">0%</span></div>
         </div>
         <div class="bj-aireview__keys">
-          <span class="bj-aireview__key">乾淨</span>
-          <span class="bj-aireview__key">準時</span>
-          <span class="bj-aireview__key">細心</span>
-          <span class="bj-aireview__key">專業</span>
-          <span class="bj-aireview__key">值得推薦</span>
-          <span class="bj-aireview__key">有耐心</span>
-          <span class="bj-aireview__key">很仔細</span>
-          <span class="bj-aireview__key">會再找</span>
+          <span class="bj-aireview__key">乾淨</span><span class="bj-aireview__key">準時</span><span class="bj-aireview__key">細心</span><span class="bj-aireview__key">專業</span><span class="bj-aireview__key">值得推薦</span><span class="bj-aireview__key">有耐心</span><span class="bj-aireview__key">很仔細</span><span class="bj-aireview__key">會再找</span>
         </div>
       </div>
     </div>
-    <p class="bj-caption" style="text-align:center; margin-top:18px; opacity:.6; letter-spacing:.1em">
-      ※ 數據為示意,可換成真實 Google 評論統計
-    </p>
   </div>
 </section>
 
-<!-- ══ 降低摩擦 · 服務流程 ════════════════════════════════════════ -->
 <section class="bj-flow bj-section">
   <div class="bj-wrap">
     <div class="bj-sec-hd">
@@ -2065,7 +2022,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   </div>
 </section>
 
-<!-- ══ 合 · 品牌故事 ═════════════════════════════════════════════ -->
+
 <section class="bj-section bj-story">
   <div class="bj-wrap">
     <div class="bj-story__grid">
@@ -2088,7 +2045,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   </div>
 </section>
 
-<!-- ══ 合 · 聯絡 CTA ═════════════════════════════════════════════ -->
+
 <section class="bj-cta">
   <div class="bj-wrap">
     <div class="bj-cta__inner">
@@ -2117,14 +2074,14 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
 })();
 </script>
 
-<!-- 識別標籤（上線後自動隱藏） -->
+
 <div id="lbl-bj-home" style="background:rgba(230,221,208,0.12);color:#E6DDD0;padding:18px;text-align:center;font-size:13px;font-weight:700;font-family:sans-serif;letter-spacing:0.15em;border:1px solid rgba(230,221,208,0.18);">
   境白空間清潔 — 首頁
 </div>
 <script>(function(){var el=document.getElementById('lbl-bj-home');if(el)el.style.display='none';})()</script>
 <div id="bj-services" class="BJ-Base-App" style="display:none">
 
-<!-- ══ 頁面標頭 ════════════════════════════════════════════════ -->
+
 <section class="bj-pg-header">
   <div class="bj-pg-header__bg" aria-hidden="true"></div>
   <div class="bj-wrap bj-pg-header__inner">
@@ -2137,11 +2094,11 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   </div>
 </section>
 
-<!-- ══ 服務列表 ════════════════════════════════════════════════ -->
+
 <div class="bj-wrap">
   <div class="bj-svc-list">
 
-    <!-- 01 裝潢後細部清潔 -->
+    
     <article class="bj-svc-card">
       <div class="bj-svc-card__icon" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -2168,7 +2125,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
       </div>
     </article>
 
-    <!-- 02 新屋交屋清潔 -->
+    
     <article class="bj-svc-card">
       <div class="bj-svc-card__icon" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -2193,7 +2150,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
       </div>
     </article>
 
-    <!-- 03 廠房辦公室清潔 -->
+    
     <article class="bj-svc-card">
       <div class="bj-svc-card__icon" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -2220,7 +2177,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
       </div>
     </article>
 
-    <!-- 04 外牆清洗 -->
+    
     <article class="bj-svc-card">
       <div class="bj-svc-card__icon" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -2253,7 +2210,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
       </div>
     </article>
 
-    <!-- 05 社區大樓特別清洗 -->
+    
     <article class="bj-svc-card">
       <div class="bj-svc-card__icon" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -2281,7 +2238,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
       </div>
     </article>
 
-    <!-- 06 專業玻璃無水痕清潔 -->
+    
     <article class="bj-svc-card">
       <div class="bj-svc-card__icon" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -2308,7 +2265,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
       </div>
     </article>
 
-    <!-- 07 石材美容 -->
+    
     <article class="bj-svc-card">
       <div class="bj-svc-card__icon" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -2337,7 +2294,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   </div>
 </div>
 
-<!-- ══ 詢問 CTA ════════════════════════════════════════════════ -->
+
 <section class="bj-svc-cta bj-section">
   <div class="bj-wrap">
     <div class="bj-svc-cta__inner">
@@ -2371,7 +2328,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
 <script>(function(){var el=document.getElementById('lbl-bj-services');if(el)el.style.display='none';})()</script>
 <div id="bj-about" class="BJ-Base-App" style="display:none">
 
-<!-- ══ 頁面標頭 ════════════════════════════════════════════════ -->
+
 <section class="bj-pg-header bj-about-header">
   <div class="bj-pg-header__bg" aria-hidden="true"></div>
   <div class="bj-wrap bj-pg-header__inner">
@@ -2384,7 +2341,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   </div>
 </section>
 
-<!-- ══ 品牌故事 ════════════════════════════════════════════════ -->
+
 <section class="bj-section">
   <div class="bj-wrap">
     <div class="bj-about-story">
@@ -2433,18 +2390,17 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   </div>
 </section>
 
-<!-- ══ 品牌核心理念 ════════════════════════════════════════════ -->
+
 <section class="bj-promise-band">
   <div class="bj-wrap">
     <div class="bj-promise-band__inner">
-      <span class="bj-promise-band__mark" aria-hidden="true">“</span>
       <blockquote class="bj-promise-band__quote">真正的清潔，是看不見的細節。</blockquote>
       <span class="bj-promise-band__by">境 白 的 信 念</span>
     </div>
   </div>
 </section>
 
-<!-- ══ 核心價值 ════════════════════════════════════════════════ -->
+
 <section class="bj-section">
   <div class="bj-wrap">
     <div class="bj-sec-hd">
@@ -2498,7 +2454,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   </div>
 </section>
 
-<!-- ══ 服務實績(數字)════════════════════════════════════════════ -->
+
 <section class="bj-stats">
   <div class="bj-wrap">
     <div class="bj-stats__grid">
@@ -2523,7 +2479,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   </div>
 </section>
 
-<!-- ══ 服務區域 ════════════════════════════════════════════════ -->
+
 <section class="bj-area-section">
   <div class="bj-wrap">
     <div class="bj-area-inner">
@@ -2573,7 +2529,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
 <script>(function(){var el=document.getElementById('lbl-bj-about');if(el)el.style.display='none';})()</script>
 <div id="bj-contact" class="BJ-Base-App" style="display:none">
 
-<!-- ══ 頁面標頭 ════════════════════════════════════════════════ -->
+
 <section class="bj-pg-header">
   <div class="bj-pg-header__bg" aria-hidden="true"></div>
   <div class="bj-wrap bj-pg-header__inner">
@@ -2586,12 +2542,12 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   </div>
 </section>
 
-<!-- ══ 聯絡資訊 + 地圖 ════════════════════════════════════════ -->
+
 <section class="bj-section">
   <div class="bj-wrap">
     <div class="bj-contact-grid">
 
-      <!-- 左：聯絡資訊 -->
+      
       <div class="bj-contact-info">
 
         <div class="bj-contact-block">
@@ -2637,7 +2593,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
         </div>
       </div>
 
-      <!-- 右：地圖 -->
+      
       <div class="bj-contact-map">
         <div class="bj-contact-map__frame">
           <iframe
@@ -2657,7 +2613,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   </div>
 </section>
 
-<!-- ══ 諮詢流程 ════════════════════════════════════════════════ -->
+
 <section class="bj-process bj-section">
   <div class="bj-wrap">
     <div class="bj-sec-hd">
@@ -2702,7 +2658,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   </div>
 </section>
 
-<!-- ══ FAQ ════════════════════════════════════════════════════ -->
+
 <section class="bj-faq bj-section">
   <div class="bj-wrap">
     <div class="bj-sec-hd">
@@ -2761,22 +2717,11 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
 </div>
 <script>(function(){var el=document.getElementById('lbl-bj-contact');if(el)el.style.display='none';})()</script>
 </div>
-<!-- ============================================================
-     BJ 共用導覽列 + 頁尾 — 境白空間清潔
-     全域注入版:只需貼進 1shop 全域 head.html 一次(放在 bj-base.css 之後)
-     會自動在每一頁的 .BJ-Base-App 內注入 Nav 與 Footer,
-     並依下方「設定區」自動改寫全站的 LINE / 電話連結。
-
-     【上線前只要改 1 個地方】
-       下方 JS 的「設定區」:LINE_URL(必改)、LINE_OA(小淨帶單用)、
-       NAV_LINKS(若 1shop 網址不是 /、/services、/about、/contact 才要改)
-     ============================================================ -->
-<!-- 網頁字型(用 link 並行載入;勿改回 CSS @import,會拖慢首屏) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;600;900&family=Jost:wght@300;400;500;600&display=swap">
 <style>
-/* ── 導覽列 ─────────────────────────────────────────────────── */
+
 .BJ-Base-App .bj-nav {
   position:      fixed;
   top:           0; left: 0; right: 0;
@@ -2785,7 +2730,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   transition:    background 0.4s, border-color 0.4s, backdrop-filter 0.4s,
                  transform 0.5s cubic-bezier(0.22,1,0.36,1);
 }
-/* App 慣例:下滑收起導覽列讓出畫面、上滑立即滑回 */
+
 .BJ-Base-App .bj-nav--hidden { transform: translateY(-100%); }
 .BJ-Base-App .bj-nav--scrolled {
   background:              rgba(255,255,255,0.82);
@@ -2842,7 +2787,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
 .BJ-Base-App .bj-nav__link:hover::after,
 .BJ-Base-App .bj-nav__link--active::after { width: 100%; }
 
-/* 導覽列 LINE 按鈕(小版) */
 .BJ-Base-App .bj-nav__cta {
   display:        inline-flex;
   align-items:    center;
@@ -2867,7 +2811,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
           mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2C6.48 2 2 5.64 2 10.13c0 4.02 3.55 7.39 8.35 8.03.32.07.77.21.88.49.1.25.06.64.03.9l-.14.85c-.04.25-.2.98.86.53s5.7-3.36 7.78-5.75C21.1 13.5 22 11.92 22 10.13 22 5.64 17.52 2 12 2Z'/%3E%3C/svg%3E") center/contain no-repeat;
 }
 
-/* 漢堡鈕(手機顯示) */
 .BJ-Base-App .bj-nav__toggle {
   display:         none;
   width:           40px; height: 40px;
@@ -2889,7 +2832,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
 .BJ-Base-App .bj-nav__toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
 .BJ-Base-App .bj-nav__toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
 
-/* 手機下拉面板 */
 .BJ-Base-App .bj-nav__mobile {
   position:                fixed;
   top:                     64px; left: 0; right: 0;
@@ -2929,7 +2871,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   .BJ-Base-App .bj-nav__links  { display: none; }
   .BJ-Base-App .bj-nav__toggle { display: flex; }
   .BJ-Base-App .bj-nav__inner  { padding: 0 20px; }
-  /* 手機:毛玻璃(backdrop-filter)持續重算很吃效能,改用接近不透明的實底 */
+
   .BJ-Base-App .bj-nav--scrolled {
     background: rgba(255,255,255,0.96);
     -webkit-backdrop-filter: none;
@@ -2942,7 +2884,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   }
 }
 
-/* ── 頁尾 ───────────────────────────────────────────────────── */
 .BJ-Base-App .bj-footer {
   position:     relative;
   width:        100vw;
@@ -3037,7 +2978,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
 
 <script>
 (function () {
-  /* ===== 設定區(全站唯一,上線前只改這裡) ========================== */
+
   var LINE_URL = 'https://lin.ee/oyyGjilc';          // ← 換成官方 LINE 連結
   var LINE_OA  = '@境白官方ID';                      // ← LINE 官方帳號 ID(小淨帶需求單用)
   var PHONE    = '06-2550811';
@@ -3045,7 +2986,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   var EMAIL    = 'bentley0903499936@gmail.com';
   var ADDRESS  = '台南市安南區功安三街43號';
   var BRAND    = '境白空間清潔';
-  /* 公開給其他模組(chat.html 的小淨會讀取) */
+
   window.BJ_CONF = { LINE_URL: LINE_URL, LINE_OA: LINE_OA, PHONE: PHONE, TEL: TEL, EMAIL: EMAIL, ADDRESS: ADDRESS, BRAND: BRAND };
   var NAV_LINKS = [                                  // ← 若 1shop 網址不同請改 href
     { label: '首頁',     href: '/' },
@@ -3053,9 +2994,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
     { label: '關於我們', href: '/about' },
     { label: '聯絡我們', href: '/contact' }
   ];
-  /* =============================================================== */
 
-  // 品牌正式 Logo（導覽列與頁尾共用）
   var LOGO_URL = 'https://img.1shop.tw/197aMxy84AlqgWrRPm2d3QYq/5yxD7ZmWlk1Qm6kbYXgBqvRQ/original-2.png.avif';
   function logoImg(size) {
     return '<img src="' + LOGO_URL + '" alt="" style="display:block;width:' + size + 'px;height:' + size + 'px;object-fit:contain;max-width:none;">';
@@ -3139,7 +3078,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   }
 
   function wire(app) {
-    // 捲動時導覽列加上底色;下滑收起、上滑滑出(App 手感)
+
     var nav = app.querySelector('.bj-nav');
     var lastY = window.pageYOffset;
     function onScroll() {
@@ -3154,7 +3093,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
 
-    // 手機選單開合
     var toggle = app.querySelector('.bj-nav__toggle');
     var panel  = app.querySelector('.bj-nav__mobile');
     toggle.addEventListener('click', function () {
@@ -3177,7 +3115,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
     wire(app);
   }
 
-  /* 依設定區自動改寫頁面上所有 LINE / 電話連結(skeleton 內保持佔位即可) */
   function applyConf() {
     Array.prototype.forEach.call(document.querySelectorAll('a[href^="https://lin.ee/"], a[href^="https://line.me/"]'), function (a) {
       if (a.href.indexOf('line.me/R/oaMessage') !== -1) return;  // 小淨帶單連結由 chat.html 管
@@ -3188,7 +3125,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
     });
   }
 
-  /* 移除 1shop 原生購物/回頂端浮動元件；選擇器不會碰到 #bj-chat 小淨 */
   function removeNativeChat() {
     Array.prototype.forEach.call(document.querySelectorAll('body.InWeb > .chat'), function (el) {
       if (el.parentNode) el.parentNode.removeChild(el);
@@ -3197,13 +3133,13 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
 
   function start() {
     removeNativeChat();
-    /* 1shop 若較晚才插入原生元件,持續監看到它出現後移除 */
+
     var nativeChatObs = new MutationObserver(removeNativeChat);
     nativeChatObs.observe(document.body, { childList: true });
     setTimeout(function () { nativeChatObs.disconnect(); }, 10000);
     var app = document.querySelector('.BJ-Base-App');
     if (app) { inject(app); applyConf(); return; }
-    // 若頁面區塊是稍後才載入,觀察 DOM 直到出現
+
     var obs = new MutationObserver(function () {
       var a = document.querySelector('.BJ-Base-App');
       if (a) { obs.disconnect(); inject(a); applyConf(); }
@@ -3218,30 +3154,23 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   }
 })();
 </script>
-<!-- ============================================================
-     BJ Motion Layer — 境白空間清潔
-     GSAP + ScrollTrigger(滾動揭幕)+ Lenis(絲滑捲動)+ Hero 拭淨光暈
-     貼進 1shop 全域 head.html(放在 bj-base.css 與 nav-footer.html 之後)。
-     設計原則:所有「先隱藏再animate」的狀態都只在函式庫載入成功後才套用,
-              若 CDN 載入失敗,內容一律維持可見,不會白頁。
-     ============================================================ -->
 <style>
-/* 頂部閱讀進度條 */
+
 .bj-progress{position:fixed;top:0;left:0;height:2px;width:0;background:#2F6FE4;z-index:2000;pointer-events:none;}
-/* 圖片載入淡入(絲滑不跳動) */
+
 .BJ-Base-App img.bj-imgfade{opacity:0;transform:scale(1.02);transition:opacity .7s ease,transform 1.1s cubic-bezier(.22,1,.36,1);}
 .BJ-Base-App img.bj-imgfade.is-ld{opacity:1;transform:none;}
 @media (prefers-reduced-motion: reduce){.BJ-Base-App img.bj-imgfade{transform:none;transition:opacity .3s;}}
-/* 標題逐字揭幕 */
+
 .BJ-Base-App .bj-title[data-bj-split]{overflow:hidden;}
 .BJ-Base-App .bj-char{display:inline-block;will-change:transform;}
-/* 3D 傾斜卡片:transition 排除 transform,傾斜才會即時跟手 */
+
 .BJ-Base-App [data-tilt][data-tilt]{transition:border-color .4s,background .4s,box-shadow .45s;}
-/* 進場 / 換頁布幕 */
+
 .bj-trans{position:fixed;inset:0;z-index:5000;background:linear-gradient(160deg,#EAF2FC,#FFFFFF);display:flex;align-items:center;justify-content:center;will-change:transform;}
 .bj-trans__mark{display:block;font-family:'Noto Serif TC','Noto Sans TC',serif;font-size:clamp(22px,4vw,44px);font-weight:600;letter-spacing:.22em;color:#15273F;}
 .bj-trans__count{display:block;margin-top:16px;text-align:center;font-family:'Jost','Noto Sans TC',sans-serif;font-size:13px;letter-spacing:.3em;color:#2F6FE4;opacity:.7;}
-/* 進場 Loader:Logo 描繪 + 進度條 + 滑開 */
+
 .bj-trans--intro{transition:transform .85s cubic-bezier(.76,0,.24,1);}
 .bj-trans--intro.bj-trans--out{transform:translateY(-100%);}
 .bj-load{display:flex;flex-direction:column;align-items:center;gap:26px;}
@@ -3262,7 +3191,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
 .bj-trans--quick .bj-load__logo .star{opacity:1;animation:none;}
 .bj-trans--quick .bj-load__bar span{transform:scaleX(1);animation:none;}
 @media (prefers-reduced-motion:reduce){.bj-load__logo .s{stroke-dashoffset:0;animation:none;}.bj-load__logo .star{opacity:1;animation:none;}.bj-load__bar span{transform:scaleX(1);animation:none;}}
-/* 清潔 loader:會掃地的掃把 + 載入中 */
+
 .bj-broom{width:58px;height:auto;animation:bj-sweep 0.95s ease-in-out infinite;transform-origin:50% 16%;filter:drop-shadow(0 6px 14px rgba(47,111,228,.16));}
 @keyframes bj-sweep{0%,100%{transform:rotate(-11deg);}50%{transform:rotate(11deg);}}
 .bj-load__floor{width:104px;height:2px;background:rgba(22,52,94,.12);border-radius:2px;margin-top:-2px;position:relative;overflow:hidden;}
@@ -3274,7 +3203,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
 .bj-load__text .bj-dot:nth-child(3){animation-delay:.4s;}
 @keyframes bj-dot{0%,80%,100%{opacity:.2;}40%{opacity:1;}}
 @media (prefers-reduced-motion:reduce){.bj-broom,.bj-load__floor::after,.bj-load__text .bj-dot{animation:none;}.bj-load__text .bj-dot{opacity:1;}}
-/* 作品集燈箱 */
+
 .bj-lb{position:fixed;inset:0;z-index:4000;background:rgba(7,7,7,.94);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .35s;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);}
 .bj-lb.is-open{opacity:1;pointer-events:auto;}
 .bj-lb__img{max-width:88vw;max-height:80vh;object-fit:contain;border:1px solid rgba(255,255,255,.12);box-shadow:0 30px 80px rgba(0,0,0,.6);}
@@ -3293,7 +3222,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
 <script>
 (function () {
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  /* 手機/觸控/窄螢幕:省掉昂貴的動畫模糊(filter:blur),改用淡入+上滑,手機才順 */
+
   var noBlur = !window.matchMedia || window.matchMedia('(hover: none)').matches || window.matchMedia('(max-width: 900px)').matches;
 
   var REVEAL_SEL = [
@@ -3310,7 +3239,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
     else document.addEventListener('DOMContentLoaded', fn);
   }
 
-  /* 安全網:把目前在視窗內、卻仍隱藏的揭幕元素顯示出來(切頁後保險) */
   function revealInView(G) {
     if (!G) return;
     var vh = window.innerHeight || document.documentElement.clientHeight;
@@ -3322,7 +3250,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
         G.to(el, Object.assign({ opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', overwrite: true }, noBlur ? {} : { filter: 'blur(0px)' }));
       }
     });
-    /* 逐字標題:切頁後若仍藏在下方,補跑揭幕 */
+
     Array.prototype.forEach.call(document.querySelectorAll('[data-bj-split]'), function (el) {
       if (el.offsetParent === null) return;
       var r = el.getBoundingClientRect();
@@ -3340,7 +3268,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
 
     initIntro();   // 進場載入動畫(最先)
 
-    /* ── 絲滑捲動 Lenis ─────────────────────────────── */
     var lenis = null;
     if (window.Lenis && G && !reduce) {
       try {
@@ -3358,7 +3285,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
     initGallery();
     initProgress();
 
-    /* 跑馬燈隨捲動速度傾斜(Awwwards 動態) */
     if (lenis && G) {
       var mqs = document.querySelectorAll('.bj-marquee');
       if (mqs.length) {
@@ -3379,7 +3305,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
     initTilt();
     window.addEventListener('load', function () { if (window.ScrollTrigger) ScrollTrigger.refresh(); });
 
-    /* 預覽切頁時重算 ScrollTrigger 位置,並把在視窗內的元素顯示出來 */
     document.addEventListener('bj:pageshow', function () {
       if (lenis) lenis.scrollTo(0, { immediate: true }); else window.scrollTo(0, 0);
       if (ST) ScrollTrigger.refresh();
@@ -3388,7 +3313,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
     });
   });
 
-  /* ── 滾動揭幕:模糊→清晰 + 上浮 + 群組錯落 ───────────── */
   function initReveals(G, ST) {
     if (!G || !ST || reduce) return;
     var sel = REVEAL_SEL;
@@ -3404,13 +3328,11 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
       }
     });
 
-    /* 內頁標頭光暈視差 */
     G.utils.toArray('.bj-pg-header__bg').forEach(function (el) {
       G.to(el, { yPercent: 30, ease: 'none', scrollTrigger: { trigger: el.parentNode, start: 'top top', end: 'bottom top', scrub: true } });
     });
   }
 
-  /* ── Hero:GSAP 揭幕時序 + 拭淨光暈 ─────────────────── */
   function initHero(G) {
     if (G && !reduce) {
       var has = document.querySelector('.bj-hero__inner');
@@ -3432,7 +3354,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
       }
     }
 
-    /* 捲動時 Hero 位移縮放、水印反向漂移(Awwwards 視差) */
     if (G && window.ScrollTrigger && !reduce) {
       var hero = document.querySelector('.bj-hero');
       if (hero) {
@@ -3449,7 +3370,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
     initPolish();
   }
 
-  /* 拭淨光暈:游標(或閒置時自動)在深色底上「擦」出潔淨亮光 */
   function initPolish() {
     var hero  = document.querySelector('.bj-hero');
     var sheen = document.querySelector('.bj-hero__sheen');
@@ -3483,7 +3403,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
     requestAnimationFrame(tick);
   }
 
-  /* 施作前後對比滑桿 */
   function initBA() {
     var list = document.querySelectorAll('[data-bj-ba]');
     if (!list.length) return;
@@ -3496,7 +3415,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
       upd();
     });
 
-    // 進入視窗時做一次提示性掃動,讓使用者知道可以拖曳
     if (reduce || !window.IntersectionObserver) return;
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
@@ -3530,7 +3448,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
     }
   }
 
-  /* 頂部閱讀進度條 */
   function initProgress() {
     var bar = document.createElement('div');
     bar.className = 'bj-progress';
@@ -3546,7 +3463,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
     upd();
   }
 
-  /* AI 口碑分析:進視窗 → 掃描 → 揭曉(百分比跳動 + 長條 + 關鍵詞) */
   function initAIReview() {
     var els = document.querySelectorAll('[data-bj-aireview]');
     if (!els.length || !window.IntersectionObserver) return;
@@ -3579,7 +3495,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
     }
   }
 
-  /* 數字滾動計數:[data-count] 進視窗 → 0 跳到目標 */
   function initCounters() {
     var els = document.querySelectorAll('[data-count]');
     if (!els.length || !window.IntersectionObserver) return;
@@ -3604,7 +3519,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
     }
   }
 
-  /* 卡片光暈跟隨游標 */
   function initSpotlight() {
     Array.prototype.forEach.call(document.querySelectorAll('.bj-svc-item, .bj-svc-card'), function (el) {
       el.addEventListener('mousemove', function (e) {
@@ -3615,7 +3529,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
     });
   }
 
-  /* 橫向捲動服務區:捲動時釘住,水平推進(Awwwards 互動) */
   function initHScroll(G) {
     if (!G || !window.ScrollTrigger || reduce) return;
     if (!window.matchMedia || !matchMedia('(min-width: 760px)').matches) return;  // 手機保留原生橫滑
@@ -3637,9 +3550,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
     });
   }
 
-  /* 進場 Loader:品牌 Logo 自我描繪 + 進度條填滿,完成後整片滑開 */
-  /* 進場:淡出「頁面內建的靜態載入遮罩」#bj-preload
-     (遮罩是頁面第一時間就在的 inline 元素,不等 CSS/JS;此處 site.js 載完後才把它收掉) */
   function initIntro() {
     var ov = document.getElementById('bj-preload');
     if (!ov) return;                                        // 沒有靜態遮罩就不處理
@@ -3655,7 +3565,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
     }, hold);
   }
 
-  /* 換頁布幕:覆蓋 → 切換 → 揭開(供路由呼叫) */
   window.bjCurtain = function (cb) {
     var G = window.gsap;
     if (reduce || !G) { if (cb) cb(); return; }
@@ -3670,7 +3579,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
     } });
   };
 
-  /* 標題逐字揭幕(Awwwards 手法):捲到區段,大標題一個字一個字浮上來 */
   function initSplitTitles(G, ST) {
     if (!G || !ST || reduce) return;
     var titles = document.querySelectorAll('.bj-sec-hd .bj-title, .bj-pg-header .bj-title');
@@ -3700,7 +3608,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
     });
   }
 
-  /* 卡片 3D 傾斜(vanilla-tilt):滑鼠移過去,卡片立體地朝游標傾斜 + 光澤 */
   function initTilt() {
     if (!window.VanillaTilt || reduce) return;
     if (!window.matchMedia || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
@@ -3712,7 +3619,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
     });
   }
 
-  /* 圖片絲滑淡入:載入完成才浮現,避免「啪」一下跳出 */
   function initImgFade() {
     var imgs = document.querySelectorAll('.BJ-Base-App img');
     for (var i = 0; i < imgs.length; i++) (function (img) {
@@ -3725,7 +3631,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
     })(imgs[i]);
   }
 
-  /* 作品集燈箱:點圖放大 + 左右切換 + Esc/方向鍵 */
   function initGallery() {
     var gals = document.querySelectorAll('[data-bj-gallery]');
     if (!gals.length) return;
@@ -3772,12 +3677,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   }
 })();
 </script>
-<!-- ============================================================
-     BJ 常見問題 罐頭聊天框 — 境白空間清潔
-     右下角浮動小視窗,點問題顯示預設答案(非真 AI)。
-     貼進 1shop 全域 head.html(放在其他 shared 之後)。
-     LINE 連結/ID 讀取全站設定 window.BJ_CONF(改 nav-footer.html 頂端設定區即可)。
-     ============================================================ -->
 <style>
 .bj-chat{position:fixed;right:24px;bottom:24px;z-index:1500;font-family:'Noto Sans TC',sans-serif;}
 .bj-chat__fab{position:relative;width:60px;height:60px;border-radius:50%;border:none;cursor:pointer;background:#2F6FE4;color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 28px rgba(47,111,228,.42);transition:transform .3s,background .3s,box-shadow .3s;}
@@ -3821,7 +3720,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
 .bj-chat__chip{background:#fff;border:1px solid rgba(47,111,228,.35);color:#2F6FE4;font-size:12px;padding:7px 12px;border-radius:999px;cursor:pointer;transition:background .25s,border-color .25s,transform .18s cubic-bezier(.22,1,.36,1);font-family:inherit;line-height:1.3;}
 .bj-chat__chip:hover{background:#EAF1FC;border-color:#2F6FE4;transform:translateY(-1px);}
 .bj-chat__chip:active{transform:scale(.94);}
-/* 自由輸入列(小淨真的能回答) */
+
 .bj-chat__inputrow{display:flex;gap:8px;padding:10px 12px;border-top:1px solid rgba(22,52,94,.09);background:#fff;}
 .bj-chat__input{flex:1;min-width:0;border:1px solid rgba(22,52,94,.14);border-radius:999px;padding:9px 16px;font-size:13px;font-family:inherit;color:#15273F;background:#F6F9FE;outline:none;transition:border-color .25s,background .25s,box-shadow .25s;}
 .bj-chat__input::placeholder{color:#9DB0CC;}
@@ -3834,7 +3733,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
 .bj-chat__line{display:flex;align-items:center;justify-content:center;gap:8px;background:#06C755;color:#fff;text-decoration:none;font-size:13px;font-weight:700;padding:12px;border-radius:10px;letter-spacing:.05em;transition:background .25s;}
 .bj-chat__line:hover{background:#05b14c;}
 @media (max-width:560px){.bj-chat{right:16px;bottom:16px;}.bj-chat__fab{width:54px;height:54px;}.bj-chat__panel{width:calc(100vw - 32px);height:70vh;}}
-/* 主動式智慧客服 氣泡 */
+
 .bj-chat__pop{position:fixed;right:24px;bottom:98px;z-index:1499;width:272px;max-width:calc(100vw - 40px);background:#FFFFFF;border:1px solid rgba(22,52,94,.10);border-radius:16px;border-bottom-right-radius:5px;padding:14px;display:flex;gap:10px;box-shadow:0 16px 40px rgba(22,52,94,.18);transform:translateY(18px) scale(.92);opacity:0;pointer-events:none;transition:opacity .35s cubic-bezier(.22,1,.36,1),transform .55s cubic-bezier(.3,1.35,.4,1);font-family:'Noto Sans TC',sans-serif;}
 .bj-chat__pop.is-show{opacity:1;transform:none;pointer-events:auto;cursor:pointer;}
 .bj-chat__pop-av{width:34px;height:34px;border-radius:50%;background:#2F6FE4;color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
@@ -3849,19 +3748,18 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
 .bj-chat__pop-typing span:nth-child(2){animation-delay:.15s;}
 .bj-chat__pop-typing span:nth-child(3){animation-delay:.3s;}
 @media (max-width:560px){.bj-chat__pop{bottom:84px;right:16px;}}
-/* 需求清單(跨頁記憶)+ 氣泡行動鈕 */
+
 .bj-chat__cart{font-size:12px;line-height:1.65;color:#42597A;background:#EEF4FD;border:1px solid rgba(47,111,228,.18);border-radius:10px;padding:9px 12px;margin-bottom:10px;}
 .bj-chat__pop-cta{display:inline-block;margin-top:10px;background:#06C755;color:#fff;text-decoration:none;font-size:12px;font-weight:700;letter-spacing:.03em;padding:8px 14px;border-radius:8px;}
 .bj-chat__pop-cta:hover{background:#05b14c;}
 </style>
 <script>
 (function () {
-  /* LINE 設定一律讀 nav-footer.html 頂端的「設定區」(window.BJ_CONF),此處只是保底 */
+
   var CONF = window.BJ_CONF || {};
   var LINE_URL = CONF.LINE_URL || 'https://lin.ee/oyyGjilc';
   var LINE_OA  = CONF.LINE_OA  || '@境白官方ID';
 
-  /* 常見問題 + 智慧問答:唯一資料源 = GitHub kb.json(見下方 KB_URL) */
   var FAQ = [];
 
   var IC_CHAT = '<svg class="bj-chat__ic-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>';
@@ -3870,7 +3768,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   function build() {
     if (document.getElementById('bj-chat')) return;
 
-    /* ── AI 記得你 + 跨頁需求清單(localStorage) ── */
     var RV = { visits: 0, topic: '', items: [] };
     try { var _r = localStorage.getItem('bj_visitor'); if (_r) RV = JSON.parse(_r); } catch (e) {}
     if (!RV.items) RV.items = [];
@@ -3952,7 +3849,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
       body.scrollTop = body.scrollHeight;
       return m;
     }
-    /* 逐字「生成」出 bot 訊息 + 閃爍游標(假 ChatGPT) */
+
     function typeMsg(text) {
       var m = document.createElement('div');
       m.className = 'bj-chat__msg bj-chat__msg--bot';
@@ -3974,7 +3871,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
         }
       })();
     }
-    /* 顯示「思考中」再逐字回答(共用) */
+
     function respond(answer) {
       var typing = document.createElement('div');
       typing.className = 'bj-chat__typing';
@@ -3991,7 +3888,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
       respond(item.a);
     }
 
-    /* ── 小淨智慧問答:自由輸入 → 關鍵字比對知識庫(內容由 kb.json 載入) ── */
     var KB = [];
     function smartReply(q) {
       var s = q.toLowerCase();
@@ -4020,8 +3916,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
       }
     });
 
-    /* ── 知識庫唯一來源:GitHub kb.json ──
-       改問答:https://github.com/Raffertyxu/baijing-kb 編輯 kb.json,約 5 分鐘生效 */
     var KB_URL = 'https://raw.githubusercontent.com/Raffertyxu/baijing-kb/main/kb.json';
     if (window.fetch) {
       fetch(KB_URL, { cache: 'no-cache' })
@@ -4056,7 +3950,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
     fab.addEventListener('click', toggle);
     closeBtn.addEventListener('click', function () { root.classList.remove('is-open'); });
 
-    /* ── 主動式智慧客服「小淨」:像真人在旁邊陪您看 ── */
     var SECTION_POPS = [
       { sel: '.bj-pain', msgs: [
         '裝潢後的粉塵殘膠真的超難搞對吧 😣 別擔心,這正是我們最拿手的~要我幫您估個價嗎?',
@@ -4145,7 +4038,7 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
       showPop(queue.shift());
     }
     function enqueue(msg) { if (msg && !dismissed && queue.length < 3) { queue.push(msg); pump(); } }
-    /* 小淨把跨頁累積的需求整理好,主動提議帶去 LINE */
+
     function offerLine() {
       var items = (RV.items || []).slice(0, 4);
       enqueue({
@@ -4160,7 +4053,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
     pop.addEventListener('click', function () { pop.classList.remove('is-show'); open(); });
     fab.addEventListener('click', function () { pop.classList.remove('is-show'); });
 
-    /* 區塊觸發:看到哪段就聊那段 */
     if (window.IntersectionObserver) {
       var io = new IntersectionObserver(function (entries) {
         entries.forEach(function (e) {
@@ -4181,7 +4073,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
       });
     }
 
-    /* 閒置陪聊:停下來沒動,主動關心一下(像有人在旁邊) */
     var idleTimer = null;
     function resetIdle() {
       clearTimeout(idleTimer);
@@ -4193,7 +4084,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
     window.addEventListener('mousemove', resetIdle, { passive: true });
     resetIdle();
 
-    /* 開場招呼(回訪者會被「認出」) */
     var opener = returning
       ? (prevTopic ? '歡迎回來!😊 上次您看了「' + prevTopic + '」,要繼續了解,還是直接幫您安排報價?'
                    : '歡迎回來~又見面了 😊 需要我幫您接續上次的諮詢嗎?')
@@ -4203,7 +4093,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
         enqueue(opener);
     }, returning ? 1800 : 3500);
 
-    /* 看到底:收尾關心一下 */
     var bottomDone = false;
     window.addEventListener('scroll', function () {
       if (bottomDone || dismissed) return;
@@ -4213,7 +4102,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
       }
     }, { passive: true });
 
-    /* 記住瀏覽過的服務(供下次回訪認出) */
     Array.prototype.forEach.call(document.querySelectorAll('.bj-svc-item, .bj-svc-card'), function (el) {
       el.addEventListener('mouseenter', function () {
         var n = el.querySelector('.bj-svc-name, .bj-svc-card__title');
@@ -4226,13 +4114,6 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
   else build();
 })();
 </script>
-<!-- ============================================================
-     BJ 假頁面路由 — 境白空間清潔
-     單頁部署核心:整站其實在同一頁,4 個 #bj-* 區塊預設隱藏,
-     點導覽列(/、/services、/about、/contact)時切換區塊,並觸發
-     window.bjCurtain 布幕轉場,做出「跳到另一頁」的錯覺(假頁面)。
-     貼進 1shop 全域 head.html(放在 nav-footer / motion / chat 之後)。
-     ============================================================ -->
 <script>
 (function () {
   var MAP   = { '/': 'bj-home', '/services': 'bj-services', '/about': 'bj-about', '/contact': 'bj-contact' };
@@ -4275,4 +4156,3 @@ body,body.InWeb,#page-wrapper,.page-wrapper,.main-content,.wrapper {
 </script>
 </body>
 </html>
-

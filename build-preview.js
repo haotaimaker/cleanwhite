@@ -10,6 +10,13 @@ const path = require('path');
 
 const ROOT = __dirname;
 const read = f => fs.readFileSync(path.join(ROOT, f), 'utf8');
+const clean = s => s
+  .replace(/<!--[\s\S]*?-->/g, '')
+  .replace(/\/\*[\s\S]*?\*\//g, '')
+  .replace(/^\s*\/\/.*$/gm, '')
+  .replace(/[ \t]+\n/g, '\n')
+  .replace(/\n{3,}/g, '\n\n')
+  .trim();
 
 const baseCss = read('css/bj-base.css');
 const pages = [
@@ -37,20 +44,20 @@ const html = [
   '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>',
   '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;600;900&family=Jost:wght@300;400;500;600&display=swap">',
   '<style>',
-  baseCss.trimEnd(),
+  clean(baseCss),
   '#bj-preload-broom{animation:bjpl-sweep .95s ease-in-out infinite;will-change:transform;backface-visibility:hidden;transform:translateZ(0);}@keyframes bjpl-sweep{0%,100%{transform:translateZ(0) rotate(-11deg)}50%{transform:translateZ(0) rotate(11deg)}}#bj-preload{animation:bjpl-safe 0s linear 8s forwards;}@keyframes bjpl-safe{to{opacity:0;visibility:hidden;}}',
   '</style>',
   '</head>',
   '<body>',
-  seo.trimEnd(),
+  clean(seo),
   '<div id="bj-preload" style="position:fixed;inset:0;z-index:2147483000;background:linear-gradient(160deg,#EAF2FC,#FFFFFF);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;"><svg id="bj-preload-broom" viewBox="0 0 24 24" fill="none" stroke="#15273F" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="width:56px;height:56px;transform-origin:50% 16%;"><path d="m16 22-1-4"/><path d="M19 14a1 1 0 0 0 1-1v-1a2 2 0 0 0-2-2h-3a1 1 0 0 1-1-1V4a2 2 0 0 0-4 0v5a1 1 0 0 1-1 1H6a2 2 0 0 0-2 2v1a1 1 0 0 0 1 1"/><path d="M19 14H5l-1.973 6.767A1 1 0 0 0 4 22h16a1 1 0 0 0 .973-1.233z" fill="#EAF1FC"/><path d="m8 22 1-4"/></svg><span style="font-family:\'Noto Sans TC\',sans-serif;font-size:14px;font-weight:600;letter-spacing:.25em;color:#15273F;">載入中...</span></div>',
   '<div class="BJ-Base-App" id="bj-preview-root">',
-  pages.map(p => p.trimEnd()).join('\n'),
+  pages.map(clean).join('\n'),
   '</div>',
-  navFooter.trimEnd(),
-  motion.trimEnd(),
-  chat.trimEnd(),
-  router,
+  clean(navFooter),
+  clean(motion),
+  clean(chat),
+  clean(router),
   '</body>',
   '</html>',
   '',
