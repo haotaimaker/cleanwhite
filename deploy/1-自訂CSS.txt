@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;600;900&family=Jost:wght@300;400;500;600&display=swap');
-@import url('https://cdn.jsdelivr.net/gh/haotaimaker/cleanwhite@7c44b76498195d0f8d79b5dc78724ae5bcd132d4/dist/site.css');
+@import url('https://cdn.jsdelivr.net/gh/haotaimaker/cleanwhite@2dc1517078a6f8dfd08894be2336af2f7ec53946/dist/site.css');
 
 .head, .footer { display: none !important; }
 
