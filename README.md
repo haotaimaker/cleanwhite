@@ -50,8 +50,10 @@ clean/
 **`shared/config.html`** 是全站唯一設定來源：
 
 ```js
-LINE_URL: 'https://lin.ee/oyyGjilc',
-LINE_OA: '@境白官方ID',
+window.BJ_CONFIG = Object.freeze({
+  LINE_URL: 'https://lin.ee/oyyGjilc',
+  LINE_OA: '@境白官方ID',
+});
 ```
 
 改這兩個欄位就會**自動套用到全站**:導覽列/頁尾/各頁按鈕的 LINE 連結、電話連結、
