@@ -4,7 +4,7 @@
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js",
     "https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js",
     "https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js",
-    "https://cdn.jsdelivr.net/gh/haotaimaker/cleanwhite@c7f0013/dist/site.js"
+    "https://cdn.jsdelivr.net/gh/haotaimaker/cleanwhite@c78cc44/dist/site.js"
   ];
   var i = 0;
   (function next() {

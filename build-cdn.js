@@ -30,7 +30,7 @@ const {
 
 /* ← 放編譯資產的公開 repo(jsDelivr 只能讀公開 repo)*/
 const GH = process.env.BJ_GH_ASSET || 'haotaimaker/cleanwhite';
-const CDN_VERSION = process.env.BJ_CDN_VERSION || 'c7f0013';
+const CDN_VERSION = process.env.BJ_CDN_VERSION || 'c78cc44';
 const CDN = 'https://cdn.jsdelivr.net/gh/' + GH + '@' + CDN_VERSION + '/dist';
 
 const FONT_IMPORT =
