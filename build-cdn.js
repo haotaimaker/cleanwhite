@@ -15,6 +15,7 @@
 'use strict';
 const fs = require('fs');
 const path = require('path');
+const childProcess = require('child_process');
 const {
   ROOT,
   read,
@@ -25,12 +26,22 @@ const {
   extractStyles,
   extractInlineJs,
   extractLibSrc,
-  withoutStyleBlocks,
 } = require('./scripts/build-utils');
 
 /* ← 放編譯資產的公開 repo(jsDelivr 只能讀公開 repo)*/
 const GH = process.env.BJ_GH_ASSET || 'haotaimaker/cleanwhite';
-const CDN_VERSION = process.env.BJ_CDN_VERSION || 'c78cc44';
+function currentGitRef() {
+  try {
+    return childProcess.execFileSync('git', ['rev-parse', 'HEAD'], {
+      cwd: ROOT,
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'ignore'],
+    }).trim();
+  } catch (error) {
+    return 'main';
+  }
+}
+const CDN_VERSION = process.env.BJ_CDN_VERSION || currentGitRef();
 const CDN = 'https://cdn.jsdelivr.net/gh/' + GH + '@' + CDN_VERSION + '/dist';
 
 const FONT_IMPORT =
@@ -164,9 +175,6 @@ const onePage = [
    ['about/skeleton.html','bj-about'],['contact/skeleton.html','bj-contact']]
     .map(p => cleanPage(p[0], p[1])).join('\n\n'),
   '</div>',
-  /* Keep Xiaojing inside the single HTML artifact as well as site.js.
-     Its init guard (#bj-chat) prevents a duplicate on 1shop. */
-  withoutStyleBlocks(chat),
   '',
 ].join('\n');
 
@@ -198,8 +206,8 @@ const readme = [
   '【3】那一頁的自訂 HTML 區塊',
   '    貼 3-頁面HTML.html 的內容(整站 4 區塊,靠導覽列假路由切換)',
   '',
-  '上線前務必改:LINE 連結在 shared/nav-footer.html 的「設定區」,',
-  '改完重跑 build-cdn 並 push 公開 repo 即生效(jsDelivr 快取約需數小時或手動 purge)。',
+  '上線前如需修改 LINE/電話/Logo:編輯 shared/config.html,',
+  '再重跑 build-cdn 並 push 公開 repo 即生效。部署欄位會鎖定到該次產物 commit。',
   '',
 ].join('\n');
 write('deploy/README.txt', readme);

@@ -15,5 +15,5 @@
 【3】那一頁的自訂 HTML 區塊
     貼 3-頁面HTML.html 的內容(整站 4 區塊,靠導覽列假路由切換)
 
-上線前務必改:LINE 連結在 shared/nav-footer.html 的「設定區」,
-改完重跑 build-cdn 並 push 公開 repo 即生效(jsDelivr 快取約需數小時或手動 purge)。
+上線前如需修改 LINE/電話/Logo:編輯 shared/config.html,
+再重跑 build-cdn 並 push 公開 repo 即生效。部署欄位會鎖定到該次產物 commit。

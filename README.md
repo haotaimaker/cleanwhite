@@ -15,7 +15,8 @@ clean/
 ├─ css/
 │  └─ bj-base.css          全站唯一 CSS:設計系統 + 四頁的區塊樣式
 ├─ shared/
-│  ├─ nav-footer.html      共用導覽列 + 頁尾 + 全站設定區(LINE/電話)
+│  ├─ config.html          全站設定(LINE/電話/Logo/導覽路徑)
+│  ├─ nav-footer.html      共用導覽列 + 頁尾
 │  ├─ motion.html          動態層:GSAP 揭幕/逐字標題 + Lenis + vanilla-tilt + 布幕轉場
 │  ├─ chat.html            右下角「小淨」客服(問答資料源=GitHub kb.json)
 │  └─ router.html          假頁面路由:切換 4 區塊 + 觸發轉場
@@ -31,13 +32,13 @@ clean/
    └─ README.txt            貼上步驟
 ```
 
-外部 repo:`haotaimaker/cleanwhite`(公開,放 site.css/site.js,本機 clone 可放在 `C:\Users\user\浩太程式\cleanwhite`)、`Raffertyxu/baijing-kb`(公開,小淨問答)、`haotaimaker/cleanwhite`(私人/公開,本專案源碼)。
+外部資料：`haotaimaker/cleanwhite` 公開提供編譯後的 `dist/site.css`、`dist/site.js`；小淨問答資料由 `Raffertyxu/baijing-kb` 提供。
 
 ## 開發流程
 
 1. 改來源檔(skeleton / shared / bj-base.css)
 2. **看效果**:點兩下 `build-preview.bat` → 瀏覽器開出 preview.html
-3. **要上線 / 發佈改動**:點兩下 `build-cdn.bat`(重建 dist → 複製到 assets repo → push → purge jsDelivr)
+3. **要上線 / 發佈改動**:點兩下 `build-cdn.bat`(重建產物 → 提交目前 repo → push GitHub)
 
 > `preview.html` 與線上用的是**同一份** `shared/*`,預覽看到的 = 線上,零落差。
 > CSS/JS 改動只要 `build-cdn.bat`(不必再動 1shop);只有**頁面內容**改動才需要重貼 `deploy/3-頁面HTML.html`。
@@ -46,19 +47,19 @@ clean/
 
 ## ⚠️ 上線前只要改 1 個地方
 
-**`shared/nav-footer.html` 頂端的「設定區」**(搜尋 `設定區` 即可找到):
+**`shared/config.html`** 是全站唯一設定來源：
 
 ```js
-var LINE_URL = 'https://lin.ee/XXXXXXX';   // ← 換成官方 LINE 連結(必改)
-var LINE_OA  = '@境白官方ID';               // ← 小淨帶需求單使用(必改)
+LINE_URL: 'https://lin.ee/oyyGjilc',
+LINE_OA: '@境白官方ID',
 ```
 
-改這兩行就會**自動套用到全站**:導覽列/頁尾/各頁按鈕的 LINE 連結、電話連結、
+改這兩個欄位就會**自動套用到全站**:導覽列/頁尾/各頁按鈕的 LINE 連結、電話連結、
 skeleton 檔案裡的佔位連結不用動,上線時會由 JS 統一改寫。
 
 > 官方帳號連結格式通常是 `https://lin.ee/xxxxxxx`(LINE Official Account Manager →「加入好友」→ 網址)。
 
-另外確認:`NAV_LINKS`(同一個設定區)預設為 `/`、`/services`、`/about`、`/contact`,
+另外確認:`NAV_LINKS`(同一份設定)預設為 `/`、`/services`、`/about`、`/contact`,
 若 1shop 實際頁面網址不同,改成對應網址,導覽列與「當前頁高亮」才會正確。
 
 ---
@@ -84,8 +85,8 @@ skeleton 檔案裡的佔位連結不用動,上線時會由 JS 統一改寫。
 > - CSS/JS 之後要改,**只要重跑 `build-cdn.bat`**(更新 `cleanwhite`),1shop 不用再動。
 > - 只有**頁面內容**(skeleton)改動,才需要重貼 `deploy/3-頁面HTML.html`。
 > - 函式庫(GSAP/Lenis/vanilla-tilt)走 CDN,載入失敗會自動維持靜態可見、不白頁。
-> - 上線前改 LINE 設定:`shared/nav-footer.html` 的「設定區」→ 重跑 `build-cdn.bat`。
-> - jsDelivr `@main` 快取數小時;`build-cdn.bat` 會自動請求 purge,通常幾分鐘內更新。
+> - 上線前改 LINE 設定:`shared/config.html` → 重跑 `build-cdn.bat`。
+> - 部署欄位會鎖定到產生當下的 Git commit，避免 CDN 快取拿到不一致版本。
 
 ---
 
